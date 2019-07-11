@@ -1,0 +1,39 @@
+{
+  "name": "calcutta-league",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build --prefix ./client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client-start\"",
+    "client-install": "npm install --prefix ./client",
+    "client-start": "npm start --prefix ./client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ./client && npm run build --prefix ./client",
+    "setup": "npm install --prefix ./client && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burke1791/calcutta-league.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/burke1791/calcutta-league/issues"
+  },
+  "homepage": "https://github.com/burke1791/calcutta-league#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.1",
+    "express": "^4.17.1",
+    "firebase": "^6.2.4",
+    "firebase-admin": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "nodemon": "^1.19.1"
+  }
+}
