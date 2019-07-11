@@ -9,7 +9,7 @@ VALUES
 
 INSERT INTO `teams` (`team_name`, `team_conference`)
 VALUES
-  ();
+  ('Illinois', 'Big Ten');
 
 INSERT INTO `tournament_slots` (`round_id`, `game_id`, `seed_strong`, `seed_weak`)
 VALUES

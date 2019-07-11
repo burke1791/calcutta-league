@@ -1,0 +1,20 @@
+{
+  "development": {
+    "apiKey": "AIzaSyC4mDFylNBH9fkLNEqZz4IUcgym4xKtWSs",
+    "authDomain": "calcutta-test.firebaseapp.com",
+    "databaseURL": "https://calcutta-test.firebaseio.com",
+    "projectId": "calcutta-test",
+    "storageBucket": "calcutta-test.appspot.com",
+    "messagingSenderId": "387342798330"
+  },
+
+  "production": {
+    "apiKey": "AIzaSyBtiUdSM94owBIlNSfAz1oswfH0hw8DNnI",
+    "authDomain": "calcutta-prod.firebaseapp.com",
+    "databaseURL": "https://calcutta-prod.firebaseio.com",
+    "projectId": "calcutta-prod",
+    "storageBucket": "calcutta-prod.appspot.com",
+    "messagingSenderId": "78982206371",
+    "appId": "1:78982206371:web:f235a1cf4a47c565"
+  }
+}
