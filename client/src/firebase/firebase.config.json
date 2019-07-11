@@ -5,7 +5,8 @@
     "databaseURL": "https://calcutta-test.firebaseio.com",
     "projectId": "calcutta-test",
     "storageBucket": "calcutta-test.appspot.com",
-    "messagingSenderId": "387342798330"
+    "messagingSenderId": "387342798330",
+    "appId": "1:387342798330:web:64071d34698c0a1b"
   },
 
   "production": {
