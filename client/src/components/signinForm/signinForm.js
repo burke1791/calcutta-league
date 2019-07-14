@@ -8,6 +8,7 @@ function SigninForm(props) {
   const { getFieldDecorator } = props.form;
 
   const handleSubmit = (event) => {
+    props.toggleLoading();
     event.preventDefault();
     console.log(event);
     console.log('form submitted');
@@ -41,9 +42,9 @@ function SigninForm(props) {
           valuePropName: 'checked',
           initialValue: true,
         })(<Checkbox>Remember me</Checkbox>)}
-        <a className='login-form-forgot' href='' style={{float: 'right'}}>
-          Forgot password
-        </a>
+        <a href='#' className='login-form-forgot' style={{float: 'right'}}>Forgot password</a>
+        <Button type='primary' loading={props.loading} htmlType='submit' className='login-form-button' style={{width: '100%'}}>Sign In</Button>
+        <Button type='link' style={{padding: '0'}}>Create an Account</Button>
       </Form.Item>
     </Form>
   );

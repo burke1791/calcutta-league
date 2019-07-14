@@ -17,7 +17,7 @@ function AuthModal(props) {
   } */
 
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, this, showModal);
@@ -31,33 +31,24 @@ function AuthModal(props) {
     setVisible(true);
   }
 
-  const handleOk = () => {
-    setConfirmLoading(true);
-  }
-
   const handleCancel = () => {
     setVisible(false);
-    setConfirmLoading(false);
+    setLoading(false);
   }
-  
-  const toCreateAccount = () => {
-    console.log('switch to create account form');
+
+  const toggleLoading = () => {
+    setLoading(!loading);
   }
 
   return (
     <Modal
       title='Sign In'
       visible={visible}
-      onOk={handleOk}
-      confirmLoading={confirmLoading}
       onCancel={handleCancel}
       style={{maxWidth: '348px'}}
-      footer={[
-        <Button key='createAccount' type='link' onClick={toCreateAccount} style={{float: 'left'}}>Create an Account</Button>,
-        <Button key='signinBtn' type='primary' loading={confirmLoading} onClick={handleOk}>Sign In</Button>
-      ]}
+      footer={null}
     >
-      <WrappedSigninForm />
+      <WrappedSigninForm loading={loading} toggleLoading={toggleLoading} />
     </Modal>
   );
 }
