@@ -37,6 +37,7 @@ function AuthModal(props) {
 
   const handleCancel = () => {
     setVisible(false);
+    setConfirmLoading(false);
   }
   
   const toCreateAccount = () => {
