@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { AUTH_MODAL_TYPE } from '../../utilities/constants';
+import { Modal } from 'antd';
+import 'antd/dist/antd.css';
+
+import { AUTH_MODAL_TYPE, NOTIF } from '../../utilities/constants';
+import Pubsub from '../../utilities/pubsub';
 
 function AuthModal(props) {
   /* props = {
@@ -11,10 +15,40 @@ function AuthModal(props) {
     type: String - either 'signin' or 'signup'
   } */
 
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  useEffect(() => {
+    Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, this, showModal);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.AUTH_MODAL_SHOW, this);
+    });
+  });
+
+  const showModal = () => {
+    setVisible(true);
+  }
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+  }
+
+  const handleCancel = () => {
+    setVisible(false);
+  }
   
 
   return (
-    <div></div>
+    <Modal
+      type='Sign In'
+      visible={visible}
+      onOk={handleOk}
+      confirmLoading={confirmLoading}
+      onCancel={handleCancel}
+    >
+      Sign In Form Here
+    </Modal>
   );
 }
 
