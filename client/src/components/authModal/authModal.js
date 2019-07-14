@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 import { AUTH_MODAL_TYPE, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
+import WrappedSigninForm from '../signinForm/signinForm';
 
 function AuthModal(props) {
   /* props = {
@@ -38,16 +39,24 @@ function AuthModal(props) {
     setVisible(false);
   }
   
+  const toCreateAccount = () => {
+    console.log('switch to create account form');
+  }
 
   return (
     <Modal
-      type='Sign In'
+      title='Sign In'
       visible={visible}
       onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
+      style={{maxWidth: '348px'}}
+      footer={[
+        <Button key='createAccount' type='link' onClick={toCreateAccount} style={{float: 'left'}}>Create an Account</Button>,
+        <Button key='signinBtn' type='primary' loading={confirmLoading} onClick={handleOk}>Sign In</Button>
+      ]}
     >
-      Sign In Form Here
+      <WrappedSigninForm />
     </Modal>
   );
 }
