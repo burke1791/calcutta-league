@@ -5,6 +5,10 @@ import { AUTH_FORM_TYPE } from '../../utilities/constants';
 import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 
+const formItemStyle = {
+  marginBottom: '6px'
+};
+
 function SignupForm(props) {
   const [confirmDirty, setConfirmDirty] = useState(false);
 
@@ -53,7 +57,7 @@ function SignupForm(props) {
 
   return (
     <Form onSubmit={handleSubmit} className='signup-form' style={{ maxWidth: '300px' }}>
-      <Form.Item label='Email Address'>
+      <Form.Item label='Email Address' style={formItemStyle}>
         {getFieldDecorator('email', {
           rules: [
             {
@@ -67,7 +71,7 @@ function SignupForm(props) {
           ]
         })(<Input />)}
       </Form.Item>
-      <Form.Item label='Password' hasFeedback>
+      <Form.Item label='Password' style={formItemStyle} hasFeedback>
         {getFieldDecorator('password', {
           rules: [
             {
@@ -80,7 +84,7 @@ function SignupForm(props) {
           ]
         })(<Input.Password />)}
       </Form.Item>
-      <Form.Item label='Confirm Password' hasFeedback>
+      <Form.Item label='Confirm Password' style={formItemStyle} hasFeedback>
         {getFieldDecorator('confirm', {
           rules: [
             {
@@ -101,13 +105,14 @@ function SignupForm(props) {
               <Icon type='question-circle-o' />
             </Tooltip>
           </span>
-        }  
+        }
+        style={formItemStyle}
       >
         {getFieldDecorator('username', {
           rules: [{ required: true, message: 'Please input your username!', whitespace: true }],
         })(<Input />)}
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={formItemStyle}>
         {getFieldDecorator('remember', {
           valuePropName: 'checked',
           initialValue: true,
