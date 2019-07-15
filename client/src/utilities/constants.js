@@ -18,4 +18,12 @@ export const ERROR_MESSAGES = {
   'auth/email-already-in-use': 'Email already in use',
   'auth/operation-not-allowed': 'Operation not allowed. This is a server issue, please try again later',
   'auth/weak-password': 'Password is too weak'
-}
+};
+
+export const API_POST = {
+  create_user: '/api/create_user'
+};
+
+export const API_GET = {
+  current_user: '/api/current_user'
+};
