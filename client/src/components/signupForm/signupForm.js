@@ -1,0 +1,125 @@
+import React, { useState } from 'react';
+
+import { AUTH_FORM_TYPE } from '../../utilities/constants';
+
+import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
+import 'antd/dist/antd.css';
+
+function SignupForm(props) {
+  const [confirmDirty, setConfirmDirty] = useState(false);
+
+  const { getFieldDecorator } = props.form;
+
+  const handleConfirmBlur = (event) => {
+    const { value } = event.target;
+    setConfirmDirty(confirmDirty || !!value);
+  }
+
+  const compareToFirstPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Passwords do not match!');
+    } else {
+      callback();
+    }
+  }
+
+  const validateToNextPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    props.form.validateFields((err, values) => {
+      if (!err) {
+        props.toggleLoading();
+
+        let email = values.email;
+        let username = values.username;
+        let password = values.password;
+        let remember = values.remember;
+
+        // @TODO send to firebase authentication
+      } else {
+        alert('Validation Error');
+      }
+    });
+  }
+
+  return (
+    <Form onSubmit={handleSubmit} className='signup-form' style={{ maxWidth: '300px' }}>
+      <Form.Item label='Email Address'>
+        {getFieldDecorator('email', {
+          rules: [
+            {
+              type: 'email',
+              message: 'The input is not a valid email'
+            },
+            {
+              required: true,
+              message: 'Please input your email address'
+            }
+          ]
+        })(<Input />)}
+      </Form.Item>
+      <Form.Item label='Password' hasFeedback>
+        {getFieldDecorator('password', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input your password!'
+            },
+            {
+              validator: validateToNextPassword
+            }
+          ]
+        })(<Input.Password />)}
+      </Form.Item>
+      <Form.Item label='Confirm Password' hasFeedback>
+        {getFieldDecorator('confirm', {
+          rules: [
+            {
+              required: true,
+              message: 'Please confirm your password!'
+            },
+            {
+              validator: compareToFirstPassword
+            }
+          ]
+        })(<Input.Password onBlur={handleConfirmBlur} />)}
+      </Form.Item>
+      <Form.Item
+        label={
+          <span>
+            Username&nbsp;
+            <Tooltip title='What do you want your display name to be?'>
+              <Icon type='question-circle-o' />
+            </Tooltip>
+          </span>
+        }  
+      >
+        {getFieldDecorator('username', {
+          rules: [{ required: true, message: 'Please input your username!', whitespace: true }],
+        })(<Input />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('remember', {
+          valuePropName: 'checked',
+          initialValue: true,
+        })(<Checkbox>Remember me</Checkbox>)}
+        <Button type='primary' loading={props.loading} htmlType='submit' className='signup-form-button' style={{width: '100%'}}>Create Account</Button>
+        <Button type='link' onClick={() => props.toggleAuthForm(AUTH_FORM_TYPE.SIGN_IN)} style={{padding: '0'}}>Already have an account? Sign in here.</Button>
+      </Form.Item>
+    </Form>
+  );
+}
+
+const WrappedSignupForm = Form.create({ name: 'signup_form' })(SignupForm);
+
+export default WrappedSignupForm;
+
