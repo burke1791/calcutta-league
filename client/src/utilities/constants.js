@@ -5,5 +5,7 @@ export const AUTH_FORM_TYPE = {
 
 export const NOTIF = {
   AUTH_MODAL_SHOW: 'auth_modal_show',
-  AUTH_FORM_TOGGLE: 'auth_form_toggle'
+  AUTH_FORM_TOGGLE: 'auth_form_toggle',
+  SIGN_IN: 'sign_in',
+  SIGN_OUT: 'sign_out'
 };
