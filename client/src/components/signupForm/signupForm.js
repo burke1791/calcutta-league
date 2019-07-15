@@ -10,14 +10,8 @@ const formItemStyle = {
 };
 
 function SignupForm(props) {
-  const [confirmDirty, setConfirmDirty] = useState(false);
 
   const { getFieldDecorator } = props.form;
-
-  const handleConfirmBlur = (event) => {
-    const { value } = event.target;
-    setConfirmDirty(confirmDirty || !!value);
-  }
 
   const compareToFirstPassword = (rule, value, callback) => {
     const { form } = props;
@@ -30,7 +24,7 @@ function SignupForm(props) {
 
   const validateToNextPassword = (rule, value, callback) => {
     const { form } = props;
-    if (value && confirmDirty) {
+    if (value) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
@@ -40,9 +34,10 @@ function SignupForm(props) {
     event.preventDefault();
 
     props.form.validateFields((err, values) => {
+      console.log(values);
       if (!err) {
         props.toggleLoading();
-
+        
         let email = values.email;
         let username = values.username;
         let password = values.password;
@@ -82,7 +77,7 @@ function SignupForm(props) {
               validator: validateToNextPassword
             }
           ]
-        })(<Input.Password />)}
+        })(<Input type='password' />)}
       </Form.Item>
       <Form.Item label='Confirm Password' style={formItemStyle} hasFeedback>
         {getFieldDecorator('confirm', {
@@ -95,7 +90,7 @@ function SignupForm(props) {
               validator: compareToFirstPassword
             }
           ]
-        })(<Input.Password onBlur={handleConfirmBlur} />)}
+        })(<Input type='password' />)}
       </Form.Item>
       <Form.Item
         label={

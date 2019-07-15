@@ -2,9 +2,12 @@ import React, { useState, useEffect} from 'react';
 
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import 'antd/dist/antd.css';
-import { AUTH_FORM_TYPE } from '../../utilities/constants';
+import { AUTH_FORM_TYPE, ERROR_MESSAGES } from '../../utilities/constants';
+import AuthService from '../../firebase/authService';
 
 function SigninForm(props) {
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { getFieldDecorator } = props.form;
 
@@ -15,19 +18,34 @@ function SigninForm(props) {
       if (!err) {
         props.toggleLoading();
         
-        let username = values.email;
+        let email = values.email;
         let password = values.password;
         let remember = values.remember;
 
         // @TODO send to firebase authentication
+        AuthService.sendSigninRequest({ email: email, password: password }).catch(errorCode => {
+          setErrorMessage(ERROR_MESSAGES[errorCode]);
+          props.toggleLoading(false);
+        })
       } else {
         alert('Validation Error');
       }
     });
   }
 
+  const generateErrorMessage = () => {
+    if (errorMessage) {
+      return (
+        <span className="ant-form-text" style={{ color: '#cf1322' }}>{errorMessage}</span>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <Form onSubmit={handleSubmit} className='login-form' style={{maxWidth: '300px'}}>
+      {generateErrorMessage()}
       <Form.Item>
         {getFieldDecorator('email', {
           rules: [

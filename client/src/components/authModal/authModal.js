@@ -23,9 +23,11 @@ function AuthModal(props) {
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, this, showModal);
+    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleCancel);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.AUTH_MODAL_SHOW, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
     });
   }, []);
 
@@ -42,8 +44,14 @@ function AuthModal(props) {
     setLoading(false);
   }
 
-  const toggleLoading = () => {
-    setLoading(!loading);
+  const toggleLoading = (state) => {
+    if (state == undefined) {
+      console.log('toggle loading natural');
+      setLoading(!loading);
+    } else {
+      console.log('toggle loading literal');
+      setLoading(state);
+    }
   }
 
   const generateForm = () => {
