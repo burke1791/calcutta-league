@@ -2,16 +2,28 @@ import React, { useState, useEffect} from 'react';
 
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import 'antd/dist/antd.css';
+import { AUTH_FORM_TYPE } from '../../utilities/constants';
 
 function SigninForm(props) {
 
   const { getFieldDecorator } = props.form;
 
   const handleSubmit = (event) => {
-    props.toggleLoading();
     event.preventDefault();
-    console.log(event);
-    console.log('form submitted');
+
+    props.form.validateFields((err, values) => {
+      if (!err) {
+        props.toggleLoading();
+        
+        let username = values.username;
+        let password = values.password;
+        let remember = values.remember;
+
+        // @TODO send to firebase authentication
+      } else {
+        alert('Validation Error');
+      }
+    });
   }
 
   return (
@@ -44,7 +56,7 @@ function SigninForm(props) {
         })(<Checkbox>Remember me</Checkbox>)}
         <a href='#' className='login-form-forgot' style={{float: 'right'}}>Forgot password</a>
         <Button type='primary' loading={props.loading} htmlType='submit' className='login-form-button' style={{width: '100%'}}>Sign In</Button>
-        <Button type='link' style={{padding: '0'}}>Create an Account</Button>
+        <Button type='link' onClick={() => props.toggleAuthForm(AUTH_FORM_TYPE.SIGN_UP)} style={{padding: '0'}}>Create an Account</Button>
       </Form.Item>
     </Form>
   );

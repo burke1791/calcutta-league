@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'antd';
 import 'antd/dist/antd.css';
 
-import { AUTH_MODAL_TYPE, NOTIF } from '../../utilities/constants';
+import { AUTH_FORM_TYPE, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import WrappedSigninForm from '../signinForm/signinForm';
+import WrappedSignupForm from '../signupForm/signupForm';
 
 function AuthModal(props) {
   /* props = {
@@ -18,6 +19,7 @@ function AuthModal(props) {
 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formType, setFormType] = useState(AUTH_FORM_TYPE.SIGN_IN);
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, this, showModal);
@@ -25,10 +27,14 @@ function AuthModal(props) {
     return (() => {
       Pubsub.unsubscribe(NOTIF.AUTH_MODAL_SHOW, this);
     });
-  });
+  }, []);
 
   const showModal = () => {
     setVisible(true);
+  }
+
+  const handleFormToggle = (type) => {
+    setFormType(type);
   }
 
   const handleCancel = () => {
@@ -40,15 +46,27 @@ function AuthModal(props) {
     setLoading(!loading);
   }
 
+  const generateForm = () => {
+    if (formType === AUTH_FORM_TYPE.SIGN_IN) {
+      return (
+        <WrappedSigninForm loading={loading} toggleLoading={toggleLoading} toggleAuthForm={handleFormToggle} />
+      );
+    } else if (formType === AUTH_FORM_TYPE.SIGN_UP) {
+      return (
+        <WrappedSignupForm loading={loading} toggleLoading={toggleLoading} toggleAuthForm={handleFormToggle} />
+      );
+    }
+  }
+
   return (
     <Modal
-      title='Sign In'
+      title={formType}
       visible={visible}
       onCancel={handleCancel}
       style={{maxWidth: '348px'}}
       footer={null}
     >
-      <WrappedSigninForm loading={loading} toggleLoading={toggleLoading} />
+      {generateForm()}
     </Modal>
   );
 }

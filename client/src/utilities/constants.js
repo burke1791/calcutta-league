@@ -1,8 +1,9 @@
-export const AUTH_MODAL_TYPE = {
-  signin: 'signin',
-  signup: 'signup'
+export const AUTH_FORM_TYPE = {
+  SIGN_IN: 'Sign In',
+  SIGN_UP: 'Create an Account'
 };
 
 export const NOTIF = {
-  AUTH_MODAL_SHOW: 'auth_modal_show'
+  AUTH_MODAL_SHOW: 'auth_modal_show',
+  AUTH_FORM_TOGGLE: 'auth_form_toggle'
 };
