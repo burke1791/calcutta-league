@@ -18,7 +18,14 @@ var AuthService = {};
 
   // calls firebase create user function
   obj.sendSignupRequest = (params) => {
-
+    return new Promise((resolve, reject) => {
+      auth.createUserWithEmailAndPassword(params.email, params.password).then(user => {
+        resolve(user.uid); // should be falling on deaf ears because onAuthStateChanged() gets called
+        // @TODO create user in MySQL
+      }).catch(error => {
+        reject(error.code);
+      });
+    });
   }
 
   // calls firebase signout function
@@ -29,7 +36,7 @@ var AuthService = {};
 })(AuthService);
 
 auth.onAuthStateChanged(user => {
-  // @TODO publish a notification
+  // @TODO fetch user info from MySQL
   if (user) {
     console.log(user);
     console.log('user signed in');

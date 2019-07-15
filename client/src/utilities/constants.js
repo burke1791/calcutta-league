@@ -14,5 +14,8 @@ export const ERROR_MESSAGES = {
   'auth/invalid-email': 'Invalid Email',
   'auth/user-disabled': 'User account has been disabled. Please contact support',
   'auth/user-not-found': 'Email does not exist',
-  'auth/wrong-password': 'Email or Password is not correct'
+  'auth/wrong-password': 'Email or Password is not correct',
+  'auth/email-already-in-use': 'Email already in use',
+  'auth/operation-not-allowed': 'Operation not allowed. This is a server issue, please try again later',
+  'auth/weak-password': 'Password is too weak'
 }

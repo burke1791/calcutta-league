@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 
-import { AUTH_FORM_TYPE } from '../../utilities/constants';
+import { AUTH_FORM_TYPE, ERROR_MESSAGES } from '../../utilities/constants';
 
 import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
+import AuthService from '../../firebase/authService';
 
 const formItemStyle = {
   marginBottom: '6px'
 };
 
 function SignupForm(props) {
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { getFieldDecorator } = props.form;
 
@@ -43,15 +46,29 @@ function SignupForm(props) {
         let password = values.password;
         let remember = values.remember;
 
-        // @TODO send to firebase authentication
+        AuthService.sendSignupRequest({ email: email, password: password, username: username }).catch(errorCode => {
+          setErrorMessage(ERROR_MESSAGES[errorCode]);
+          props.toggleLoading(false);
+        });
       } else {
         alert('Validation Error');
       }
     });
   }
 
+  const generateErrorMessage = () => {
+    if (errorMessage) {
+      return (
+        <span className='ant-form-text' style={{ color: '#cf1322' }}>{errorMessage}</span>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <Form onSubmit={handleSubmit} className='signup-form' style={{ maxWidth: '300px' }}>
+      {generateErrorMessage()}
       <Form.Item label='Email Address' style={formItemStyle}>
         {getFieldDecorator('email', {
           rules: [
