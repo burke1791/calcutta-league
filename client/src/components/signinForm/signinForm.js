@@ -15,7 +15,7 @@ function SigninForm(props) {
       if (!err) {
         props.toggleLoading();
         
-        let username = values.username;
+        let username = values.email;
         let password = values.password;
         let remember = values.remember;
 
@@ -29,12 +29,21 @@ function SigninForm(props) {
   return (
     <Form onSubmit={handleSubmit} className='login-form' style={{maxWidth: '300px'}}>
       <Form.Item>
-        {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!'}],
+        {getFieldDecorator('email', {
+          rules: [
+            { 
+              required: true, 
+              message: 'Please input your email address!'
+            },
+            {
+              type: 'email',
+              message: 'The input is not a valid email'
+            }  
+          ],
         })(
           <Input 
-            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} 
-            placeholder='username' 
+            prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />} 
+            placeholder='email' 
           />,
         )}
       </Form.Item>
