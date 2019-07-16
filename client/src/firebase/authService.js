@@ -25,7 +25,7 @@ var User = {};
     return new Promise((resolve, reject) => {
       auth.createUserWithEmailAndPassword(params.email, params.password).then(userData => {
         let newUserObj = {
-          uid: userData.uid,
+          uid: userData.user.uid,
           email: params.email,
           alias: params.username
         };

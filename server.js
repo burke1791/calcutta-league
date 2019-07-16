@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 // const bodyParser = require('body-parser');
@@ -10,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 require('./routes/api-routes')(app);
+require('./controllers/users')(app);
 
 app.listen(PORT, () => {
   console.log('listening on port: ' + PORT);
