@@ -4,6 +4,8 @@ module.exports = function(app) {
   // =========== GET ROUTES ==============
 
   app.get('/api/current_user', (req, res, next) => {
+    // @ TODO verify the token sent in the headers with the firebase admin SDK
+    
     // @ TODO return all pertinent info needed for the currently authenticated user
       // league memberships
     

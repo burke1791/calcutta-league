@@ -31,11 +31,11 @@ var User = {};
         };
         axios.post(API_POST.create_user, newUserObj).then(response => {
           console.log(response);
+          User.user_id = response.data.user_id;
         }).catch(error => {
           console.log(error);
         });
         resolve(userData.uid); // should be falling on deaf ears because onAuthStateChanged() gets called
-        // @TODO create user in MySQL
       }).catch(error => {
         reject(error.code);
       });
@@ -46,6 +46,7 @@ var User = {};
   obj.signout = () => {
     console.log(auth);
     auth.signOut();
+    User = {};
   }
 })(AuthService);
 
