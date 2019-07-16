@@ -11,7 +11,7 @@ import AuthService from '../../firebase/authService';
 
 const { SubMenu } = Menu;
 
-function Header() {
+function Topnav() {
 
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -73,9 +73,9 @@ function Header() {
 
   return (
     <nav className='topnav'>
-      <Menu mode='horizontal' selectable={false} onClick={handleMenuItemClicked}>
-        <Menu.Item key='brand'>
-          Calcutta
+      <Menu theme='dark' mode='horizontal' selectable={false} onClick={handleMenuItemClicked} style={{ lineHeight: '64px' }}>
+        <Menu.Item key='brand' style={{ fontSize: '32px' }}>
+          <span  >Calcutta</span>
         </Menu.Item>
         {generateAuthMenu()}
       </Menu>
@@ -84,4 +84,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Topnav;
