@@ -13,7 +13,7 @@ function App() {
       console.log(response);
       setTest(response.data.message);
     });
-  });
+  }, []);
   
   return (
     <div className="App">
