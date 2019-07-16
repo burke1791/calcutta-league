@@ -1,4 +1,4 @@
-const orm = require('../config/orm.js');
+const orm = require('../config/orm');
 
 let user = {
   create: (userObj, cb) => {

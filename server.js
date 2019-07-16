@@ -13,6 +13,7 @@ app.use(express.json());
 
 require('./routes/api-routes')(app);
 require('./controllers/users')(app);
+require('./controllers/leagues')(app);
 
 app.listen(PORT, () => {
   console.log('listening on port: ' + PORT);
