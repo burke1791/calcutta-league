@@ -10,6 +10,14 @@ let orm = {
       console.log(query.sql);
     }
   },
+
+  // for testing new queries from the models
+  query: (queryString, queryArray, where, cb) => {
+    let query = connection.query(queryString, [queryArray, where], (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  }
 }
 
 module.exports = orm;

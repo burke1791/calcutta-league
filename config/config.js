@@ -1,5 +1,5 @@
 let config = {
-  local: {
+  dev: {
     mysql: {
       url: process.env.DB_URL
     },

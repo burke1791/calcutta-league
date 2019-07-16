@@ -1,4 +1,5 @@
-const user = require('../models/user.js');
+const user = require('../models/user');
+const firebase = require('../models/firebase');
 
 module.exports = function(app) {
   // =========== GET ROUTES ==============
@@ -8,9 +9,24 @@ module.exports = function(app) {
     
     // @ TODO return all pertinent info needed for the currently authenticated user
       // league memberships
-    
-    res.json({
-      message: 'api/current_user hit'
+    console.log('tokenId');
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.json({
+          message: 'ERROR!'
+        });
+      } else {
+        user.selectUserInfo({ uid: uid }, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).json({
+              message: 'verified'
+            });
+          }
+        });
+      }
     });
   });
 
