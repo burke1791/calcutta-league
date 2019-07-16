@@ -8,14 +8,7 @@ import Pubsub from '../../utilities/pubsub';
 import WrappedSigninForm from '../signinForm/signinForm';
 import WrappedSignupForm from '../signupForm/signupForm';
 
-function AuthModal(props) {
-  /* props = {
-    open: Boolean - whether or not the modal should be displayed
-    toggle: Function to update props.open
-    close: Function to set props.open to false
-    label: String - either 'Sign In' or 'Create an Account'
-    type: String - either 'signin' or 'signup'
-  } */
+function AuthModal() {
 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,7 +64,7 @@ function AuthModal(props) {
       title={formType}
       visible={visible}
       onCancel={handleCancel}
-      style={{maxWidth: '348px'}}
+      style={{ maxWidth: '348px' }}
       footer={null}
     >
       {generateForm()}

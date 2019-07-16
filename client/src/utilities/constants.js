@@ -3,9 +3,17 @@ export const AUTH_FORM_TYPE = {
   SIGN_UP: 'Create an Account'
 };
 
+export const LEAGUE_FORM_TYPE = {
+  CREATE: 'Start a League',
+  JOIN: 'Join a League'
+};
+
 export const NOTIF = {
   AUTH_MODAL_SHOW: 'auth_modal_show',
   AUTH_FORM_TOGGLE: 'auth_form_toggle',
+  LEAGUE_MODAL_SHOW: 'league_modal_show',
+  LEAGUE_FORM_TOGGLE: 'league_form_toggle',
+  LEAGUE_JOINED: 'league_joined',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out'
 };

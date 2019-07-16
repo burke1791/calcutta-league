@@ -3,26 +3,25 @@ import { Row, Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 import axios from 'axios';
-import { API_POST } from '../../utilities/constants';
+import { API_POST, NOTIF, LEAGUE_FORM_TYPE } from '../../utilities/constants';
+import Pubsub from '../../utilities/pubsub';
+import LeagueModal from '../leagueModal/leagueModal';
+import { User } from '../../firebase/authService';
 
 function Main() {
 
   const newLeague = () => {
     console.log('new league clicked');
-    let leagueObj = {
-      name: 'Test',
-      password: 'test',
-      year: 2019
-    };
-    axios.post(API_POST.create_league, leagueObj).then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
-    })
+    if (User.user_id) {
+      Pubsub.publish(NOTIF.LEAGUE_MODAL_SHOW, LEAGUE_FORM_TYPE.CREATE);
+    } else {
+      alert('Please sign in to create a league');
+    }
   }
 
   const joinLeague = () => {
     console.log('join league clicked');
+
   }
 
   return (
@@ -33,6 +32,7 @@ function Main() {
           <Button type='primary' onClick={joinLeague} style={{ margin: '0 12px' }}>Join a League</Button>
         </Col>
       </Row>
+      <LeagueModal />
     </div>
   );
 }
