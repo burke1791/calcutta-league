@@ -4,6 +4,9 @@ import { LEAGUE_FORM_TYPE } from '../../utilities/constants';
 import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 
+import DataService from '../../utilities/data';
+import { User } from '../../firebase/authService';
+
 function NewLeagueForm(props) {
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,8 +24,10 @@ function NewLeagueForm(props) {
         let name = values.league_name;
         let password = values.league_password;
         let year = 2019;
+        let user_id = User.user_id;
 
-        // @TODO send post request
+        // @TODO send API.create_league post request
+        DataService.createLeague({ name: name, password: password, year: year, user_id: user_id });
       } else {
         alert('Validation Error');
       }
