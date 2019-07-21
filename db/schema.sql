@@ -32,6 +32,7 @@ CREATE TABLE `leagues` (
   `league_password` VARCHAR(50) NOT NULL,
   `league_year` YEAR(4) NOT NULL,
   `league_status` ENUM('complete', 'in-progress', 'auction', 'pre-auction') NOT NULL,
+  `auction_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`league_id`),
   FOREIGN KEY (`league_year`) REFERENCES `regions` (`year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -39,7 +40,6 @@ select 'create leagues - end';
 
 select 'create league_settings - begin';
 CREATE TABLE `league_settings` (
-  `auction_id` VARCHAR(50) NOT NULL,
   `league_id` INT(11) NOT NULL,
   `max_buy_in` FLOAT(8,2) NOT NULL DEFAULT 0.00,
   `min_buy_in` FLOAT(8,2) NOT NULL DEFAULT 0.00,
@@ -47,7 +47,7 @@ CREATE TABLE `league_settings` (
   `min_bid` FLOAT(8,2) NOT NULL DEFAULT 0.00,
   `interval` INT(2) NOT NULL DEFAULT 15,
   `unclaimed` ENUM('false', 'true') NOT NULL DEFAULT 'false',
-  PRIMARY KEY (`auction_id`, `league_id`),
+  PRIMARY KEY (`league_id`),
   CONSTRAINT CHECK (`min_buy_in` <= `max_buy_in`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `league_settings` ADD CONSTRAINT
@@ -104,15 +104,6 @@ CREATE TABLE `league_teams` (
   FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create league_teams - end';
-
-select 'create auctions - begin';
-CREATE TABLE `auctions` (
-  `auction_id` VARCHAR(50) NOT NULL,
-  `league_id` INT(11) NOT NULL,
-  PRIMARY KEY (`auction_id`, `league_id`),
-  FOREIGN KEY (`league_id`) REFERENCES `leagues` (`league_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-select 'create auctions - end';
 
 select 'create tournament_slots - begin';
 CREATE TABLE `tournament_slots` (
