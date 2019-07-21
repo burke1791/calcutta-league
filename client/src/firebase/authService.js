@@ -30,8 +30,7 @@ var User = {};
           alias: params.username
         };
         axios.post(API_POST.create_user, newUserObj).then(response => {
-          console.log(response);
-          User.user_id = response.data.user_id;
+          // do nothing.  the auth listener will take care of everything
         }).catch(error => {
           console.log(error);
         });
@@ -64,13 +63,16 @@ auth.onAuthStateChanged(userData => {
         }
       }).then(response => {
         console.log(response);
+        User.user_id = response.data.user_id;
+        Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {
         console.log(error);
-      })
+        // For the case where we authenticate with firebase, but are unable to find the user in our database default to signing the user out of firebase ot be safe
+        AuthService.signout();
+      });
     }).catch(function(error) {
       // Handle error
     });
-    Pubsub.publish(NOTIF.SIGN_IN, null);
   } else {
     console.log('user signed out');
     Pubsub.publish(NOTIF.SIGN_OUT, null);
