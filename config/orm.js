@@ -12,6 +12,15 @@ let orm = {
     }
   },
 
+  // used to copy records from one table to another table
+  insertSelectJoinWhereAnd: (params, cb) => { 
+    let queryString = 'INSERT INTO ?? ' + params.columns + ' SELECT ?? FROM ?? JOIN ?? WHERE ? AND ?';
+    let query = connection.query(queryString, [params.insertTable, params.select, params.fromTable, params.join, params.where, params.and], (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+
   // for testing new queries from the models
   query: (queryString, queryArray, where, cb) => {
     let query = connection.query(queryString, [queryArray, where], (err, result) => {
