@@ -21,9 +21,7 @@ module.exports = function(app) {
           if (err) {
             console.log(err);
           } else {
-            res.status(200).json({
-              message: 'verified'
-            });
+            res.status(200).json(result);
           }
         });
       }
