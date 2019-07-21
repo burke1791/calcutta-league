@@ -24,7 +24,7 @@ let user = {
   },
   
   selectUserInfo: (uid, cb) => {
-    let queryString = 'SELECT ?? FROM users LEFT JOIN league_membership ON users.user_id = league_membership.user_id LEFT JOIN leagues ON league_membership.league_id = leagues.league_id LEFT JOIN auctions ON leagues.league_id = auctions.league_id WHERE ?';
+    let queryString = 'SELECT ?? FROM users LEFT JOIN league_membership ON users.user_id = league_membership.user_id LEFT JOIN leagues ON league_membership.league_id = leagues.league_id WHERE ?';
     
     let queryArray = [
       'users.user_id',
@@ -32,8 +32,8 @@ let user = {
       'leagues.league_id',
       'leagues.league_name',
       'leagues.league_status',
-      'league_membership.role',
-      'auctions.auction_id'
+      'leagues.auction_id',
+      'league_membership.role'
     ];
 
     let where = {
