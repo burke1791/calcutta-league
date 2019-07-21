@@ -13,6 +13,7 @@ export const NOTIF = {
   AUTH_FORM_TOGGLE: 'auth_form_toggle',
   LEAGUE_MODAL_SHOW: 'league_modal_show',
   LEAGUE_FORM_TOGGLE: 'league_form_toggle',
+  LEAGUE_CREATED: 'league_created',
   LEAGUE_JOINED: 'league_joined',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out'
