@@ -10,14 +10,7 @@ admin.initializeApp({
   databaseURL: dbUrl
 });
 
-// module.exports = function(app) {
-//   app.get('/firebase/user/:uid', (req, res, next) => {
-//     admin.auth().getUser(req.params.uid).then(user => {
-//       console.log('retrieved user with firebase admin sdk');
-//       res.json(user.toJSON());
-//     });
-//   });
-// }
+const db = admin.firestore();
 
 let firebase = {
   verifyToken: (tokenId, cb) => {
@@ -26,6 +19,37 @@ let firebase = {
     }).catch(error => {
       console.log(error);
       cb(error, null);
+    });
+  },
+
+  createAuctionNode: (params) => {
+    return new Promise((resolve, reject) => {
+      db.collection('auctions').add({
+        // test
+        currentItem: {
+          id: 1,
+          name: 'Illinois'
+        },
+        status: 'in-progress',
+        currentBid: 5,
+        currentWinner: 4,
+        endTime: 45,
+        itemHistory: {
+          '4': 5
+        },
+        completeHistory: {
+          '0': {
+            '3': 4,
+            '5': 7
+          }
+        }
+      }).then(docRef => {
+        console.log(docRef.id);
+        resolve(docRef.id);
+      }).catch(error => {
+        console.log(error);
+        reject(error);
+      });
     });
   }
 }
