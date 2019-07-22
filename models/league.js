@@ -41,6 +41,18 @@ let league = {
       and: { 'tournament_seeds.year': teamsObj.year }
     };
     orm.insertSelectJoinWhereAnd(queryParams, cb);
+  },
+
+  getLeagueIdByNameAndPassword: (infoObj, cb) => {
+    let queryParams = {
+      select: ['leagues.league_id'],
+      from: 'leagues',
+      where: {
+        columns: ['league_name', 'league_password'],
+        values: [infoObj.league_name, infoObj.league_password]
+      }
+    };
+    orm.selectWhere(queryParams, cb);
   }
 }
 
