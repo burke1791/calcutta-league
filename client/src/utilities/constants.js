@@ -31,7 +31,8 @@ export const ERROR_MESSAGES = {
 
 export const API_POST = {
   create_user: '/api/create_user',
-  create_league: '/api/create_league'
+  create_league: '/api/create_league',
+  join_league: 'api/join_league'
 };
 
 export const API_GET = {
