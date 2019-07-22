@@ -5,6 +5,12 @@ let config = {
     },
     apiKeys: {}
   },
+  staging: {
+    mysql: {
+      url: process.env.JAWSDB_URL
+    },
+    apiKeys: {}
+  },
   prod: {
     mysql: {
       url: process.env.JAWSDB_URL
@@ -13,4 +19,4 @@ let config = {
   }
 };
 
-module.exports = config[process.env.APP_ENV || 'local'];
+module.exports = config[process.env.APP_ENV || 'dev'];
