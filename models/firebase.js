@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const env = process.env.APP_ENV === 'prod' ? 'prod' : 'dev';
 
 const serviceAccount = require('../secret/firebase-admin.json')[env];
-const dbUrl = process.env.FIREBASE_DB_URL;
+const dbUrl = require('../config/config').firebase.dbUrl;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
