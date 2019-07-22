@@ -23,11 +23,15 @@ function NewLeagueForm(props) {
 
         let name = values.league_name;
         let password = values.league_password;
-        let year = 2019;
-        let user_id = User.user_id;
+        let year = 2019; // @TODO move this to the server
+        let user_id = User.user_id; // @TODO move this to DataService
 
         // @TODO send API.create_league post request
-        DataService.createLeague({ name: name, password: password, year: year, user_id: user_id });
+        if (props.leagueType === LEAGUE_FORM_TYPE.CREATE) {
+          DataService.createLeague({ name: name, password: password, year: year, user_id: user_id });
+        } else {
+          DataService.joinLeague({ name: name, password: password, user_id: user_id });
+        }
       } else {
         alert('Validation Error');
       }
@@ -73,7 +77,15 @@ function NewLeagueForm(props) {
       </Form.Item>
       <Form.Item>
         <Button type='primary' loading={props.loading} htmlType='submit' className='new-league-button' style={{ width: '100%' }}>Submit</Button>
-        <Button type='link' onClick={() => props.toggleLeagueForm(LEAGUE_FORM_TYPE.JOIN)} style={{ padding: '0' }}>Join League</Button>
+        <Button 
+          type='link'
+          onClick={() => {
+            props.toggleLeagueForm(props.leagueType === LEAGUE_FORM_TYPE.JOIN ? LEAGUE_FORM_TYPE.CREATE : LEAGUE_FORM_TYPE.JOIN)
+          }}
+          style={{ padding: '0' }}
+        >
+          {props.leagueType === LEAGUE_FORM_TYPE.JOIN ? LEAGUE_FORM_TYPE.CREATE : LEAGUE_FORM_TYPE.JOIN}
+        </Button>
       </Form.Item>
     </Form>
   )

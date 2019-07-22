@@ -52,16 +52,9 @@ function LeagueModal() {
   }
 
   const generateForm = () => {
-    if (formType === LEAGUE_FORM_TYPE.CREATE) {
-      return (
-        <WrappedNewLeagueForm loading={loading} toggleLoading={toggleLoading} toggleLeagueForm={handleFormToggle} />
-      );
-    } else if (formType === LEAGUE_FORM_TYPE.JOIN) {
-      return (
-        <div></div>
-        // <WrappedJoinLeagueForm loading={loading} toggleLoading={toggleLoading} toggleLeagueForm={handleFormToggle} />
-      );
-    }
+    return (
+      <WrappedNewLeagueForm loading={loading} toggleLoading={toggleLoading} toggleLeagueForm={handleFormToggle} leagueType={formType} />
+    );
   }
 
   return (
