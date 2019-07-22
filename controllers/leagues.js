@@ -23,6 +23,7 @@ module.exports = function(app) {
     };
 
     // call firebase to create the league and auction nodes before inserting into MySQL
+    // @TODO break these league calls out into their own functions
     firebase.createAuctionNode().then(auctionId => {
       params.auction_id = auctionId;
       console.log(params);
@@ -71,10 +72,36 @@ module.exports = function(app) {
     }).catch(error => {
       console.log(error);
     });
+  });
 
-    /*
-    
-    */
+  app.post('/api/join_league', (req, res, next) => {
+    let leagueInfo = {
+      league_name: req.body.name,
+      league_password: req.body.password
+    };
+
+    league.getLeagueIdByNameAndPassword(leagueInfo, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        // @TODO figure out what to do when there are duplicate league names and passwords
+        let leagueMembership = {
+          user_id: req.body.user_id,
+          league_id: result[0].league_id,
+          role: 'member'
+        };
+        league.createMembership(leagueMembership, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json({
+              message: 'league joined'
+            });
+          }
+        });
+      }
+    });
   });
 }
 
