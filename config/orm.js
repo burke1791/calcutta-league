@@ -1,6 +1,17 @@
 const connection = require('./connection');
 
 let orm = {
+  selectWhere: (params, cb) => {
+    let queryString = 'SELECT ?? FROM ?? WHERE' + queryWhereBuilder(params.where, 'AND');
+    let queryParams = [params.select, params.from].concat(params.where.values);
+    
+    let query = connection.query(queryString, queryParams, (err, result) => {
+      // @TODO error handling!!
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+  
   insert: (params, cb) => {
     let queryString = 'INSERT INTO ?? SET ?';
     let query = connection.query(queryString, [params.table, params.data], (err, result) => {
@@ -26,8 +37,21 @@ let orm = {
     let query = connection.query(queryString, [queryArray, where], (err, result) => {
       cb(err, result);
     });
-    console.log(query.sql);
+    // console.log(query.sql);
   }
+}
+
+const queryWhereBuilder = (where, logical) => {
+  let whereString = ' ';
+
+  for (var i in where.columns) {
+    whereString += where.columns[i] + ' = ?';
+    if (i < where.columns.length - 1) {
+      whereString = whereString + ' ' + logical + ' ';
+    }
+  }
+
+  return whereString;
 }
 
 module.exports = orm;
