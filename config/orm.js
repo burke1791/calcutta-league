@@ -18,7 +18,7 @@ let orm = {
       // @TODO error handling!!
       cb(err, result);
     });
-    if (params.debug) {
+    if (params.debug || true) {
       console.log(query.sql);
     }
   },
