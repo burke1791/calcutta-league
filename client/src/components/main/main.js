@@ -2,10 +2,11 @@ import React from 'react';
 import { Row, Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 
-import axios from 'axios';
-import { API_POST, NOTIF, LEAGUE_FORM_TYPE } from '../../utilities/constants';
-import Pubsub from '../../utilities/pubsub';
+import LeagueTable from '../leagueTable/leagueTable';
 import LeagueModal from '../leagueModal/leagueModal';
+
+import { NOTIF, LEAGUE_FORM_TYPE } from '../../utilities/constants';
+import Pubsub from '../../utilities/pubsub';
 import { User } from '../../firebase/authService';
 
 function Main() {
@@ -31,10 +32,11 @@ function Main() {
   return (
     <div>
       <Row type='flex' justify='center'>
-        <Col span={4} style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button type='primary' onClick={newLeague} style={{ margin: '0 12px' }}>Start a League</Button>
-          <Button type='primary' onClick={joinLeague} style={{ margin: '0 12px' }}>Join a League</Button>
-        </Col>
+        <Button type='primary' onClick={newLeague} style={{ margin: '20px 12px' }}>Start a League</Button>
+        <Button type='primary' onClick={joinLeague} style={{ margin: '20px 12px' }}>Join a League</Button>
+      </Row>
+      <Row type='flex' justify='center'>
+        <LeagueTable type='in-progress' list={[]} />
       </Row>
       <LeagueModal />
     </div>
