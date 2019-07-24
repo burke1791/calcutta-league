@@ -15,6 +15,7 @@ export const NOTIF = {
   LEAGUE_FORM_TOGGLE: 'league_form_toggle',
   LEAGUE_CREATED: 'league_created',
   LEAGUE_JOINED: 'league_joined',
+  LEAGUE_SUMMARIES_FETCHED: 'league_summaries_fetched',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out'
 };
@@ -36,5 +37,6 @@ export const API_POST = {
 };
 
 export const API_GET = {
-  current_user: '/api/current_user'
+  current_user: '/api/current_user',
+  league_summaries: '/api/league_summaries'
 };
