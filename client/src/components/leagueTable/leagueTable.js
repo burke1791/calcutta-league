@@ -9,22 +9,26 @@ function LeagueTable(props) {
     {
       title: 'League Name',
       dataIndex: 'name',
-      align: 'left'
+      align: 'left',
+      width: 250
     },
     {
       title: 'Buy In',
       dataIndex: 'buyIn',
-      align: 'center'
+      align: 'center',
+      width: 150
     },
     {
       title: 'Current Payout',
       dataIndex: 'payout',
-      align: 'center'
+      align: 'center',
+      width: 150
     },
     {
       title: 'Net Return',
       dataIndex: 'return',
-      align: 'center'
+      align: 'center',
+      width: 150
     }
   ];
 
