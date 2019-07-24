@@ -53,7 +53,30 @@ let league = {
       }
     };
     orm.selectWhere(queryParams, cb);
+  },
+
+  selectLeagueSummaries: (uid, cb) => {
+    let queryParams = {
+      table: 'league_membership',
+      columns: ['users.user_id', 'leagues.league_id', 'leagues.league_name', 'leagues.league_status', 'leagues.auction_id', 'league_membership.role'],
+      sum: ['league_teams.price', 'league_teams.return'],
+      joinTable: ['users', 'league_teams', 'leagues'],
+      joinCondition: [
+        { 'users.uid': uid.uid },
+        { 'league_teams.user_id': 'users.user_id' },
+        { 'leagues.league_id': 'league_membership.league_id' }
+      ],
+      where: [
+        { 'league_membership.league_id': 'leagues.league_id' },
+        { 'league_membership.user_id': 'users.user_id' }
+      ],
+      group: ['leagues.league_id', 'users.user_id']
+    }
+
+    orm.selectJoinWhereGroup({ 'u.uid': uid.uid }, cb);
   }
+
+
 }
 
 module.exports = league;
