@@ -103,6 +103,26 @@ module.exports = function(app) {
       }
     });
   });
+
+  app.get('/api/league_summaries', (req, res, next) => {
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.json({
+          message: 'ERROR!'
+        });
+      } else {
+        console.log('token verified');
+        league.selectLeagueSummaries({ uid: uid }, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).json(result);
+          }
+        });
+      }
+    })
+  })
 }
 
 // @TODO create validation functions for the request bodies
