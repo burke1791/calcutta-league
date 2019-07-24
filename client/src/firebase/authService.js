@@ -1,6 +1,7 @@
 import { auth } from './firebase';
 import { NOTIF, API_POST, API_GET } from '../utilities/constants';
 import Pubsub from '../utilities/pubsub';
+import { Data } from '../utilities/data';
 
 import axios from 'axios';
 
@@ -64,6 +65,9 @@ auth.onAuthStateChanged(userData => {
       }).then(response => {
         console.log(response);
         User.user_id = response.data.user_id;
+        User.alias = response.data.alias;
+        Data.leagues = JSON.parse(JSON.stringify(response.data.leagues));
+        console.log(Data.leagues);
         Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {
         console.log(error);
