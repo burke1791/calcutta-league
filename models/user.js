@@ -23,6 +23,9 @@ let user = {
     });
   },
   
+  // this query grabs all the information required by the front end for displaying data on the main page:
+  // user_id, alias,
+  // each league_id, name, money summary, etc.
   selectUserInfo: (uid, cb) => {
     let queryString = 'SELECT ?? FROM users LEFT JOIN league_membership ON users.user_id = league_membership.user_id LEFT JOIN leagues ON league_membership.league_id = leagues.league_id WHERE ?';
     
