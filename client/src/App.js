@@ -22,7 +22,7 @@ function App() {
   
   return (
     <div className="App">
-      <Layout>
+      <Layout style={{ height: '100vh' }}>
         <Header>
           <Topnav />
         </Header>
