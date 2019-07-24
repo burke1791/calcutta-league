@@ -48,6 +48,8 @@ var User = {};
     auth.signOut();
     User = {};
   }
+
+
 })(AuthService);
 
 auth.onAuthStateChanged(userData => {
@@ -56,6 +58,7 @@ auth.onAuthStateChanged(userData => {
     console.log(userData);
     console.log('user signed in');
     auth.currentUser.getIdToken(true).then(function(idToken) {
+      User.idToken = idToken;
       axios({
         method: 'GET',
         url: API_GET.current_user,
@@ -72,6 +75,7 @@ auth.onAuthStateChanged(userData => {
       }).catch(error => {
         console.log(error);
         // For the case where we authenticate with firebase, but are unable to find the user in our database default to signing the user out of firebase ot be safe
+        User.idToken = '';
         AuthService.signout();
       });
     }).catch(function(error) {
