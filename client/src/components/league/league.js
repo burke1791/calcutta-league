@@ -5,16 +5,21 @@ import LeagueNav from '../leagueNav/leagueNav';
 import LeagueHome from '../leagueHome/leagueHome';
 import LeagueAuction from '../leagueAuction/leagueAuction';
 
+import { Layout } from 'antd';
+import 'antd/dist/antd.css';
+
+const { Header } = Layout;
+
 function League(props) {
 
   return (
-    <div>
+    <Layout>
       <LeagueNav leagueId={props.leagueId} />
       <Router>
         <LeagueHome path='/' />
         <LeagueAuction path='auction' />
       </Router>
-    </div>
+    </Layout>
   );
 }
 
