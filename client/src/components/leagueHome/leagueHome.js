@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { Layout, Table, Row } from 'antd';
 import 'antd/dist/antd.css';
+import DataService, { Data } from '../../utilities/data';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
 
 const { Header, Content } = Layout;
 
@@ -44,8 +47,22 @@ function LeagueHome(props) {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    // grab league user summary info
-  })
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, getLeagueInfo);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('leagueId: ' + props.leagueId);
+    DataService.getLeagueUserSummaries(props.leagueId);
+  }, [props.leagueId]);
+
+  const getLeagueInfo = () => {
+    setLeagueName(Data.leagueInfo.name);
+    setUserList(Data.leagueInfo.users);
+  }
 
   return (
     <Layout>
