@@ -64,6 +64,33 @@ let orm = {
     console.log(query.sql);
   },
 
+  selectJoinWhereGroupTest: (params, cb) => {
+    let queryString = 'SELECT ??';
+    queryString += querySumBuilder(params.sum, params.sumAlias);
+    queryString += 'FROM ??'
+    queryString += queryJoinBuilder(params.joinTable, params.joinCondition, 'LEFT');
+    queryString += queryWhereBuilder(params.where, null);
+    queryString += queryGroupBuilder(params.group);
+
+    let options = [params.columns, ...params.sum, params.table];
+    options.push(...(() => {
+      let arr = [];
+      params.joinCondition.forEach(el => {
+        arr.push(...el);
+      });
+      return arr;
+    })());
+    options.push(params.where);
+    options.push(params.group);
+
+    console.log(options);
+
+    let query = connection.query(queryString, options, (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+
   // for testing new queries from the models
   query: (queryString, queryArray, where, cb) => {
     let query = connection.query(queryString, [queryArray, where], (err, result) => {
@@ -100,7 +127,7 @@ const queryWhereBuilder = (where, logical) => {
   return whereString;
 }
 
-const queryJoinBuilder = (joinTable, direction) => {
+const queryJoinBuilder = (joinTable, joinCondition, direction) => {
   let joinString = ' ';
 
   for (var i in joinTable) {
@@ -110,7 +137,26 @@ const queryJoinBuilder = (joinTable, direction) => {
     } else {
       joinString += ' ' + direction + ' JOIN ';
       joinString += joinTable[i];
-      joinString += ' ON ?';
+
+      if (joinCondition[i].length > 2) {
+        for (var j in joinCondition[i]) {
+          if (j > 1) {  
+            if (j % 2 == 0) {
+              joinString += ' AND ?? = ';
+            } else {
+              joinString += '??';
+            }
+          } else {
+            if (j % 2 == 0) {
+              joinString += ' ON ?? = ';
+            } else {
+              joinString += '??';
+            }
+          }
+        }
+      } else {
+        joinString += ' ON ?? = ??';
+      }
     }
   }
   return joinString;
@@ -121,14 +167,14 @@ const queryGroupBuilder = (groupBy) => {
   return groupString;
 }
 
-const querySumBuilder = (sum) => {
+const querySumBuilder = (sum, sumAlias) => {
   let sumString = ' ';
   for (var i in sum) {
     // if someone tries to insert a drop statement, void this join builder
     if (sum[i].toLowerCase().includes('drop') || sum[i].includes(';')) {
       return null;
     } else {
-      sumString += ', SUM(' + sum[i] + ') ';
+      sumString += ', SUM( ?? ) AS ' + sumAlias[i] + ' ';
     }
   }
 
