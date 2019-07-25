@@ -8,6 +8,7 @@ import Main from './components/main/main';
 import axios from 'axios'; // testing
 
 import { Layout } from 'antd';
+import League from './components/league/league';
 
 const { Header, Footer, Content } = Layout;
 
@@ -30,6 +31,7 @@ function App() {
         <Content style={{ margin: '16px 0' }}>
           <Router>
             <Main exact path='/' />
+            <League path='leagues/:leagueId' />
           </Router>
         </Content>
       </Layout>
