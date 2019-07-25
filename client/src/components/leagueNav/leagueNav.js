@@ -15,7 +15,7 @@ function LeagueNav(props) {
 
   return (
     <nav className='leaguenav'>
-      <Menu mode='horizontal' onClick={handleLeagueNavClick} style={{ lineHeight: '48px' }}>
+      <Menu mode='horizontal' onClick={handleLeagueNavClick} style={{ lineHeight: '48px', padding: '0 70px' }}>
         <Menu.Item key='leagueHome'>
           League Home
         </Menu.Item>
