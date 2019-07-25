@@ -46,8 +46,6 @@ function LeagueTable(props) {
               return {
                 onClick: (event) => {
                   // utilize the router to go to the league page
-                  console.log('clicked this row');
-                  console.log(record);
                   navigate(`/leagues/${record.key}`);
                 }
               };
