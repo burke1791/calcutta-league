@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { navigate, Link } from '@reach/router';
 
 import AuthModal from '../authModal/authModal';
 
@@ -8,6 +9,7 @@ import 'antd/dist/antd.css';
 import { AUTH_MODAL_TYPE, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import AuthService from '../../firebase/authService';
+
 
 const { SubMenu } = Menu;
 
@@ -75,7 +77,9 @@ function Topnav() {
     <nav className='topnav'>
       <Menu theme='dark' mode='horizontal' selectable={false} onClick={handleMenuItemClicked} style={{ lineHeight: '64px' }}>
         <Menu.Item key='brand' style={{ fontSize: '32px' }}>
-          <span  >Calcutta</span>
+          <Link to='/'>
+            <span>Calcutta</span>
+          </Link>
         </Menu.Item>
         {generateAuthMenu()}
       </Menu>
