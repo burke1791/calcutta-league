@@ -9,10 +9,10 @@ function League(props) {
 
   return (
     <div>
-      <LeagueNav />
+      <LeagueNav leagueId={props.leagueId} />
       <Router>
         <LeagueHome path='/' />
-        <LeagueAuction path='/auction/' />
+        <LeagueAuction path='auction' />
       </Router>
     </div>
   );
