@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Router } from '@reach/router';
 
 import Topnav from './components/topnav/topnav';
 import Main from './components/main/main';
@@ -19,7 +20,7 @@ function App() {
       setTest(response.data.message);
     });
   }, []);
-  
+
   return (
     <div className="App">
       <Layout style={{ height: '100vh' }}>
@@ -27,7 +28,9 @@ function App() {
           <Topnav />
         </Header>
         <Content style={{ margin: '16px 0' }}>
-          <Main />
+          <Router>
+            <Main exact path='/' />
+          </Router>
         </Content>
       </Layout>
     </div>
