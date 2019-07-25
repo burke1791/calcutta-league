@@ -43,7 +43,7 @@ function Main() {
 
   // copy the summary info from Data into local state, which triggers a rerender
   const handleNewLeagueInfo = () => {
-    if (Data.leagues || Data.leagues.length) {
+    if (Data.leagues && Data.leagues.length) {
       setLeagueSummaries(
         (() => {
           return Data.leagues.map(league => {
