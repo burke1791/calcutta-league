@@ -29,6 +29,10 @@ function Main() {
     });
   }, []);
 
+  useEffect(() => {
+    handleNewLeagueInfo();
+  });
+
   const fetchLeagueInfo = () => {
     DataService.updateLeagueInfo();
   }
@@ -39,19 +43,21 @@ function Main() {
 
   // copy the summary info from Data into local state, which triggers a rerender
   const handleNewLeagueInfo = () => {
-    setLeagueSummaries(
-      (() => {
-        return Data.leagues.map(league => {
-          return {
-            name: league.league_name,
-            buyIn: formatMoney(league.buyIn || '0'),
-            payout: formatMoney(league.payout || '0'),
-            return: formatMoney(league.buyIn && league.payout ? league.payout - league.buyIn : '0'),
-            key: league.league_id
-          };
-        });
-      })()
-    );
+    if (Data.leagues || Data.leagues.length) {
+      setLeagueSummaries(
+        (() => {
+          return Data.leagues.map(league => {
+            return {
+              name: league.league_name,
+              buyIn: formatMoney(league.buyIn || '0'),
+              payout: formatMoney(league.payout || '0'),
+              return: formatMoney(league.buyIn && league.payout ? league.payout - league.buyIn : '0'),
+              key: league.league_id
+            };
+          });
+        })()
+      );
+    }
   }
 
   // loads in league summary info from global state
