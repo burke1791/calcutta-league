@@ -1,7 +1,7 @@
 const league = require('../models/league.js');
 const firebase = require('../models/firebase');
 
-
+// @TODO move firebase verify token function into a separate file
 module.exports = function(app) {
   // =============== GET ROUTES ===============
 
@@ -122,7 +122,30 @@ module.exports = function(app) {
         });
       }
     })
-  })
+  });
+
+  app.get('/api/league_user_summaries/:leagueId', (req, res, next) => {
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.json({
+          message: 'ERROR!'
+        });
+      } else {
+        console.log('token verified');
+        let leagueObj = {
+          league_id: req.params.leagueId
+        }
+        league.selectLeagueUserSummaries(leagueObj, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).json(result);
+          }
+        });
+      }
+    });
+  });
 }
 
 // @TODO create validation functions for the request bodies
