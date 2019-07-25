@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
@@ -46,6 +47,8 @@ function LeagueTable(props) {
                 onClick: (event) => {
                   // utilize the router to go to the league page
                   console.log('clicked this row');
+                  console.log(record);
+                  navigate(`/leagues/${record.key}`);
                 }
               };
             }
