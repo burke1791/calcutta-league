@@ -28,10 +28,10 @@ function App() {
         <Header>
           <Topnav />
         </Header>
-        <Content style={{ margin: '16px 0' }}>
+        <Content style={{ margin: '0' }}>
           <Router>
-            <Main exact path='/' />
-            <League path='leagues/:leagueId' />
+            <Main path='/' />
+            <League path='leagues/:leagueId/*' />
           </Router>
         </Content>
       </Layout>
