@@ -3,6 +3,7 @@ import Pubsub from '../utilities/pubsub';
 
 import axios from 'axios';
 import AuthService, { User } from '../firebase/authService';
+import { formatMoney } from './helper';
 
 var DataService = {};
 
@@ -51,7 +52,59 @@ var Data = {};
       console.log(error);
     })
   }
+
+  obj.getLeagueUserSummaries = (leagueId) => {
+    axios({
+      method: 'GET',
+      url: API_GET.league_user_summaries + leagueId,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Data.leagueInfo = packageLeagueInfo(JSON.parse(JSON.stringify(response.data)));
+      Pubsub.publish(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 })(DataService);
+
+const packageLeagueInfo = (userSummaries) => {
+  if (userSummaries.length) {
+    let leagueInfo = {
+      name: userSummaries[0].league_name,
+      users: []
+    };
+
+    leagueInfo.users = userSummaries.map(user => {
+      return {
+        id: user.user_id,
+        key: user.user_id,
+        name: user.alias,
+        buyIn: user.buyIn,
+        payout: user.payout,
+        return: user.payout - user.buyIn
+      };
+    });
+
+    // sorts the users in descending order by their net return
+    leagueInfo.users.sort(function(a, b){ return b.return - a.return });
+
+    // adds a rank property to each user after being sorted
+    // also formats the money value into a friendlier string representation
+    leagueInfo.users.forEach((user, index) => {
+      user.rank = index + 1
+      user.buyIn = formatMoney(user.buyIn);
+      user.payout = formatMoney(user.payout);
+      user.return = formatMoney(user.return);
+    });
+
+    return leagueInfo;
+  }
+  
+  return null;
+}
 
 export default DataService;
 
