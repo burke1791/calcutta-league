@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Router } from '@reach/router';
 
 import LeagueNav from '../leagueNav/leagueNav';
@@ -11,13 +11,14 @@ import 'antd/dist/antd.css';
 const { Header } = Layout;
 
 function League(props) {
+  const [auctionId, setAuctionId] = useState(props.location.state.auctionId);
 
   return (
     <Layout>
       <LeagueNav leagueId={props.leagueId} />
       <Router>
         <LeagueHome path='/' />
-        <LeagueAuction path='auction' />
+        <LeagueAuction path='auction' auctionId={auctionId} />
       </Router>
     </Layout>
   );
