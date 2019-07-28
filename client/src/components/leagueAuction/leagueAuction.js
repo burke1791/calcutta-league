@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AuctionTeams from '../auctionTeams/auctionTeams';
 import AuctionActions from '../auctionActions/auctionActions';
+import AuctionChat from '../auctionChat/auctionChat';
 
 import { Row, Col } from 'antd';
 import 'antd/dist/antd.css';
@@ -44,7 +45,7 @@ function LeagueAuction(props) {
       </Col>
       <Col span={8}>
         <AuctionActions auctionId={props.auctionId} />
-        {/* Chat */}
+        <AuctionChat auctionId={props.auctionId} />
       </Col>
       <Col span={8}>
         {/* My Teams List */}
