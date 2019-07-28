@@ -46,7 +46,8 @@ function LeagueTable(props) {
               return {
                 onClick: (event) => {
                   // utilize the router to go to the league page
-                  navigate(`/leagues/${record.key}`);
+                  console.log(record.auctionId);
+                  navigate(`/leagues/${record.key}`, { state: { auctionId: record.auctionId }});
                 }
               };
             }
