@@ -18,7 +18,8 @@ export const NOTIF = {
   LEAGUE_SUMMARIES_FETCHED: 'league_summaries_fetched',
   LEAGUE_USER_SUMMARIES_FETCHED: 'league_user_summaries_fetched',
   SIGN_IN: 'sign_in',
-  SIGN_OUT: 'sign_out'
+  SIGN_OUT: 'sign_out',
+  NEW_CHAT_MESSAGE: 'new_chat_message'
 };
 
 export const ERROR_MESSAGES = {
