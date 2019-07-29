@@ -11,7 +11,6 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-require('./routes/api-routes')(app);
 require('./controllers/users')(app);
 require('./controllers/leagues')(app);
 
