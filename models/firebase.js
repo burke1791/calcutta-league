@@ -17,8 +17,6 @@ const serviceAccount = {
 };
 const dbUrl = require('../config/config').firebase.dbUrl;
 
-console.log(serviceAccount);
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: dbUrl
