@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { Router } from '@reach/router';
 
@@ -13,14 +13,6 @@ import League from './components/league/league';
 const { Header, Footer, Content } = Layout;
 
 function App() {
-  const [test, setTest] = useState('no');
-
-  useEffect(() => {
-    axios.get('/api/getData').then(response => {
-      console.log(response);
-      setTest(response.data.message);
-    });
-  }, []);
 
   return (
     <div className="App">
