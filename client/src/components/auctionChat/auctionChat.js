@@ -5,11 +5,14 @@ import { formatTimestamp } from '../../utilities/helper';
 
 import { Row, Col, List, Card, Input, Button } from 'antd'
 import 'antd/dist/antd.css';
+import { User } from '../../firebase/authService';
+import DataService, { Data } from '../../utilities/data';
 
 const { Search } = Input;
 
 function AuctionChat(props) {
   
+  const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -28,7 +31,16 @@ function AuctionChat(props) {
   }, []);
 
   const sendMessage = (value) => {
-    console.log(value);
+    let params = {
+      author: User.alias,
+      content: value,
+      user_id: User.user_id,
+      uid: User.uid || 'unknown',
+      auctionId: props.auctionId
+    };
+
+    DataService.sendChatMessage(params);
+    setChatMessage('');
   }
   
   return (
@@ -52,6 +64,8 @@ function AuctionChat(props) {
             placeholder='Trash talk is encouraged..'
             enterButton='Send'
             size='default'
+            value={chatMessage}
+            onChange={event => setChatMessage(event.target.value)}
             onSearch={sendMessage}
           />
         </Row>
