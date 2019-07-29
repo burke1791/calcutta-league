@@ -7,6 +7,8 @@ import { Row, Col, List, Card, Input, Button } from 'antd'
 import 'antd/dist/antd.css';
 import { User } from '../../firebase/authService';
 import DataService, { Data } from '../../utilities/data';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
 
 const { Search } = Input;
 
@@ -16,19 +18,20 @@ function AuctionChat(props) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    setMessages([
-      {
-        author: 'kwedass',
-        timestamp: 465454236,
-        content: 'Bow down to your admiral, you plebs'
-      },
-      {
-        author: 'marty',
-        timestamp: 894354245,
-        content: 'I never have, nor will I ever bod down to you Ben Kwedar. In fact, you need to bow down to me!'
-      }
-    ]);
+    DataService.startChatListener(props.auctionId);
+
+    Pubsub.subscribe(NOTIF.NEW_CHAT_MESSAGE, this, newMessage);
+
+    return (() => {
+      DataService.killChatListener();
+
+      Pubsub.unsubscribe(NOTIF.NEW_CHAT_MESSAGE, this);
+    });
   }, []);
+
+  const newMessage = () => {
+    setMessages(Data.chatMessages);
+  }
 
   const sendMessage = (value) => {
     let params = {
