@@ -86,6 +86,34 @@ var Data = {};
       console.log(error);
     })
   }
+
+  obj.startChatListener = (auctionId) => {
+    if (auctionId) {
+      Data.unsubscribe = db.collection('auction-chat').doc(auctionId).collection('messages').orderBy('timestamp').onSnapshot(collection => {
+        Data.chatMessages = [];
+        collection.forEach(docSnapshot => {
+          let message = docSnapshot.data();
+          console.log(message.timestamp);
+          Data.chatMessages.push({
+            author: message.author,
+            content: message.content,
+            timestamp: message.timestamp.seconds * 1000,
+            user_id: message.user_id,
+            uid: message.uid
+          });
+        });
+        Pubsub.publish(NOTIF.NEW_CHAT_MESSAGE, null);
+      });
+    } else {
+      console.log('auctionId undefined');
+    }
+  }
+
+  obj.killChatListener = () => {
+    if (Data.unsubscribe) {
+      Data.unsubscribe();
+    }
+  }
 })(DataService);
 
 const packageLeagueInfo = (userSummaries) => {
