@@ -91,6 +91,8 @@ var Data = {};
     if (auctionId) {
       Data.unsubscribe = db.collection('auction-chat').doc(auctionId).collection('messages').orderBy('timestamp').onSnapshot(collection => {
         Data.chatMessages = [];
+        // @TODO only push new messages to array instead of creating a new one
+        // this will be a huge bottleneck for lengthy chat threads
         collection.forEach(docSnapshot => {
           let message = docSnapshot.data();
           console.log(message.timestamp);
