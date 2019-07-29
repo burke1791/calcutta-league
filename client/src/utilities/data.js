@@ -3,6 +3,7 @@ import Pubsub from '../utilities/pubsub';
 
 import axios from 'axios';
 import AuthService, { User } from '../firebase/authService';
+import { db, dbObj } from '../firebase/firebase';
 import { formatMoney } from './helper';
 
 var DataService = {};
@@ -68,6 +69,23 @@ var Data = {};
       console.log(error);
     });
   }
+
+  obj.sendChatMessage = (params) => {
+    let messageObj = {
+      author: params.author,
+      timestamp: dbObj.Timestamp.now(),
+      content: params.content,
+      user_id: params.user_id,
+      uid: params.uid
+    };
+    console.log(params);
+    db.collection('auction-chat').doc(params.auctionId).collection('messages').add(messageObj).then(docRef => {
+      console.log(docRef);
+    }).catch(error => {
+      // @TODO send useful error back to client ui
+      console.log(error);
+    })
+  }
 })(DataService);
 
 const packageLeagueInfo = (userSummaries) => {
@@ -95,9 +113,9 @@ const packageLeagueInfo = (userSummaries) => {
     // also formats the money value into a friendlier string representation
     leagueInfo.users.forEach((user, index) => {
       user.rank = index + 1
-      user.buyIn = formatMoney(user.buyIn);
-      user.payout = formatMoney(user.payout);
-      user.return = formatMoney(user.return);
+      user.buyIn = formatMoney(user.buyIn || 0);
+      user.payout = formatMoney(user.payout || 0);
+      user.return = formatMoney(user.return || 0);
     });
 
     return leagueInfo;
