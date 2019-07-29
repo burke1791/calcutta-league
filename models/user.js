@@ -60,39 +60,43 @@ let user = {
 // this function checks the integrity of the user's data coming back from MySQL
 // at the moment, it only checks if the user_id and alias properties all match
 const packageUserInfoAndCheckIntegrity = (data) => {
-  let user_id = data[0].user_id;
-  let alias = data[0].alias;
+  if (data && data.length) {
+    let user_id = data[0].user_id;
+    let alias = data[0].alias;
 
-  let packagedUserInfo = {
-    user_id: '',
-    alias: '',
-    leagues: []
-  };
-  
-  // this loop both does an integrity check and packages the user info for the front end
-  for (var row of data) {
-    // checks to make sure the user_id and alias properties are the same for every array item
-    if (row.user_id !== user_id || row.alias !== alias) {
-      return false;
-    }
+    let packagedUserInfo = {
+      user_id: '',
+      alias: '',
+      leagues: []
+    };
+    
+    // this loop both does an integrity check and packages the user info for the front end
+    for (var row of data) {
+      // checks to make sure the user_id and alias properties are the same for every array item
+      if (row.user_id !== user_id || row.alias !== alias) {
+        return false;
+      }
 
-    // will end up being set to the last user_id and alias entries, but they should all be the same anyways
-    // will optimize in the future if necessary
-    packagedUserInfo.user_id = row.user_id;
-    packagedUserInfo.alias = row.alias;
-    if (row.league_id) {
-      packagedUserInfo.leagues.push({
-        league_id: row.league_id,
-        league_name: row.league_name,
-        league_status: row.league_status,
-        role: row.role,
-        auction_id: row.auction_id
-      });
+      // will end up being set to the last user_id and alias entries, but they should all be the same anyways
+      // will optimize in the future if necessary
+      packagedUserInfo.user_id = row.user_id;
+      packagedUserInfo.alias = row.alias;
+      if (row.league_id) {
+        packagedUserInfo.leagues.push({
+          league_id: row.league_id,
+          league_name: row.league_name,
+          league_status: row.league_status,
+          role: row.role,
+          auction_id: row.auction_id
+        });
+      }
+      
     }
     
+    return packagedUserInfo;
+  } else {
+    return {};
   }
-  
-  return packagedUserInfo;
 }
 
 module.exports = user;
