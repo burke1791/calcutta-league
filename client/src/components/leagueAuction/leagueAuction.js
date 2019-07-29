@@ -5,10 +5,14 @@ import AuctionChat from '../auctionChat/auctionChat';
 
 import { Row, Col } from 'antd';
 import 'antd/dist/antd.css';
+import MyTeams from '../myTeams/myTeams';
+import MemberList from '../memberList/memberList';
 
 function LeagueAuction(props) {
 
   const [teams, setTeams] = useState([]);
+  const [myTeams, setMyTeams] = useState([]);
+  const [leagueUsers, setLeagueUsers] = useState([]);
 
   useEffect(() => {
     // API call to fetch teams
@@ -24,6 +28,29 @@ function LeagueAuction(props) {
         name: 'Ohio State',
         price: 12,
         owner: 'burkcules'
+      }
+    ]);
+
+    setMyTeams([
+      {
+        name: 'Ohio State',
+        price: 12,
+        owner: 'burkcules'
+      }
+    ]);
+
+    setLeagueUsers([
+      {
+        user: 'burkcules',
+        buyIn: 12,
+      },
+      {
+        user: 'kwedass',
+        buyIn: 0
+      },
+      {
+        user: 'marty',
+        buyIn: 0
       }
     ]);
   }, [])
@@ -48,8 +75,8 @@ function LeagueAuction(props) {
         <AuctionChat auctionId={props.auctionId} />
       </Col>
       <Col span={8}>
-        {/* My Teams List */}
-        {/* Member List */}
+        <MyTeams myTeams={myTeams} />
+        <MemberList users={leagueUsers} />
       </Col>
     </Row>
   );
