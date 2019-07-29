@@ -33,7 +33,7 @@ function AuctionChat(props) {
   
   return (
     <Row style={{ height: 'calc(50vh - 70px)', marginTop: '12px' }} className='flex-growVert-parent'>
-      <Card size='small' className='flex-growVert-child'>
+      <Card size='small' className='flex-growVert-child' bodyStyle={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
         <Row>
           <List
             dataSource={messages}
