@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './auctionActions.css';
 
+import AuctionAdmin from '../auctionAdmin/auctionAdmin';
+
 import { Button, Card, Statistic, Row, Col, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -16,6 +18,7 @@ function AuctionActions(props) {
   const [totalSpent, setTotalSpent] = useState(0);
   const [bidVal, setBidVal] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(Date.now() + 15 * 1000);
+  const [inProgress, setInProgress] = useState(false);
 
   useEffect(() => {
     // TEST DATA
@@ -29,6 +32,16 @@ function AuctionActions(props) {
   const bidChange = (value) => {
     setBidVal(value);
   }
+
+  const generateAdminButtons = () => {
+    if (props.role === 'creator' || props.role === 'admin') {
+      return (
+        <AuctionAdmin inProgress={inProgress} />
+      );
+    } else {
+      return null;
+    }
+  }
   
   return (
     <Row>
@@ -36,6 +49,7 @@ function AuctionActions(props) {
         <div className='team-name'>
           <span>{teamName}</span>
         </div>
+        {generateAdminButtons()}
         <Row type='flex' justify='space-between' gutter={8} style={{ marginTop: '6px' }}>
           <Col span={12} className='flex-growVert-parent'>
             <Card size='small' bodyStyle={{ textAlign: 'center' }} className='flex-growVert-child'>
