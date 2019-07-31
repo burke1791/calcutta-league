@@ -12,13 +12,14 @@ const { Header } = Layout;
 
 function League(props) {
   const [auctionId, setAuctionId] = useState(props.location.state.auctionId);
+  const [role, setRole] = useState(props.location.state.role);
 
   return (
     <Layout>
       <LeagueNav leagueId={props.leagueId} />
       <Router>
         <LeagueHome path='/' />
-        <LeagueAuction path='auction' auctionId={auctionId} />
+        <LeagueAuction path='auction' auctionId={auctionId} role={role} />
       </Router>
     </Layout>
   );
