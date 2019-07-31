@@ -22,7 +22,7 @@ const columns = [
 function MyTeams(props) {
   return (
     <Row style={{ height: 'calc(50vh - 70px)' }}>
-      <Card style={{ height: '100%' }}>
+      <Card style={{ height: '100%' }} size='small'>
         <Table
           columns={columns}
           dataSource={props.myTeams}
