@@ -57,7 +57,7 @@ function LeagueAuction(props) {
   // AuctionTeams
     // list of teams: name, price, purchaser, logo url
   // AuctionActions
-    // firebase auctionId
+    // firebase auctionId, user role
   // Chat
     // firebase auctionId
   // MyTeams
@@ -66,12 +66,12 @@ function LeagueAuction(props) {
     // list of users in this league with total spent
 
   return (
-    <Row>
+    <Row style={{ height: 'calc(100vh - 114px)' }}>
       <Col span={8}>
         <AuctionTeams teams={teams} />
       </Col>
-      <Col span={8}>
-        <AuctionActions auctionId={props.auctionId} />
+      <Col span={8} style={{ height: 'calc(100vh - 114px)' }} className='flex-growVert-parent'>
+        <AuctionActions auctionId={props.auctionId} role={props.role} />
         <AuctionChat auctionId={props.auctionId} />
       </Col>
       <Col span={8}>
