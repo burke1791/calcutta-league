@@ -70,11 +70,11 @@ function LeagueAuction(props) {
       <Col span={8}>
         <AuctionTeams teams={teams} />
       </Col>
-      <Col span={8} style={{ height: 'calc(100vh - 114px)' }} className='flex-growVert-parent'>
+      <Col span={10} style={{ height: 'calc(100vh - 114px)' }} className='flex-growVert-parent'>
         <AuctionActions auctionId={props.auctionId} role={props.role} />
         <AuctionChat auctionId={props.auctionId} />
       </Col>
-      <Col span={8}>
+      <Col span={6}>
         <MyTeams myTeams={myTeams} />
         <MemberList users={leagueUsers} />
       </Col>

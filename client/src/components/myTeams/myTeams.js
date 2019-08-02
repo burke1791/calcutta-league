@@ -27,6 +27,7 @@ function MyTeams(props) {
           columns={columns}
           dataSource={props.myTeams}
           pagination={false}
+          size='small'
         />
       </Card>
     </Row>

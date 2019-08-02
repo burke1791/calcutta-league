@@ -22,11 +22,14 @@ const columns = [
 function MemberList(props) {
   return (
     <Row style={{ height: 'calc(50vh - 70px)' }}>
-      <Card style={{ height: '100%' }} size='small'>
+      <Card style={{ height: '100%' }} bodyStyle={{ padding: '0' }} size='small'>
         <Table
           columns={columns}
           dataSource={props.users}
           pagination={false}
+          size='small'
+          bordered={false}
+          style={{ border: 'none' }}
         />
       </Card>
     </Row>
