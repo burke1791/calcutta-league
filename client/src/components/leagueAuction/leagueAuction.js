@@ -7,6 +7,10 @@ import { Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import MyTeams from '../myTeams/myTeams';
 import MemberList from '../memberList/memberList';
+import DataService, { Data } from '../../utilities/data';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
+import { User } from '../../firebase/authService';
 
 function LeagueAuction(props) {
 
@@ -16,28 +20,9 @@ function LeagueAuction(props) {
 
   useEffect(() => {
     // API call to fetch teams
-    
-    // TEST DATA
-    setTeams([
-      {
-        name: 'Illinois',
-        price: null,
-        owner: null
-      },
-      {
-        name: 'Ohio State',
-        price: 12,
-        owner: 'burkcules'
-      }
-    ]);
+    DataService.getAuctionTeams(props.leagueId);
 
-    setMyTeams([
-      {
-        name: 'Ohio State',
-        price: 12,
-        owner: 'burkcules'
-      }
-    ]);
+    Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this, auctionTeamsDownloaded);
 
     setLeagueUsers([
       {
@@ -53,7 +38,23 @@ function LeagueAuction(props) {
         buyIn: 0
       }
     ]);
-  }, [])
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this);
+    });
+  }, []);
+
+  const auctionTeamsDownloaded = () => {
+    setTeams(Data.auctionTeams);
+
+    const myTeamsArr = Data.auctionTeams.filter(team => {
+      if (team.user_id === User.user_id) {
+        return team;
+      }
+    });
+    setMyTeams(myTeamsArr);
+  }
+
   // AuctionTeams
     // list of teams: name, price, purchaser, logo url
   // AuctionActions
