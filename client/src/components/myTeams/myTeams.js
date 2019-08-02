@@ -8,7 +8,7 @@ import { formatMoney } from '../../utilities/helper';
 const columns = [
   {
     title: 'Team',
-    dataIndex: 'name',
+    dataIndex: 'team_name',
     key: 'name'
   },
   {
