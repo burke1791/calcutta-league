@@ -11,8 +11,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE users
-  ADD CONSTRAINT unique_alias UNIQUE KEY(`alias`);
-ALTER TABLE users
   ADD CONSTRAINT unique_email UNIQUE KEY(`email`);
 select 'create users - end';
 
