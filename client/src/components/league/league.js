@@ -19,7 +19,7 @@ function League(props) {
       <LeagueNav leagueId={props.leagueId} />
       <Router>
         <LeagueHome path='/' />
-        <LeagueAuction path='auction' auctionId={auctionId} role={role} />
+        <LeagueAuction path='auction' auctionId={auctionId} leagueId={props.leagueId} role={role} />
       </Router>
     </Layout>
   );
