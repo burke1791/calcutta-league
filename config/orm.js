@@ -1,6 +1,18 @@
 const connection = require('./connection');
 
 let orm = {
+  select: (params, cb) => {
+    let queryString = 'SELECT ??';
+    queryString += queryBuilder(params);
+
+    let options = optionsBuilder(params);
+
+    let query = connection.query(queryString, options, (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+
   selectWhere: (params, cb) => {
     let queryString = 'SELECT ?? FROM ?? WHERE' + queryWhereBuilderTest(params.where, 'AND');
     let queryParams = [params.select, params.from].concat(params.where.values);
@@ -98,6 +110,71 @@ let orm = {
     });
     // console.log(query.sql);
   }
+}
+
+// general query builder capable of handling any caveats you throw at it
+// currently only handles select joins and a where condition
+const queryBuilder = (params) => {
+  let builderString = '';
+
+  if (params.table && params.columns) {
+    builderString += ' FROM ??';
+  }
+
+  // add sums, counts, etc. here and add them to optionsBuilder
+
+  if (params.join) {
+    for (var join of params.join) {
+      builderString += ' ' + (join.type || '') + ' JOIN ?? ON';
+      for (var i in join.condition) {
+        if (i > 0) {
+          builderString += ' AND';
+        }
+        builderString += ' ?? = ??';
+      }
+    }
+  }
+
+  if (params.where) {
+    builderString += ' WHERE';
+    for (var i in params.where) {
+      if (i > 0) {
+        builderString += ' AND';
+      }
+      builderString += ' ?';
+    }
+  }
+
+  return builderString;
+}
+
+const optionsBuilder = (params) => {
+  let options = [];
+
+  if (params.table && params.columns) {
+    options.push(params.columns);
+    options.push(params.table);
+  }
+
+  // add sums, counts, etc. here when added to queryBuilder()
+
+  if (params.join) {
+    for (var join of params.join) {
+      options.push(join.table);
+      for (var i in join.condition) {
+        options.push(join.condition[i].left);
+        options.push(join.condition[i].right);
+      }
+    }
+  }
+
+  if (params.where) {
+    for (var i in params.where) {
+      options.push(params.where[i]);
+    }
+  }
+
+  return options;
 }
 
 const queryWhereBuilderTest = (where, logical) => {
