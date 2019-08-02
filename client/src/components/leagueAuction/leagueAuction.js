@@ -15,6 +15,7 @@ import { User } from '../../firebase/authService';
 function LeagueAuction(props) {
 
   const [teams, setTeams] = useState([]);
+  const [prizepool, setPrizepool] = useState(0);
   const [myTeams, setMyTeams] = useState([]);
   const [leagueUsers, setLeagueUsers] = useState([]);
 
@@ -47,12 +48,15 @@ function LeagueAuction(props) {
   const auctionTeamsDownloaded = () => {
     setTeams(Data.auctionTeams);
 
+    let totalBid = 0;
     const myTeamsArr = Data.auctionTeams.filter(team => {
+      totalBid += team.price;
       if (team.user_id === User.user_id) {
         return team;
       }
     });
     setMyTeams(myTeamsArr);
+    setPrizepool(totalBid);
   }
 
   // AuctionTeams
@@ -69,7 +73,7 @@ function LeagueAuction(props) {
   return (
     <Row style={{ height: 'calc(100vh - 114px)' }}>
       <Col span={8}>
-        <AuctionTeams teams={teams} />
+        <AuctionTeams teams={teams} prizepool={prizepool} />
       </Col>
       <Col span={10} style={{ height: 'calc(100vh - 114px)' }} className='flex-growVert-parent'>
         <AuctionActions auctionId={props.auctionId} role={props.role} />

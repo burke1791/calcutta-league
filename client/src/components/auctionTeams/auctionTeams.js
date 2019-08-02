@@ -11,7 +11,9 @@ function AuctionTeams(props) {
     <div style={{ padding: '0 6px' }}>
       <Row type='flex' justify='space-between' style={{ padding: '6px 10px' }}>
         <h3>Auction Order</h3>
-        <h3>Prizepool: $69.69</h3>
+        <h3>
+          Prizepool: {props.prizepool ? formatMoney(props.prizepool) : '$0.00'}
+        </h3>
       </Row>
       <Row>
         <List
