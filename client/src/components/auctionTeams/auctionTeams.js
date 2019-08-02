@@ -18,10 +18,10 @@ function AuctionTeams(props) {
           bordered={true}
           itemLayout='horizontal'
           dataSource={props.teams}
-          style={{ padding: '6px 10px' }}
+          style={{ padding: '6px 10px', maxHeight: 'calc(100vh - 160px)', overflow: 'auto' }}
           renderItem={team => (
             <List.Item className={team.price ? 'purchased' : ''} style={{ justifyContent: 'space-between' }}>
-              <h3>{team.name}</h3>
+              <h3>{team.team_name}</h3>
               <h4>{team.price ? formatMoney(team.price) : 'undrafted'}</h4>
             </List.Item>
           )}
