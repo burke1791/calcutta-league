@@ -13,6 +13,7 @@ app.use(express.json());
 
 require('./controllers/users')(app);
 require('./controllers/leagues')(app);
+require('./controllers/auctions')(app);
 
 app.listen(PORT, () => {
   console.log('listening on port: ' + PORT);
