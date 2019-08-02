@@ -70,6 +70,22 @@ var Data = {};
     });
   }
 
+  obj.getAuctionTeams = (leagueId) => {
+    axios({
+      method: 'GET',
+      url: API_GET.auction_teams + leagueId,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Data.auctionTeams = response.data;
+      Pubsub.publish(NOTIF.AUCTION_TEAMS_DOWNLOADED, null);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   obj.sendChatMessage = (params) => {
     let messageObj = {
       author: params.author,
