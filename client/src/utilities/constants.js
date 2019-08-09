@@ -20,7 +20,8 @@ export const NOTIF = {
   AUCTION_TEAMS_DOWNLOADED: 'auction_teams_downloaded',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out',
-  NEW_CHAT_MESSAGE: 'new_chat_message'
+  NEW_CHAT_MESSAGE: 'new_chat_message',
+  TIMER_EXPIRED: 'timer_expired'
 };
 
 export const ERROR_MESSAGES = {
