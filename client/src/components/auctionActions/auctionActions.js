@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './auctionActions.css';
 
 import AuctionAdmin from '../auctionAdmin/auctionAdmin';
+// import Countdown from '../countdown/countdown';
 
 import { Button, Card, Statistic, Row, Col, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
@@ -17,7 +18,7 @@ function AuctionActions(props) {
   const [highBidder, setHighBidder] = useState('n/a');
   const [totalSpent, setTotalSpent] = useState(0);
   const [bidVal, setBidVal] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(Date.now() + 15 * 1000);
+  const [endTime, setEndTime] = useState(Date.now() + 15 * 1000);
   const [inProgress, setInProgress] = useState(false);
 
   useEffect(() => {
@@ -59,7 +60,8 @@ function AuctionActions(props) {
           </Col>
           <Col span={12} className='flex-growVert-parent'>
             <Card size='small' bodyStyle={{ textAlign: 'center' }} className='flex-growVert-child'>
-              <Countdown title='Time Remaining' value={timeRemaining} onFinish={itemComplete} />
+              <Countdown title='Time Remaining' value={endTime} onFinish={itemComplete} />
+              {/* <Countdown title='Time Remaining' endTime={endTime} /> */}
             </Card>
           </Col>
         </Row>
