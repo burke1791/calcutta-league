@@ -22,6 +22,18 @@ admin.initializeApp({
   databaseURL: dbUrl
 });
 
+const blankAuction = {
+  currentItem: {
+    id: '',
+    name: ''
+  },
+  status: 'initial', // enum: initial, in-progress, item-complete, end
+  currentBid: 0,
+  currentWinner: 0,
+  endTime: 0,
+  bidHistory: {}
+};
+
 const db = admin.firestore();
 
 let firebase = {
@@ -36,26 +48,7 @@ let firebase = {
 
   createAuctionNode: (params) => {
     return new Promise((resolve, reject) => {
-      db.collection('auctions').add({
-        // test
-        currentItem: {
-          id: 1,
-          name: 'Illinois'
-        },
-        status: 'in-progress',
-        currentBid: 5,
-        currentWinner: 4,
-        endTime: 45,
-        itemHistory: {
-          '4': 5
-        },
-        completeHistory: {
-          '0': {
-            '3': 4,
-            '5': 7
-          }
-        }
-      }).then(docRef => {
+      db.collection('auctions').add(blankAuction).then(docRef => {
         console.log(docRef.id);
         resolve(docRef.id);
       }).catch(error => {
