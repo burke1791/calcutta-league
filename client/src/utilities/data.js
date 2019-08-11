@@ -179,6 +179,27 @@ var Data = {};
       // ony error back is a 401 not authorized
     });
   }
+
+  obj.stopAuction = (auctionId, leagueId) => {
+    let reqBody = {
+      auctionId: auctionId,
+      leagueId: leagueId,
+      userId: User.user_id
+    };
+
+    axios({
+      method: 'POST',
+      url: API_POST.stop_auction,
+      data: reqBody,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      // auction stopped
+    }).catch(error => {
+      // only error would be a 401 not authorized
+    });
+  }
 })(DataService);
 
 const packageLeagueInfo = (userSummaries) => {
