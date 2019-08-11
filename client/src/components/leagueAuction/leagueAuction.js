@@ -22,6 +22,7 @@ function LeagueAuction(props) {
   useEffect(() => {
     // API call to fetch teams
     DataService.getAuctionTeams(props.leagueId);
+    DataService.startAuctionListener(props.auctionId);
 
     Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this, auctionTeamsDownloaded);
 
@@ -42,6 +43,8 @@ function LeagueAuction(props) {
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this);
+
+      DataService.killAuctionListener();
     });
   }, []);
 
