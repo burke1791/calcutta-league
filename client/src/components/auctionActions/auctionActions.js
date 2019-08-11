@@ -8,6 +8,9 @@ import { Button, Card, Statistic, Row, Col, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 
 import { formatMoney } from '../../utilities/helper';
+import { Auction } from '../../utilities/data';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
 
 const { Countdown } = Statistic;
 
@@ -18,13 +21,28 @@ function AuctionActions(props) {
   const [highBidder, setHighBidder] = useState('n/a');
   const [totalSpent, setTotalSpent] = useState(0);
   const [bidVal, setBidVal] = useState(0);
-  const [endTime, setEndTime] = useState(Date.now() + 15 * 1000);
-  const [inProgress, setInProgress] = useState(false);
+  const [endTime, setEndTime] = useState(0);
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
-    // TEST DATA
-    setTeamName('Illinois');
+    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, handleAuctionUpdate);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
+    });
   }, []);
+
+  // updates local state with the new auction info from global state
+  const handleAuctionUpdate = () => {
+    setTeamName(Auction.currentItem.name);
+    setHighBid(Auction.currentBid);
+    
+    // @TODO keep an object of key-value (user_id)-(username) pairs for the league's members
+    setHighBidder(Auction.currentWinner);
+
+    setEndTime(Auction.endTime);
+    setStatus(Auction.status);
+  }
 
   const itemComplete = () => {
     console.log('Item complete');
@@ -37,7 +55,7 @@ function AuctionActions(props) {
   const generateAdminButtons = () => {
     if (props.role === 'creator' || props.role === 'admin') {
       return (
-        <AuctionAdmin inProgress={inProgress} />
+        <AuctionAdmin status={status} />
       );
     } else {
       return null;
