@@ -155,15 +155,28 @@ var Data = {};
     }
   }
 
-  obj.startAuction = (auctionId, leagueId, team) => {
+  obj.startAuction = (auctionId, leagueId) => {
+    // first get the next unowned team
+    let team = {};
+    for (var teamObj of Data.auctionTeams) {
+      // if user_id is null
+      if (!teamObj.user_id) {
+        team.id = teamObj.team_id;
+        team.name = teamObj.team_name;
+        break;
+      }
+    }
+
+    if (!team.id) {
+      // @TODO add some sort of feedback for the admin that all teams have been purchased
+      return;
+    }
+    
     let reqBody = {
       auctionId: auctionId,
       leagueId: leagueId,
       userId: User.user_id,
-      team: {
-        id: 1,
-        name: 'TEST'
-      }
+      team: team
     };
 
     axios({
@@ -206,6 +219,7 @@ const packageLeagueInfo = (userSummaries) => {
   if (userSummaries.length) {
     let leagueInfo = {
       name: userSummaries[0].league_name,
+      auctionId: userSummaries[0].auction_id,
       users: []
     };
 
