@@ -62,7 +62,18 @@ let firebase = {
   startAuction: (auctionId, team) => {
     db.collection('auctions').doc(auctionId).update({
       currentItem: team,
-      endTime: FieldValue.serverTimestamp()
+      endTime: FieldValue.serverTimestamp(),
+      status: 'in-progress'
+    });
+  },
+
+  stopAuction: (auctionId) => {
+    db.collection('auctions').doc(auctionId).update({
+      currentItem: {
+        id: '',
+        name: ''
+      },
+      status: 'end'
     });
   }
 }
