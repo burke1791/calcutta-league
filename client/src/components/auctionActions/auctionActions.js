@@ -40,7 +40,9 @@ function AuctionActions(props) {
     // @TODO keep an object of key-value (user_id)-(username) pairs for the league's members
     setHighBidder(Auction.currentWinner);
 
-    setEndTime(Auction.endTime);
+    let itemEnd = Auction.endTime == 0 ? 0 : (+Auction.endTime * 1000);
+    itemEnd += 15000;
+    setEndTime(itemEnd);
     setStatus(Auction.status);
   }
 
@@ -55,7 +57,7 @@ function AuctionActions(props) {
   const generateAdminButtons = () => {
     if (props.role === 'creator' || props.role === 'admin') {
       return (
-        <AuctionAdmin status={status} />
+        <AuctionAdmin status={status} auctionId={props.auctionId} leagueId={props.leagueId} />
       );
     } else {
       return null;
