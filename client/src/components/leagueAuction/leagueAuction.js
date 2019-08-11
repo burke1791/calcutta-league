@@ -79,7 +79,7 @@ function LeagueAuction(props) {
         <AuctionTeams teams={teams} prizepool={prizepool} />
       </Col>
       <Col span={10} style={{ height: 'calc(100vh - 114px)' }} className='flex-growVert-parent'>
-        <AuctionActions auctionId={props.auctionId} role={props.role} />
+        <AuctionActions auctionId={props.auctionId} role={props.role} leagueId={props.leagueId} />
         <AuctionChat auctionId={props.auctionId} />
       </Col>
       <Col span={6}>
