@@ -35,6 +35,7 @@ const blankAuction = {
 };
 
 const db = admin.firestore();
+const FieldValue = admin.firestore.FieldValue;
 
 let firebase = {
   verifyToken: (tokenId, cb) => {
@@ -55,6 +56,13 @@ let firebase = {
         console.log(error);
         reject(error);
       });
+    });
+  },
+
+  startAuction: (auctionId, team) => {
+    db.collection('auctions').doc(auctionId).update({
+      currentItem: team,
+      endTime: FieldValue.serverTimestamp()
     });
   }
 }
