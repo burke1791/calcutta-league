@@ -8,6 +8,13 @@ export const LEAGUE_FORM_TYPE = {
   JOIN: 'Join a League'
 };
 
+export const AUCTION_STATUS = {
+  INITIAL: 'initial',
+  IN_PROGRESS: 'in-progress',
+  ITEM_COMPLETE: 'item-complete',
+  END: 'end'
+}
+
 export const NOTIF = {
   AUTH_MODAL_SHOW: 'auth_modal_show',
   AUTH_FORM_TOGGLE: 'auth_form_toggle',
@@ -21,6 +28,7 @@ export const NOTIF = {
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out',
   NEW_CHAT_MESSAGE: 'new_chat_message',
+  NEW_AUCTION_DATA: 'new_auction_data',
   TIMER_EXPIRED: 'timer_expired'
 };
 
