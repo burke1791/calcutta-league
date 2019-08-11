@@ -46,7 +46,8 @@ export const API_POST = {
   create_user: '/api/create_user',
   create_league: '/api/create_league',
   join_league: 'api/join_league',
-  start_auction: '/api/auction/start'
+  start_auction: '/api/auction/start',
+  stop_auction: '/api/auction/stop'
 };
 
 export const API_GET = {
