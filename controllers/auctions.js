@@ -25,4 +25,40 @@ module.exports = function(app) {
       }
     });
   });
+
+  // POST request starts the auction
+  // verifies auth token with firebase then confirms that the user is authorized to start the auction
+  app.post('/api/auction/start', (req, res, next) => {
+    let auctionId = req.body.auctionId;
+    let userId = req.body.userId;
+    let leagueId = req.body.leagueId;
+    let team = req.body.team;
+
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.status(401).json({
+          message: 'Not authorized'
+        });
+      } else {
+        console.log('token verified');
+        let params = {
+          league_id: leagueId,
+          user_id: userId
+        };
+        auction.verifyAdmin(params, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('admin confirmed');
+            console.log(result);
+            firebase.startAuction(auctionId, team);
+            res.status(200).json({
+              message: 'Auction started'
+            });
+          }
+        });
+      }
+    });
+  });
 }
