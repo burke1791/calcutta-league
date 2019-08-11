@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import { AUCTION_STATUS } from '../../utilities/constants';
+import DataService from '../../utilities/data';
 
 const btnStyle = {
   marginTop: '4px'
@@ -32,7 +33,7 @@ function AuctionAdmin(props) {
       name = 'n/a';
     }
 
-    return <Button type={btnType} disabled={disabled} style={btnStyle} onClick={startStopClick}>{btnText}</Button>
+    return <Button type={btnType} disabled={disabled} style={btnStyle} onClick={startStopClick} name={name}>{btnText}</Button>
   }
 
   const startStopClick = (event) => {
@@ -41,6 +42,8 @@ function AuctionAdmin(props) {
 
     if (name == 'start') {
       // Start auction
+      console.log('auction start clicked');
+      DataService.startAuction(props.auctionId, props.leagueId /* , teamObj */);
     } else if (name == 'stop') {
       // Stop auction
     }
