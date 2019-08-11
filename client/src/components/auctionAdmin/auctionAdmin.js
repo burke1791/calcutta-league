@@ -43,7 +43,7 @@ function AuctionAdmin(props) {
     if (name == 'start') {
       // Start auction
       console.log('auction start clicked');
-      DataService.startAuction(props.auctionId, props.leagueId /* , teamObj */);
+      DataService.startAuction(props.auctionId, props.leagueId);
     } else if (name == 'stop') {
       DataService.stopAuction(props.auctionId, props.leagueId);
     }
