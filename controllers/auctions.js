@@ -61,4 +61,38 @@ module.exports = function(app) {
       }
     });
   });
+
+  // POST request stops the auction
+  // verifies auth token with firebase then confirms that the user is authorized to stop the auctions
+  app.post('/api/auction/stop', (req, res, next) => {
+    let auctionId = req.body.auctionId;
+    let userId = req.body.userId;
+    let leagueId = req.body.leagueId;
+
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.status(401).json({
+          message: 'Not authorized'
+        });
+      } else {
+        console.log('token verified');
+        let params = {
+          league_id: leagueId,
+          user_id: userId
+        };
+        auction.verifyAdmin(params, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('admin confirmed');
+            firebase.stopAuction(auctionId);
+            res.status(200).json({
+              message: 'Auction stopped'
+            });
+          }
+        });
+      }
+    });
+  });
 }
