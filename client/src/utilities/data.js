@@ -8,6 +8,8 @@ import { formatMoney } from './helper';
 
 var DataService = {};
 
+var League = {};
+var Auction = {};
 var Data = {};
 
 (function(obj) {
@@ -105,7 +107,7 @@ var Data = {};
 
   obj.startChatListener = (auctionId) => {
     if (auctionId) {
-      Data.unsubscribe = db.collection('auction-chat').doc(auctionId).collection('messages').orderBy('timestamp').onSnapshot(collection => {
+      Data.unsubscribeChat = db.collection('auction-chat').doc(auctionId).collection('messages').orderBy('timestamp').onSnapshot(collection => {
         Data.chatMessages = [];
         // @TODO only push new messages to array instead of creating a new one
         // this will be a huge bottleneck for lengthy chat threads
@@ -128,9 +130,54 @@ var Data = {};
   }
 
   obj.killChatListener = () => {
-    if (Data.unsubscribe) {
-      Data.unsubscribe();
+    if (Data.unsubscribeChat) {
+      Data.unsubscribeChat();
     }
+  }
+
+  // sets a listener on the auction node in cloud firestore and updates the global Auction object with new data when it comes in
+  obj.startAuctionListener = (auctionId) => {
+    if (auctionId) {
+      Data.unsubscribeAuction = db.collection('auctions').doc(auctionId).onSnapshot(doc => {
+        console.log(doc.data());
+        setNewAuctionData(doc.data());
+        console.log(Auction);
+        Pubsub.publish(NOTIF.NEW_AUCTION_DATA, null);
+      });
+    } else {
+      console.log('auctionId undefined');
+    }
+  }
+
+  obj.killAuctionListener = () => {
+    if (Data.unsubscribeAuction) {
+      Data.unsubscribeAuction();
+    }
+  }
+
+  obj.startAuction = (auctionId, leagueId, team) => {
+    let reqBody = {
+      auctionId: auctionId,
+      leagueId: leagueId,
+      userId: User.user_id,
+      team: {
+        id: 1,
+        name: 'TEST'
+      }
+    };
+
+    axios({
+      method: 'POST',
+      url: API_POST.start_auction,
+      data: reqBody,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      // auction started
+    }).catch(error => {
+      // ony error back is a 401 not authorized
+    });
   }
 })(DataService);
 
@@ -170,8 +217,18 @@ const packageLeagueInfo = (userSummaries) => {
   return null;
 }
 
+const setNewAuctionData = (auctionObj) => {
+  Auction = auctionObj;
+  console.log(auctionObj);
+  if (Auction.endTime != 0) {
+    Auction.endTime = Auction.endTime.seconds;
+  }
+}
+
 export default DataService;
 
 export {
-  Data
+  Data,
+  League,
+  Auction
 }
