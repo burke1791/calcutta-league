@@ -22,6 +22,23 @@ let auction = {
     };
 
     orm.select(queryParams, cb);
+  },
+
+  verifyAdmin: (membershipObj, cb) => {
+    let queryParams = {
+      table: 'league_membership',
+      columns: ['league_membership.role'],
+      where: [
+        {
+          'league_membership.league_id': membershipObj.league_id
+        },
+        {
+          'league_membership.user_id': membershipObj.user_id
+        }
+      ]
+    };
+    
+    orm.select(queryParams, cb);
   }
 };
 
