@@ -45,7 +45,8 @@ export const ERROR_MESSAGES = {
 export const API_POST = {
   create_user: '/api/create_user',
   create_league: '/api/create_league',
-  join_league: 'api/join_league'
+  join_league: 'api/join_league',
+  start_auction: '/api/auction/start'
 };
 
 export const API_GET = {
