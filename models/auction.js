@@ -43,11 +43,3 @@ let auction = {
 };
 
 module.exports = auction;
-
-/*
-SELECT lt.team_id, lt.user_id, lt.price, lt.return, t.team_name, t.team_conference
-FROM league_teams lt
-LEFT JOIN teams t
-ON lt.team_id = t.team_id
-WHERE lt.league_id = 2;
-*/
