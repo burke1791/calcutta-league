@@ -48,11 +48,19 @@ function AuctionAdmin(props) {
       DataService.stopAuction(props.auctionId, props.leagueId);
     }
   }
+
+  const nextItem = (event) => {
+    event.preventDefault();
+
+    if (props.status === AUCTION_STATUS.ITEM_COMPLETE) {
+      DataService.nextItem(props.auctionId, props.leagueId);
+    }
+  }
   
   return (
     <div className='admin-actions' style={containerStyle}>
       {generateStartStopButton()}
-      <Button type='primary' style={btnStyle}>Next Item</Button>
+      <Button type='primary' style={btnStyle} onClick={nextItem}>Next Item</Button>
       <Button type='primary' style={btnStyle}>Reset Clock</Button>
     </div>
   );
