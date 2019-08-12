@@ -98,8 +98,7 @@ CREATE TABLE `league_teams` (
   `return` FLOAT(8,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`league_id`, `team_id`),
   FOREIGN KEY (`league_id`) REFERENCES `leagues` (`league_id`),
-  FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create league_teams - end';
 
