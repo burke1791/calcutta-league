@@ -35,6 +35,18 @@ let orm = {
     }
   },
 
+  update: (params, cb) => {
+    let queryString = 'UPDATE ??';
+    queryString += updateQueryBuilder(params);
+
+    let options = updateOptionsBuilder(params);
+
+    let query = connection.query(queryString, options, (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+
   // used to copy records from one table to another table
   insertSelectJoinWhereAnd: (params, cb) => { 
     let queryString = 'INSERT INTO ?? ' + params.columns + ' SELECT ?? FROM ?? JOIN ?? WHERE ? AND ?';
@@ -110,6 +122,56 @@ let orm = {
     });
     // console.log(query.sql);
   }
+}
+
+// general query builder for update statements
+const updateQueryBuilder = (params) => {
+  let builderString = '';
+
+  if (params.set) {
+    builderString += ' SET';
+    for (var i in params.set) {
+      if (i > 0) {
+        builderString += ',';
+      }
+      builderString += ' ?';
+    }
+  }
+
+  if (params.where) {
+    builderString += ' WHERE';
+    for (var i in params.where) {
+      if (i > 0) {
+        builderString += ' AND';
+      }
+      builderString += ' ?';
+    }
+  }
+
+  return builderString;
+}
+
+// general options builder for update statements
+const updateOptionsBuilder = (params) => {
+  let options = [];
+
+  if (params.table) {
+    options.push(params.table);
+  }
+
+  if (params.set) {
+    for (var i in params.set) {
+      options.push(params.set[i]);
+    }
+  }
+
+  if (params.where) {
+    for (var i in params.where) {
+      options.push(params.where[i]);
+    }
+  }
+
+  return options;
 }
 
 // general query builder capable of handling any caveats you throw at it
