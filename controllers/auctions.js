@@ -1,4 +1,5 @@
 const auction = require('../models/auction');
+const league = require('../models/league');
 const firebase = require('../models/firebase');
 
 module.exports = function(app) {
@@ -89,6 +90,53 @@ module.exports = function(app) {
             firebase.stopAuction(auctionId);
             res.status(200).json({
               message: 'Auction stopped'
+            });
+          }
+        });
+      }
+    });
+  });
+
+  app.put('/api/auction/next_item', (req, res, next) => {
+    let auctionId = req.body.auctionId;
+    let userId = req.body.userId;
+    let leagueId = req.body.leagueId;
+    let nextTeam = req.body.team;
+
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.status(401).json({
+          message: 'Not authorized'
+        });
+      } else {
+        console.log('token verified');
+        let params = {
+          league_id: leagueId,
+          user_id: userId
+        };
+        auction.verifyAdmin(params, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('admin confirmed');
+            // get user_id and price from firebase then update MySQL
+            console.log(auctionId);
+            firebase.getSoldItemInfo(auctionId).then(response => {
+              let teamObj = {
+                user_id: response.user_id,
+                team_id: response.team_id,
+                price: response.price,
+                league_id: leagueId
+              };
+              league.updateTeamSale(teamObj, (err, rows) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  // update firebase with the next team up for auction
+                  firebase.nextItem(auctionId, nextTeam);
+                }
+              });
             });
           }
         });
