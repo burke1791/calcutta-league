@@ -56,3 +56,7 @@ export const API_GET = {
   league_user_summaries: '/api/league_user_summaries/',
   auction_teams: '/api/auction_teams/'
 };
+
+export const API_PUT = {
+  next_item: '/api/auction/next_item'
+};
