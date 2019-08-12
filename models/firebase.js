@@ -75,6 +75,29 @@ let firebase = {
       },
       status: 'end'
     });
+  },
+
+  getSoldItemInfo: (auctionId) => {
+    return new Promise((resolve, reject) => {
+      db.collection('auctions').doc(auctionId).get().then(auction => {
+        let auctionData = auction.data();
+        resolve({
+          user_id: auctionData.currentWinner,
+          price: auctionData.currentBid,
+          team_id: auctionData.currentItem.id
+        });
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  nextItem: (auctionId, team) => {
+    db.collection('auctions').doc(auctionId).update({
+      currentItem: team,
+      endTime: FieldValue.serverTimestamp(),
+      status: 'in-progress'
+    });
   }
 }
 
