@@ -93,6 +93,22 @@ let league = {
     };
 
     orm.selectJoinWhereGroupTest(queryParams, cb);
+  },
+
+  updateTeamSale: (teamObj, cb) => {
+    let queryParams = {
+      table: 'league_teams',
+      set: [
+        { 'league_teams.user_id': teamObj.user_id },
+        { 'league_teams.price': teamObj.price }
+      ],
+      where: [
+        { 'league_teams.team_id': teamObj.team_id },
+        { 'league_teams.league_id': teamObj.league_id }
+      ]
+    };
+
+    orm.update(queryParams, cb);
   }
 }
 
