@@ -21,10 +21,12 @@ function LeagueAuction(props) {
 
   useEffect(() => {
     // API call to fetch teams
-    DataService.getAuctionTeams(props.leagueId);
+    // DataService.getAuctionTeams(props.leagueId);
+    fetchAuctionTeams(true);
     DataService.startAuctionListener(props.auctionId);
 
     Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this, auctionTeamsDownloaded);
+    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, fetchAuctionTeams);
 
     setLeagueUsers([
       {
@@ -43,6 +45,7 @@ function LeagueAuction(props) {
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this);
+      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
 
       DataService.killAuctionListener();
     });
@@ -62,16 +65,11 @@ function LeagueAuction(props) {
     setPrizepool(totalBid);
   }
 
-  // AuctionTeams
-    // list of teams: name, price, purchaser, logo url
-  // AuctionActions
-    // firebase auctionId, user role
-  // Chat
-    // firebase auctionId
-  // MyTeams
-    // list of teams I purchased: name, price
-  // MemberList
-    // list of users in this league with total spent
+  const fetchAuctionTeams = (newItem) => {
+    if (newItem) {
+      DataService.getAuctionTeams(props.leagueId);
+    }
+  }
 
   return (
     <Row style={{ height: 'calc(100vh - 114px)' }}>
