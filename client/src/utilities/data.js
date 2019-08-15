@@ -88,6 +88,16 @@ var Data = {};
     })
   }
 
+  // searches through the array of users belonging to the current league and returns the alias matching the userId
+  obj.getAlias = (userId) => {
+    for (var userObj of Data.leagueInfo.users) {
+      if (userObj.id == userId) {
+        return userObj.name;
+      }
+    }
+    return 'unknown';
+  }
+
   obj.sendChatMessage = (params) => {
     let messageObj = {
       author: params.author,
