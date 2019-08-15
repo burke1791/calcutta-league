@@ -22,30 +22,18 @@ function LeagueAuction(props) {
   useEffect(() => {
     // API call to fetch teams
     // DataService.getAuctionTeams(props.leagueId);
-    fetchAuctionTeams(true);
+    fetchAuctionTeams();
+    updateUserSummaries();
     DataService.startAuctionListener(props.auctionId);
 
     Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this, auctionTeamsDownloaded);
-    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, fetchAuctionTeams);
-
-    setLeagueUsers([
-      {
-        user: 'burkcules',
-        buyIn: 12,
-      },
-      {
-        user: 'kwedass',
-        buyIn: 0
-      },
-      {
-        user: 'marty',
-        buyIn: 0
-      }
-    ]);
+    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, handleNewAuctionData);
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, updateUserSummaries);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this);
       Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
 
       DataService.killAuctionListener();
     });
@@ -65,10 +53,24 @@ function LeagueAuction(props) {
     setPrizepool(totalBid);
   }
 
-  const fetchAuctionTeams = (newItem) => {
+  const handleNewAuctionData = (newItem) => {
     if (newItem) {
-      DataService.getAuctionTeams(props.leagueId);
+      fetchAuctionTeams();
+      fetchUserSummaries();
     }
+  }
+
+  const updateUserSummaries = () => {
+    console.log(Data.leagueInfo.users);
+    setLeagueUsers(Data.leagueInfo.users);
+  }
+
+  const fetchAuctionTeams = () => {
+    DataService.getAuctionTeams(props.leagueId);
+  }
+
+  const fetchUserSummaries = () => {
+    DataService.getLeagueUserSummaries(props.leagueId);
   }
 
   return (
