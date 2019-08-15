@@ -38,8 +38,7 @@ function AuctionActions(props) {
     setTeamName(Auction.currentItem.name);
     setHighBid(Auction.currentBid);
     
-    // @TODO keep an object of key-value (user_id)-(username) pairs for the league's members
-    setHighBidder(Auction.currentWinner);
+    setHighBidder(DataService.getAlias(Auction.currentWinner));
 
     let itemEnd = Auction.endTime == 0 ? 0 : (+Auction.endTime * 1000);
     itemEnd += 15000;
