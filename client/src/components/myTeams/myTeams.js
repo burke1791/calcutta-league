@@ -7,7 +7,7 @@ import { formatMoney } from '../../utilities/helper';
 
 const columns = [
   {
-    title: 'Team',
+    title: 'My Teams',
     dataIndex: 'team_name',
     key: 'name'
   },
@@ -19,6 +19,7 @@ const columns = [
   }
 ];
 
+// @TODO add some sort of animation on the table rows that update, e.g. highlight then fade
 function MyTeams(props) {
   return (
     <Row style={{ height: 'calc(50vh - 70px)' }}>
