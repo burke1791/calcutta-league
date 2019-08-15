@@ -96,7 +96,9 @@ let firebase = {
     db.collection('auctions').doc(auctionId).update({
       currentItem: team,
       endTime: FieldValue.serverTimestamp(),
-      status: 'in-progress'
+      status: 'in-progress',
+      currentBid: 0,
+      currentWinner: 'n/a'
     });
   }
 }
