@@ -1,4 +1,4 @@
-import { NOTIF, API_POST, API_GET, API_PUT } from '../utilities/constants';
+import { NOTIF, API_POST, API_GET, API_PUT, AUCTION_STATUS } from '../utilities/constants';
 import Pubsub from '../utilities/pubsub';
 
 import axios from 'axios';
@@ -12,7 +12,7 @@ var League = {};
 var Auction = {};
 var Data = {};
 
-(function(obj) {
+(function (obj) {
   // sends a post request to create a league
   obj.createLeague = (params) => {
     // @TODO create a params validator
@@ -171,7 +171,7 @@ var Data = {};
       // @TODO add some sort of feedback for the admin that all teams have been purchased
       return;
     }
-    
+
     let reqBody = {
       auctionId: auctionId,
       leagueId: leagueId,
@@ -229,7 +229,7 @@ var Data = {};
       // @TODO add some sort of feedback for the admin that all teams have been purchased
       return;
     }
-    
+
     let reqBody = {
       auctionId: auctionId,
       leagueId: leagueId,
@@ -248,6 +248,55 @@ var Data = {};
       // next item submitted
     }).catch(error => {
       // only error would be a 401 not authorized
+    });
+  }
+
+  obj.placeBid = (auctionId, bidValue) => {
+    console.log('placing bid in:', auctionId, 'for:', bidValue);
+    return new Promise((resolve, reject) => {
+      let auctionRef = db.collection('auctions').doc(auctionId);
+      db.runTransaction(transaction => {
+        return transaction.get(auctionRef).then(auction => {
+          let auctionObj = auction.data();
+          let currentItemId = auctionObj.currentItem.id;
+
+          // check if we are placing a valid bid
+          if (auctionObj.currentBid >= bidValue && auctionObj.status == AUCTION_STATUS.IN_PROGRESS) {
+            throw 'Bid is too low!';
+          }
+
+          auctionObj.currentBid = bidValue;
+          auctionObj.currentWinner = User.user_id;
+          auctionObj.endTime = dbObj.FieldValue.serverTimestamp();
+          // if the bid history for the current item is undefined, start it as an empty array
+          if (!auctionObj.bidHistory[currentItemId]) {
+            auctionObj.bidHistory[currentItemId] = []
+          }
+          auctionObj.bidHistory[currentItemId].push({
+            bid: bidValue,
+            // timestamps are not currently supported inside arrays
+            // timestamp: dbObj.FieldValue.serverTimestamp(),
+            userId: User.user_id
+          });
+
+          transaction.update(auctionRef, auctionObj);
+        });
+      }).then(newAuction => {
+        console.log(newAuction);
+        resolve();
+      }).catch(error => {
+        console.log(error);
+        reject(error);
+      });
+    });
+  }
+
+  // sets the status field in firestore to "item-complete"
+  // this is a general function that all users in the league have access to because if I only give it to admins, then the countdown might go negative if the admin navigates away from the page as the timer crosses 0
+  // in the future this would be completely server-side, but for now this is a workaround, if a bit unsecure
+  obj.setItemComplete = (auctionId) => {
+    db.collection('auctions').doc(auctionId).update({
+      status: AUCTION_STATUS.ITEM_COMPLETE
     });
   }
 })(DataService);
@@ -272,7 +321,7 @@ const packageLeagueInfo = (userSummaries) => {
     });
 
     // sorts the users in descending order by their net return
-    leagueInfo.users.sort(function(a, b){ return b.return - a.return });
+    leagueInfo.users.sort(function (a, b) { return b.return - a.return });
 
     // adds a rank property to each user after being sorted
     // also formats the money value into a friendlier string representation
@@ -285,7 +334,7 @@ const packageLeagueInfo = (userSummaries) => {
 
     return leagueInfo;
   }
-  
+
   return null;
 }
 
