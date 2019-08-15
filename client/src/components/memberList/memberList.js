@@ -8,17 +8,17 @@ import { formatMoney } from '../../utilities/helper';
 const columns = [
   {
     title: 'Member',
-    dataIndex: 'user',
-    key: 'user'
+    dataIndex: 'name',
+    key: 'name'
   },
   {
     title: 'Total Paid',
     dataIndex: 'buyIn',
-    key: 'buyIn',
-    render: (value) => formatMoney(value)
+    key: 'buyIn'
   }
 ];
 
+// @TODO add some sort of animation on the table rows that update, e.g. highlight then fade
 function MemberList(props) {
   return (
     <Row style={{ height: 'calc(50vh - 70px)' }}>
