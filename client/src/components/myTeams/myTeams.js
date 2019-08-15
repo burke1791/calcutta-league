@@ -23,13 +23,14 @@ const columns = [
 function MyTeams(props) {
   return (
     <Row style={{ height: 'calc(50vh - 70px)' }}>
-      <Card style={{ height: '100%' }} bodyStyle={{ padding: '0' }} size='small'>
+      <Card style={{ height: '100%' }} bodyStyle={{ padding: '0', height: '100%' }} size='small'>
         <Table
           columns={columns}
           dataSource={props.myTeams}
           pagination={false}
           size='small'
           bordered={false}
+          scroll={{ y: 'calc(50vh - 107px)' }}
           style={{ border: 'none' }}
         />
       </Card>
