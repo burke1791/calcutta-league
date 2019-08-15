@@ -38,7 +38,8 @@ function AuctionActions(props) {
     setTeamName(Auction.currentItem.name);
     setHighBid(Auction.currentBid);
     
-    setHighBidder(DataService.getAlias(Auction.currentWinner));
+    // sets highBidder to the user's alias if Auction.currentWinner is a userId, otherwise sets it to "n/a"
+    setHighBidder(Auction.currentWinner == 'n/a' ? 'n/a' : DataService.getAlias(Auction.currentWinner));
 
     let itemEnd = Auction.endTime == 0 ? 0 : (+Auction.endTime * 1000);
     itemEnd += 15000;
