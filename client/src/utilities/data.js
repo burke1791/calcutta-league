@@ -140,9 +140,11 @@ var Data = {};
     if (auctionId) {
       Data.unsubscribeAuction = db.collection('auctions').doc(auctionId).onSnapshot(doc => {
         console.log(doc.data());
+        let prevItem = Auction.currentItem ? Auction.currentItem.id : '';
         setNewAuctionData(doc.data());
+        let currentItem = Auction.currentItem ? Auction.currentItem.id : '';
         console.log(Auction);
-        Pubsub.publish(NOTIF.NEW_AUCTION_DATA, null);
+        Pubsub.publish(NOTIF.NEW_AUCTION_DATA, prevItem != currentItem);
       });
     } else {
       console.log('auctionId undefined');
