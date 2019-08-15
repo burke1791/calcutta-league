@@ -4,13 +4,20 @@ let auction = {
   selectAuctionTeams: (leagueObj, cb) => {
     let queryParams = {
       table: 'league_teams',
-      columns: ['league_teams.team_id', 'league_teams.user_id', 'league_teams.price', 'league_teams.return', 'teams.team_name', 'teams.team_conference'],
+      columns: ['league_teams.team_id', 'league_teams.user_id', 'league_teams.price', 'league_teams.return', 'teams.team_name', 'teams.team_conference', 'tournament_seeds.seed'],
       join: [
         {
           type: 'LEFT',
           table: 'teams',
           condition: [
             { left: 'league_teams.team_id', right: 'teams.team_id' }
+          ]
+        },
+        {
+          type: 'LEFT',
+          table: 'tournament_seeds',
+          condition: [
+            {left: 'league_teams.team_id', right: 'tournament_seeds.team_id'}
           ]
         }
       ],
