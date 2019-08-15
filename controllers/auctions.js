@@ -129,14 +129,21 @@ module.exports = function(app) {
                 price: response.price,
                 league_id: leagueId
               };
-              league.updateTeamSale(teamObj, (err, rows) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  // update firebase with the next team up for auction
-                  firebase.nextItem(auctionId, nextTeam);
-                }
-              });
+              // if nobody bid on the team, then do not try to update MySQL
+              // skip straight to updating the auction node if firestore with the next team
+              if (teamObj.user_id == 'n/a') {
+                // update firebase with the next team up for auction
+                firebase.nextItem(auctionId, nextTeam);
+              } else {
+                league.updateTeamSale(teamObj, (err, rows) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    // update firebase with the next team up for auction
+                    firebase.nextItem(auctionId, nextTeam);
+                  }
+                });
+              }
             });
           }
         });
