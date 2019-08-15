@@ -7,15 +7,17 @@ import { Button, Card, Statistic, Row, Col, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 
 import { formatMoney } from '../../utilities/helper';
-import { Auction } from '../../utilities/data';
+import DataService, { Auction } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF } from '../../utilities/constants';
+import { NOTIF, AUCTION_STATUS } from '../../utilities/constants';
 
 const { Countdown } = Statistic;
 
+// @TODO this component does wayyyyy too much - break it up please!
 function AuctionActions(props) {
   
   const [teamName, setTeamName] = useState('');
+  const [biddingDisabled, setBiddingDisabled] = useState(true);
   const [highBid, setHighBid] = useState(0);
   const [highBidder, setHighBidder] = useState('n/a');
   const [totalSpent, setTotalSpent] = useState(0);
@@ -43,15 +45,41 @@ function AuctionActions(props) {
     itemEnd += 15000;
     setEndTime(itemEnd);
     console.log(Auction.status);
+
+    // disables bid buttons if the auction is not currently in progress
+    if (Auction.status == AUCTION_STATUS.IN_PROGRESS) {
+      setBiddingDisabled(false);
+    } else {
+      setBiddingDisabled(true);
+    }
+
     setStatus(Auction.status);
   }
 
   const itemComplete = () => {
-    console.log('Item complete');
+    DataService.setItemComplete(props.auctionId);
   }
 
   const bidChange = (value) => {
     setBidVal(value);
+  }
+
+  const placeCustomBid = () => {
+    placeBid(bidVal);
+  }
+
+  const placeMinimumBid = () => {
+    placeBid(Number(highBid + 1));
+  }
+
+  const placeBid = (value) => {
+    setBiddingDisabled(true);
+    DataService.placeBid(props.auctionId, value).then(response => {
+      // do nothing for now
+    }).catch(error => {
+      // enable bid buttons because the attempted bid failed
+      setBiddingDisabled(false);
+    });
   }
 
   const generateAdminButtons = () => {
@@ -100,10 +128,10 @@ function AuctionActions(props) {
                   onChange={bidChange}
                   style={{ width: '50%' }}
                 />
-                <Button type='primary' style={{ width: '30%' }}>Bid</Button>
+                <Button type='primary' style={{ width: '30%' }} disabled={biddingDisabled} onClick={placeCustomBid}>Bid</Button>
               </Row>
               <Row style={{ textAlign: 'center', marginTop: '6px' }} gutter={8}>
-                <Button type='primary' style={{ width: '90%' }}>{highBid + 1} (Min Bid)</Button>
+                <Button type='primary' disabled={biddingDisabled} style={{ width: '90%' }} onClick={placeMinimumBid}>${highBid + 1} (Min Bid)</Button>
               </Row>
             </Card>
           </Col>
