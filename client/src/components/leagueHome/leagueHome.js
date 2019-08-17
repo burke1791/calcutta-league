@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
+import AuctionChart from '../auctionChart/auctionChart';
 
 const { Header, Content } = Layout;
 
@@ -23,19 +24,19 @@ const columns = [
   },
   {
     title: 'Buy In',
-    dataIndex: 'buyIn',
+    dataIndex: 'buyInFormatted',
     align: 'center',
     width: 150
   },
   {
     title: 'Current Payout',
-    dataIndex: 'payout',
+    dataIndex: 'payoutFormatted',
     align: 'center',
     width: 150
   },
   {
     title: 'Net Return',
-    dataIndex: 'return',
+    dataIndex: 'returnFormatted',
     align: 'center',
     width: 150
   }
@@ -45,6 +46,7 @@ function LeagueHome(props) {
   
   const [leagueName, setLeagueName] = useState('test league name');
   const [userList, setUserList] = useState([]);
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, getLeagueInfo);
@@ -62,6 +64,7 @@ function LeagueHome(props) {
   const getLeagueInfo = () => {
     setLeagueName(Data.leagueInfo.name);
     setUserList(Data.leagueInfo.users);
+    setStatus(Data.leagueInfo.status);
   }
 
   return (
@@ -87,8 +90,8 @@ function LeagueHome(props) {
             }
           />
         </Row>
-        <Row>
-          {/* Pie chart of auction breakdown (after auction is complete) */}
+        <Row type='flex' justify='center'>
+          <AuctionChart status={status} />
         </Row>
       </Content>
     </Layout>
