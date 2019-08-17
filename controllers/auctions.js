@@ -97,6 +97,37 @@ module.exports = function(app) {
     });
   });
 
+  app.put('/api/auction/reset_clock', (req, res, next) => {
+    let auctionId = req.body.auctionId;
+    let userId = req.body.userId;
+    let leagueId = req.body.leagueId;
+
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.status(401).json({
+          message: 'Not authorized'
+        });
+      } else {
+        console.log('token verified');
+        let params = {
+          league_id: leagueId,
+          user_id: userId
+        };
+        auction.verifyAdmin(params, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('admin confirmed');
+            firebase.resetClock(auctionId).then(response => {
+              res.status(200).end();
+            });
+          }
+        });
+      }
+    });
+  });
+
   app.put('/api/auction/next_item', (req, res, next) => {
     let auctionId = req.body.auctionId;
     let userId = req.body.userId;
@@ -133,14 +164,18 @@ module.exports = function(app) {
               // skip straight to updating the auction node if firestore with the next team
               if (teamObj.user_id == 'n/a') {
                 // update firebase with the next team up for auction
-                firebase.nextItem(auctionId, nextTeam);
+                firebase.nextItem(auctionId, nextTeam).then(function() {
+                  res.status(200).end();
+                });
               } else {
                 league.updateTeamSale(teamObj, (err, rows) => {
                   if (err) {
                     console.log(err);
                   } else {
                     // update firebase with the next team up for auction
-                    firebase.nextItem(auctionId, nextTeam);
+                    firebase.nextItem(auctionId, nextTeam).then(function() {
+                      res.status(200).end();
+                    });
                   }
                 });
               }
