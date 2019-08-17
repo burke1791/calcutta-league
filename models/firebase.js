@@ -93,12 +93,27 @@ let firebase = {
   },
 
   nextItem: (auctionId, team) => {
-    db.collection('auctions').doc(auctionId).update({
-      currentItem: team,
-      endTime: FieldValue.serverTimestamp(),
-      status: 'in-progress',
-      currentBid: 0,
-      currentWinner: 'n/a'
+    return new Promise((resolve, reject) => {
+      db.collection('auctions').doc(auctionId).update({
+        currentItem: team,
+        endTime: FieldValue.serverTimestamp(),
+        status: 'in-progress',
+        currentBid: 0,
+        currentWinner: 'n/a'
+      }).then(function() {
+        resolve();
+      });
+    });
+  },
+
+  resetClock: (auctionId) => {
+    return new Promise((resolve, reject) => {
+      db.collection('auctions').doc(auctionId).update({
+        endTime: FieldValue.serverTimestamp(),
+        status: 'in-progress'
+      }).then(function() {
+        resolve();
+      });
     });
   }
 }
