@@ -7,9 +7,10 @@ import { Button, Card, Statistic, Row, Col, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 
 import { formatMoney } from '../../utilities/helper';
-import DataService, { Auction } from '../../utilities/data';
+import DataService, { Auction, Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, AUCTION_STATUS } from '../../utilities/constants';
+import { User } from '../../firebase/authService';
 
 const { Countdown } = Statistic;
 
@@ -27,15 +28,17 @@ function AuctionActions(props) {
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, handleAuctionUpdate);
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, updateTotalSpent);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
     });
   }, []);
 
   // updates local state with the new auction info from global state
   const handleAuctionUpdate = () => {
-    setTeamName(Auction.currentItem.name);
+    setTeamName('(' + +Auction.currentItem.seed + ') ' + Auction.currentItem.name);
     setHighBid(Auction.currentBid);
     
     // sets highBidder to the user's alias if Auction.currentWinner is a userId, otherwise sets it to "n/a"
@@ -54,6 +57,14 @@ function AuctionActions(props) {
     }
 
     setStatus(Auction.status);
+  }
+
+  const updateTotalSpent = () => {
+    for (var user of Data.leagueInfo.users) {
+      if (user.id == User.user_id) {
+        setTotalSpent(user.buyIn);
+      }
+    }
   }
 
   const itemComplete = () => {
