@@ -79,7 +79,7 @@ let league = {
   selectLeagueUserSummaries: (leagueObj, cb) => {
     let queryParams = {
       table: 'league_membership',
-      columns: ['users.user_id', 'users.alias', 'leagues.league_name', 'leagues.auction_id'],
+      columns: ['users.user_id', 'users.alias', 'leagues.league_name', 'leagues.auction_id', 'leagues.league_status'],
       sum: ['league_teams.price', 'league_teams.return'],
       sumAlias: ['buyIn', 'payout'],
       joinTable: ['users', 'leagues', 'league_teams'],
