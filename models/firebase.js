@@ -50,7 +50,7 @@ let firebase = {
   createAuctionNode: (params) => {
     return new Promise((resolve, reject) => {
       db.collection('auctions').add(blankAuction).then(docRef => {
-        console.log(docRef.id);
+        console.log('new auction node: ' + docRef.id);
         resolve(docRef.id);
       }).catch(error => {
         console.log(error);
