@@ -191,17 +191,23 @@ var Data = {};
       team: team
     };
 
-    axios({
-      method: 'POST',
-      url: API_POST.start_auction,
-      data: reqBody,
-      headers: {
-        token: User.idToken
-      }
-    }).then(response => {
-      // auction started
-    }).catch(error => {
-      // ony error back is a 401 not authorized
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'POST',
+        url: API_POST.start_auction,
+        data: reqBody,
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        // auction started
+        // tells the "Start Auction" button in auctionAdmin to cancel the loading animation
+        resolve();
+      }).catch(error => {
+        // ony error back is a 401 not authorized
+        // tells the "Start Auction" button in auctionAdmin to cancel the loading animation
+        reject();
+      });
     });
   }
 
@@ -212,17 +218,23 @@ var Data = {};
       userId: User.user_id
     };
 
-    axios({
-      method: 'POST',
-      url: API_POST.stop_auction,
-      data: reqBody,
-      headers: {
-        token: User.idToken
-      }
-    }).then(response => {
-      // auction stopped
-    }).catch(error => {
-      // only error would be a 401 not authorized
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'POST',
+        url: API_POST.stop_auction,
+        data: reqBody,
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        // auction stopped
+        // tells the "Stop Auction" button in auctionAdmin to cancel the loading animation
+        resolve();
+      }).catch(error => {
+        // only error would be a 401 not authorized
+        // tells the "Stop Auction" button in auctionAdmin to cancel the loading animation
+        reject();
+      });
     });
   }
 
@@ -249,17 +261,46 @@ var Data = {};
       team: team
     };
 
-    axios({
-      method: 'PUT',
-      url: API_PUT.next_item,
-      data: reqBody,
-      headers: {
-        token: User.idToken
-      }
-    }).then(response => {
-      // next item submitted
-    }).catch(error => {
-      // only error would be a 401 not authorized
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'PUT',
+        url: API_PUT.next_item,
+        data: reqBody,
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        // next item submitted
+        // tells the "Next Item" button in auctionAdmin to cancel the loading animation
+        resolve();
+      }).catch(error => {
+        // only error would be a 401 not authorized
+        // tells the "Next Item" button in auctionAdmin to cancel the loading animation
+        reject();
+      });
+    });
+  }
+
+  obj.resetClock = (auctionId, leagueId) => {
+    let reqBody = {
+      auctionId: auctionId,
+      leagueId: leagueId,
+      userId: User.user_id
+    };
+
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'PUT',
+        url: API_PUT.reset_clock,
+        data: reqBody,
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        resolve();
+      }).catch(error => {
+        reject();
+      });
     });
   }
 
