@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
@@ -15,6 +15,10 @@ const containerStyle = {
 };
 
 function AuctionAdmin(props) {
+
+  const [startLoading, setStartLoading] = useState(false);
+  const [nextLoading, setNextLoading] = useState(false);
+  const [resetClockLoading, setResetClockLoading] = useState(false);
   
   const generateStartStopButton = () => {
     let btnText = 'Start Auction';
@@ -33,7 +37,16 @@ function AuctionAdmin(props) {
       name = 'n/a';
     }
 
-    return <Button type={btnType} disabled={disabled} style={btnStyle} onClick={startStopClick} name={name}>{btnText}</Button>
+    return (
+      <Button 
+        type={btnType} 
+        disabled={disabled} 
+        style={btnStyle} 
+        loading={startLoading} 
+        onClick={startStopClick} 
+        name={name}>{btnText}
+      </Button>
+    );
   }
 
   const startStopClick = (event) => {
@@ -53,15 +66,33 @@ function AuctionAdmin(props) {
     event.preventDefault();
 
     if (props.status === AUCTION_STATUS.ITEM_COMPLETE) {
-      DataService.nextItem(props.auctionId, props.leagueId);
+      setNextLoading(true);
+      DataService.nextItem(props.auctionId, props.leagueId).then(response => {
+        setNextLoading(false);
+      }).catch(error => {
+        setNextLoading(false);
+      });
+    }
+  }
+
+  const resetClock = (event) => {
+    event.preventDefault();
+
+    if (props.status === AUCTION_STATUS.ITEM_COMPLETE || props.status === AUCTION_STATUS.IN_PROGRESS) {
+      setResetClockLoading(true);
+      DataService.resetClock(props.auctionId, props.leagueId).then(response => {
+        setResetClockLoading(false);
+      }).catch(error => {
+        setResetClockLoading(false);
+      });
     }
   }
   
   return (
     <div className='admin-actions' style={containerStyle}>
       {generateStartStopButton()}
-      <Button type='primary' style={btnStyle} onClick={nextItem}>Next Item</Button>
-      <Button type='primary' style={btnStyle}>Reset Clock</Button>
+      <Button type='primary' style={btnStyle} loading={nextLoading} onClick={nextItem}>Next Item</Button>
+      <Button type='primary' style={btnStyle} loading={resetClockLoading} onClick={resetClock}>Reset Clock</Button>
     </div>
   );
 }
