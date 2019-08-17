@@ -58,5 +58,6 @@ export const API_GET = {
 };
 
 export const API_PUT = {
-  next_item: '/api/auction/next_item'
+  next_item: '/api/auction/next_item',
+  reset_clock: '/api/auction/reset_clock'
 };
