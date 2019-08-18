@@ -11,6 +11,7 @@ var Pubsub = {};
     let subs = obs[notif];
 
     for (var sub of subs) {
+      console.log(sub);
       sub.callback(data);
     }
   };

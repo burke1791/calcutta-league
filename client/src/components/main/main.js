@@ -33,7 +33,7 @@ function Main() {
 
   useEffect(() => {
     handleNewLeagueInfo();
-  });
+  }, []);
 
   const fetchLeagueInfo = () => {
     DataService.updateLeagueInfo();
@@ -74,7 +74,7 @@ function Main() {
   // which triggers a rerender to show the default table on the main page
   const handleSignout = () => {
     setLeagueSummaries([]);
-    navigate('/');
+    // navigate('/');
   }
 
   const newLeague = () => {
