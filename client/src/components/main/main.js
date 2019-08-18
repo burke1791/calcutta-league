@@ -10,6 +10,8 @@ import Pubsub from '../../utilities/pubsub';
 import { User } from '../../firebase/authService';
 import DataService, { Data } from '../../utilities/data';
 import { formatMoney } from '../../utilities/helper';
+import { navigate } from '@reach/router/lib/history';
+import { Redirect } from '@reach/router';
 
 function Main() {
 
@@ -72,6 +74,7 @@ function Main() {
   // which triggers a rerender to show the default table on the main page
   const handleSignout = () => {
     setLeagueSummaries([]);
+    navigate('/');
   }
 
   const newLeague = () => {
@@ -92,18 +95,25 @@ function Main() {
     }
   }
 
-  return (
-    <div>
-      <Row type='flex' justify='center'>
-        <Button type='primary' onClick={newLeague} style={{ margin: '20px 12px' }}>Start a League</Button>
-        <Button type='primary' onClick={joinLeague} style={{ margin: '20px 12px' }}>Join a League</Button>
-      </Row>
-      <Row type='flex' justify='center'>
-        <LeagueTable type='in-progress' list={leagueSummaries} />
-      </Row>
-      <LeagueModal />
-    </div>
-  );
+  if (User.user_id) {
+    return (
+      <div>
+        <Row type='flex' justify='center'>
+          <Button type='primary' onClick={newLeague} style={{ margin: '20px 12px' }}>Start a League</Button>
+          <Button type='primary' onClick={joinLeague} style={{ margin: '20px 12px' }}>Join a League</Button>
+        </Row>
+        <Row type='flex' justify='center'>
+          <LeagueTable type='in-progress' list={leagueSummaries} />
+        </Row>
+        <LeagueModal />
+      </div>
+    );
+  } else {
+    return (
+      <Redirect to='/' noThrow />
+    );
+  }
+  
 }
 
 export default Main;
