@@ -24,7 +24,10 @@ function AuthModal() {
     });
   }, []);
 
-  const showModal = () => {
+  const showModal = (type) => {
+    if (type) {
+      setFormType(type);
+    }
     setVisible(true);
   }
 
@@ -64,7 +67,7 @@ function AuthModal() {
       title={formType}
       visible={visible}
       onCancel={handleCancel}
-      style={{ maxWidth: '348px' }}
+      style={{ maxWidth: '348px', top: '50px' }}
       footer={null}
     >
       {generateForm()}
