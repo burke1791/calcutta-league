@@ -109,6 +109,20 @@ let league = {
     };
 
     orm.update(queryParams, cb);
+  },
+
+  updateAuctionStatus: (leagueObj, cb) => {
+    let queryParams = {
+      table: 'leagues',
+      set: [
+        { 'leagues.league_status': leagueObj.status }
+      ],
+      where: [
+        { 'leagues.league_id': leagueObj.id }
+      ]
+    };
+
+    orm.update(queryParams, cb);
   }
 }
 
