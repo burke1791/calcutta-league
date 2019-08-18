@@ -77,7 +77,7 @@ function Topnav() {
     <nav className='topnav'>
       <Menu theme='dark' mode='horizontal' selectable={false} onClick={handleMenuItemClicked} style={{ lineHeight: '64px' }}>
         <Menu.Item key='brand' style={{ fontSize: '32px' }}>
-          <Link to='/'>
+          <Link to='/home'>
             <span>Calcutta</span>
           </Link>
         </Menu.Item>
