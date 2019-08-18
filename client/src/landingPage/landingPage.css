@@ -141,8 +141,20 @@
     width: 95%;
   }
 
+  .info-block {
+    flex-direction: column;
+  }
+
+  .info-content {
+    order: 2;
+    text-align: center;
+    width: 100%;
+  }
+
   .info-img-container {
-    padding: 0 12px;
+    order: 1;
+    padding: 0 64px;
+    width: 100%
   }
 }
 
@@ -161,7 +173,19 @@
     width: 95%;
   }
 
+  .info-block {
+    flex-direction: column;
+  }
+
+  .info-content {
+    order: 2;
+    text-align: center;
+    width: 100%;
+  }
+
   .info-img-container {
-    padding: 0 12px;
+    order: 1;
+    padding: 0 64px;
+    width: 100%
   }
 }
