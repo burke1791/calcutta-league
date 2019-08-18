@@ -5,10 +5,9 @@ import { Router } from '@reach/router';
 import Topnav from './components/topnav/topnav';
 import Main from './components/main/main';
 
-import axios from 'axios'; // testing
-
 import { Layout } from 'antd';
 import League from './components/league/league';
+import LandingPage from './landingPage/landingPage';
 
 const { Header, Footer, Content } = Layout;
 
@@ -22,7 +21,8 @@ function App() {
         </Header>
         <Content style={{ margin: '0' }}>
           <Router>
-            <Main path='/' />
+            <LandingPage path='/' />
+            <Main path='/home' />
             <League path='leagues/:leagueId/*' />
           </Router>
         </Content>
