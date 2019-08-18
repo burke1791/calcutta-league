@@ -54,6 +54,13 @@ module.exports = function(app) {
             console.log('admin confirmed');
             console.log(result);
             firebase.startAuction(auctionId, team);
+            let auctionStatus = {
+              id: leagueId,
+              status: 'auction'
+            };
+            league.updateAuctionStatus(auctionStatus, (err, result) => {
+              console.log('auction status updated');
+            });
             res.status(200).json({
               message: 'Auction started'
             });
@@ -88,6 +95,13 @@ module.exports = function(app) {
           } else {
             console.log('admin confirmed');
             firebase.stopAuction(auctionId);
+            let auctionStatus = {
+              id: leagueId,
+              status: 'in-progress'
+            };
+            league.updateAuctionStatus(auctionStatus, (err, result) => {
+              console.log('auction status updated');
+            });
             res.status(200).json({
               message: 'Auction stopped'
             });
