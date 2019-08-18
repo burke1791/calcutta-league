@@ -38,7 +38,7 @@ function AuctionActions(props) {
 
   // updates local state with the new auction info from global state
   const handleAuctionUpdate = () => {
-    setTeamName('(' + +Auction.currentItem.seed + ') ' + Auction.currentItem.name);
+    setTeamName(generateTeamName());
     setHighBid(Auction.currentBid);
     
     // sets highBidder to the user's alias if Auction.currentWinner is a userId, otherwise sets it to "n/a"
@@ -57,6 +57,14 @@ function AuctionActions(props) {
     }
 
     setStatus(Auction.status);
+  }
+
+  const generateTeamName = () => {
+    if (Auction.currentItem.name) {
+      return '(' + +Auction.currentItem.seed + ') ' + Auction.currentItem.name;
+    }
+
+    return '';
   }
 
   const updateTotalSpent = () => {
