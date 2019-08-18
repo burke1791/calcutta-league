@@ -18,12 +18,12 @@ function Topnav() {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
-    Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
+    Pubsub.subscribe(NOTIF.SIGN_IN, Topnav, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_OUT, Topnav, handleSignout);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
-      Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, Topnav);
+      Pubsub.unsubscribe(NOTIF.SIGN_OUT, Topnav);
     });
   }, []);
 

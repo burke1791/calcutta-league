@@ -49,10 +49,10 @@ function LeagueHome(props) {
   const [status, setStatus] = useState(false);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, getLeagueInfo);
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, LeagueHome, getLeagueInfo);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, LeagueHome);
     });
   }, []);
 

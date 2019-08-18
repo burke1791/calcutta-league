@@ -18,16 +18,16 @@ function Main() {
   const [leagueSummaries, setLeagueSummaries] = useState([]);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
-    Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
-    Pubsub.subscribe(NOTIF.LEAGUE_JOINED, this, handleLeagueJoin);
-    Pubsub.subscribe(NOTIF.LEAGUE_SUMMARIES_FETCHED, this, handleNewLeagueInfo);
+    Pubsub.subscribe(NOTIF.SIGN_IN, Main, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_OUT, Main, handleSignout);
+    Pubsub.subscribe(NOTIF.LEAGUE_JOINED, Main, handleLeagueJoin);
+    Pubsub.subscribe(NOTIF.LEAGUE_SUMMARIES_FETCHED, Main, handleNewLeagueInfo);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
-      Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
-      Pubsub.unsubscribe(NOTIF.LEAGUE_JOINED, this);
-      Pubsub.unsubscribe(NOTIF.LEAGUE_SUMMARIES_FETCHED, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, Main);
+      Pubsub.unsubscribe(NOTIF.SIGN_OUT, Main);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_JOINED, Main);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_SUMMARIES_FETCHED, Main);
     });
   }, []);
 

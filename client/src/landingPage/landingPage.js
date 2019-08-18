@@ -13,14 +13,14 @@ import { Button } from 'antd';
 function LandingPage() {
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_IN, LandingPage, handleSignin);
 
     if (User.user_id) {
       navigate('/home');
     }
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, LandingPage);
     });
   }, []);
 

@@ -27,12 +27,12 @@ function AuctionActions(props) {
   const [status, setStatus] = useState(false);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, handleAuctionUpdate);
-    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, updateTotalSpent);
+    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, AuctionActions, handleAuctionUpdate);
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, AuctionActions, updateTotalSpent);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
-      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
+      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, AuctionActions);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, AuctionActions);
     });
   }, []);
 

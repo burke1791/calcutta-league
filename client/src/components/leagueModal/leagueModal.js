@@ -16,12 +16,12 @@ function LeagueModal() {
   const [formType, setFormType] = useState(LEAGUE_FORM_TYPE.CREATE);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.LEAGUE_MODAL_SHOW, this, showModal);
-    Pubsub.subscribe(NOTIF.LEAGUE_JOINED, this, handleCancel);
+    Pubsub.subscribe(NOTIF.LEAGUE_MODAL_SHOW, LeagueModal, showModal);
+    Pubsub.subscribe(NOTIF.LEAGUE_JOINED, LeagueModal, handleCancel);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.LEAGUE_MODAL_SHOW, this);
-      Pubsub.unsubscribe(NOTIF.LEAGUE_JOINED, this);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_MODAL_SHOW, LeagueModal);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_JOINED, LeagueModal);
     });
   }, []);
 

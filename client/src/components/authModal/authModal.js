@@ -15,12 +15,12 @@ function AuthModal() {
   const [formType, setFormType] = useState(AUTH_FORM_TYPE.SIGN_IN);
 
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, this, showModal);
-    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleCancel);
+    Pubsub.subscribe(NOTIF.AUTH_MODAL_SHOW, AuthModal, showModal);
+    Pubsub.subscribe(NOTIF.SIGN_IN, AuthModal, handleCancel);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.AUTH_MODAL_SHOW, this);
-      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+      Pubsub.unsubscribe(NOTIF.AUTH_MODAL_SHOW, AuthModal);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, AuthModal);
     });
   }, []);
 

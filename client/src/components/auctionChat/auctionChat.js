@@ -20,12 +20,12 @@ function AuctionChat(props) {
   useEffect(() => {
     DataService.startChatListener(props.auctionId);
 
-    Pubsub.subscribe(NOTIF.NEW_CHAT_MESSAGE, this, newMessage);
+    Pubsub.subscribe(NOTIF.NEW_CHAT_MESSAGE, AuctionChat, newMessage);
 
     return (() => {
       DataService.killChatListener();
 
-      Pubsub.unsubscribe(NOTIF.NEW_CHAT_MESSAGE, this);
+      Pubsub.unsubscribe(NOTIF.NEW_CHAT_MESSAGE, AuctionChat);
     });
   }, []);
 

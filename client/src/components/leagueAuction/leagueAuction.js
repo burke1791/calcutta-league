@@ -26,14 +26,14 @@ function LeagueAuction(props) {
     updateUserSummaries();
     DataService.startAuctionListener(props.auctionId);
 
-    Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this, auctionTeamsDownloaded);
-    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, this, handleNewAuctionData);
-    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this, updateUserSummaries);
+    Pubsub.subscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, LeagueAuction, auctionTeamsDownloaded);
+    Pubsub.subscribe(NOTIF.NEW_AUCTION_DATA, LeagueAuction, handleNewAuctionData);
+    Pubsub.subscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, LeagueAuction, updateUserSummaries);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, this);
-      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, this);
-      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, this);
+      Pubsub.unsubscribe(NOTIF.AUCTION_TEAMS_DOWNLOADED, LeagueAuction);
+      Pubsub.unsubscribe(NOTIF.NEW_AUCTION_DATA, LeagueAuction);
+      Pubsub.unsubscribe(NOTIF.LEAGUE_USER_SUMMARIES_FETCHED, LeagueAuction);
 
       DataService.killAuctionListener();
     });
