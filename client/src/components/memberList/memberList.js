@@ -13,7 +13,7 @@ const columns = [
   },
   {
     title: 'Total Paid',
-    dataIndex: 'buyIn',
+    dataIndex: 'buyInFormatted',
     key: 'buyIn'
   }
 ];

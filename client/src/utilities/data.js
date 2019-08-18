@@ -175,6 +175,7 @@ var Data = {};
       if (!teamObj.user_id) {
         team.id = teamObj.team_id;
         team.name = teamObj.team_name;
+        team.seed = teamObj.seed.match(/\d{1,}/g)[0] || '';
         break;
       }
     }
@@ -245,6 +246,7 @@ var Data = {};
       if (!teamObj.user_id && teamObj.team_id != Auction.currentItem.id) {
         team.id = teamObj.team_id;
         team.name = teamObj.team_name;
+        team.seed = teamObj.seed.match(/\d{1,}/g)[0] || '';
         break;
       }
     }
@@ -359,6 +361,7 @@ const packageLeagueInfo = (userSummaries) => {
     let leagueInfo = {
       name: userSummaries[0].league_name,
       auctionId: userSummaries[0].auction_id,
+      status: userSummaries[0].league_status,
       users: []
     };
 
@@ -380,9 +383,9 @@ const packageLeagueInfo = (userSummaries) => {
     // also formats the money value into a friendlier string representation
     leagueInfo.users.forEach((user, index) => {
       user.rank = index + 1
-      user.buyIn = formatMoney(user.buyIn || 0);
-      user.payout = formatMoney(user.payout || 0);
-      user.return = formatMoney(user.return || 0);
+      user.buyInFormatted = formatMoney(user.buyIn || 0);
+      user.payoutFormatted = formatMoney(user.payout || 0);
+      user.returnFormatted = formatMoney(user.return || 0);
     });
 
     return leagueInfo;
