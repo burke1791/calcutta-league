@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './landingPage.css';
-import bg from '../images/basketball_court_blur.png';
+import bg from '../images/basketball_court_blur_large.png';
 import auction from '../images/auction_icon.png';
 import money from '../images/cash_icon.png';
 import basketball from '../images/basketball_icon.jpg';
