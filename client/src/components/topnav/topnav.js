@@ -6,7 +6,7 @@ import AuthModal from '../authModal/authModal';
 import { Menu, Button, Icon } from 'antd';
 import 'antd/dist/antd.css';
 
-import { AUTH_MODAL_TYPE, NOTIF } from '../../utilities/constants';
+import { AUTH_FORM_TYPE, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import AuthService from '../../firebase/authService';
 
@@ -69,7 +69,7 @@ function Topnav() {
   const handleMenuItemClicked = (event) => {
     console.log(event);
     if (event.key === 'signin') {
-      Pubsub.publish(NOTIF.AUTH_MODAL_SHOW, null);
+      Pubsub.publish(NOTIF.AUTH_MODAL_SHOW, AUTH_FORM_TYPE.SIGN_IN);
     }
   }
 
