@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build --prefix ./client",
     "start": "node server.js",
     "server": "nodemon server.js",
@@ -12,7 +11,10 @@
     "client-install": "npm install --prefix ./client",
     "client-start": "npm start --prefix ./client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ./client && npm run build --prefix ./client",
-    "setup": "npm install --prefix ./client && npm install"
+    "setup": "npm install --prefix ./client && npm install",
+    "test": "npm test --prefix ./client",
+    "test-cover": "npm run test-cover --prefix ./client",
+    "coveralls": "cat ./client/coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.6",
     "nodemon": "^1.19.1"
   }
 }
