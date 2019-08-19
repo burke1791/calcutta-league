@@ -1,0 +1,16 @@
+
+language: node_js
+node_js:
+  - "stable"
+services:
+  - mysql
+cache:
+  directories:
+  - node_modules
+install:
+  - npm run setup
+script:
+  - npm run test-cover
+  - CI=false npm run build
+after_success:
+  - npm run coveralls
