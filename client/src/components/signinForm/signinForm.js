@@ -82,7 +82,7 @@ function SigninForm(props) {
           initialValue: true,
         })(<Checkbox>Remember me</Checkbox>)}
         <a href='#' className='login-form-forgot' style={{float: 'right'}}>Forgot password</a>
-        <Button type='primary' loading={props.loading} htmlType='submit' className='login-form-button' style={{width: '100%'}}>Sign In</Button>
+        <Button type='primary' loading={props.loading} htmlType='submit' className='login-form-button' style={{width: '100%'}} data-testid='signin-submit'>Sign In</Button>
         <Button type='link' onClick={() => props.toggleAuthForm(AUTH_FORM_TYPE.SIGN_UP)} style={{padding: '0'}}>Create an Account</Button>
       </Form.Item>
     </Form>
