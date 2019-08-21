@@ -1,6 +1,6 @@
 const formatMoney = (value) => {
   let moneyString;
-  value = parseFloat(value);
+  value = parseFloat(+value);
 
   if (value < 0) {
     moneyString = '-$';
