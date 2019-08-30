@@ -2,8 +2,19 @@ const auction = require('../models/auction');
 const league = require('../models/league');
 const firebase = require('../models/firebase');
 
+/**
+ * @todo put the firebase verify token function into express middleware
+ * @todo put the league verify admin function into express middleware
+ * @todo send useful error messages back to the client
+ */
+
 module.exports = function(app) {
-  // GET request returns an array of teams to be auctioned off
+
+  // =============== GET ROUTES ===============
+
+  /**
+   * Returns an array of teams that are in the auction, including what they sold for and who bought them (if sold)
+   */
   app.get('/api/auction_teams/:leagueId', (req, res, next) => {
     let params = {
       league_id: req.params.leagueId
@@ -27,8 +38,11 @@ module.exports = function(app) {
     });
   });
 
-  // POST request starts the auction
-  // verifies auth token with firebase then confirms that the user is authorized to start the auction
+  // =============== POST ROUTES ==============
+
+  /**
+   * Starts the auction after verifying the tokenId with firebase AND confirming the user sending the request is authorized to do so (i.e. role == 'admin' || role == 'creator')
+   */
   app.post('/api/auction/start', (req, res, next) => {
     let auctionId = req.body.auctionId;
     let userId = req.body.userId;
@@ -70,8 +84,9 @@ module.exports = function(app) {
     });
   });
 
-  // POST request stops the auction
-  // verifies auth token with firebase then confirms that the user is authorized to stop the auctions
+  /**
+   * Stops the auction after verifying the tokenId with firebase AND confirming the user is authorized to do so (i.e. role == 'admin' || role == 'creator')
+   */
   app.post('/api/auction/stop', (req, res, next) => {
     let auctionId = req.body.auctionId;
     let userId = req.body.userId;
@@ -111,6 +126,11 @@ module.exports = function(app) {
     });
   });
 
+  // =============== PUT ROUTES ==============
+
+  /**
+   * Confirms user authorization then resets the auction clock of a given item, even after the clock hits zero.
+   */
   app.put('/api/auction/reset_clock', (req, res, next) => {
     let auctionId = req.body.auctionId;
     let userId = req.body.userId;
@@ -142,6 +162,10 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   * Commits the sale of the current item and then starts the clock for the next auction item
+   * @todo break this up - DRY!
+   */
   app.put('/api/auction/next_item', (req, res, next) => {
     let auctionId = req.body.auctionId;
     let userId = req.body.userId;

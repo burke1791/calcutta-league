@@ -1,6 +1,9 @@
 const orm = require('../config/orm');
 
 let user = {
+  /**
+   * Inserts a record into the users table on account creation
+   */
   create: (userObj, cb) => {
     let queryParams = {
       table: 'users',
