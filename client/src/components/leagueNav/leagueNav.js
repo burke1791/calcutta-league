@@ -10,6 +10,8 @@ function LeagueNav(props) {
       navigate(`/leagues/${props.leagueId}`);
     } else if (event.key == 'auction') {
       navigate(`/leagues/${props.leagueId}/auction`);
+    } else if (event.key == 'messageBoard') {
+      navigate(`/leagues/${props.leagueId}/message_board`)
     }
   }
 
@@ -21,6 +23,9 @@ function LeagueNav(props) {
         </Menu.Item>
         <Menu.Item key='auction'>
           Auction
+        </Menu.Item>
+        <Menu.Item key='messageBoard'>
+          Message Board
         </Menu.Item>
       </Menu>
     </nav>
