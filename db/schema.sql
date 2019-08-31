@@ -140,3 +140,16 @@ CREATE TABLE `message_board` (
   FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create message_board - end';
+
+select 'create message_thread - begin';
+CREATE TABLE `message_thread` (
+  `message_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `content` VARCHAR(1000) NOT NULL,
+  `created` TIMESTAMP,
+  PRIMARY KEY (`message_id`),
+  FOREIGN KEY (`topic_id`) REFERENCES `message_board` (`topic_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+select 'create message_thread - end';
