@@ -127,3 +127,16 @@ CREATE TABLE `tournament_results` (
   FOREIGN KEY (`l_team_id`) REFERENCES `teams` (`team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create tournament_results - end';
+
+select 'create message_board - begin';
+CREATE TABLE `message_board` (
+  `topic_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `league_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `title` VARCHAR(128) NOT NULL DEFAULT 'A Provocative Title',
+  `created` TIMESTAMP,
+  PRIMARY KEY (`topic_id`),
+  FOREIGN KEY (`league_id`) REFERENCES `leagues` (`league_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+select 'create message_board - end';
