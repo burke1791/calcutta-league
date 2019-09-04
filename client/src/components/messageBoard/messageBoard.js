@@ -3,6 +3,9 @@ import './messageBoard.css';
 
 import { Layout, Table, Row, Button } from 'antd';
 import 'antd/dist/antd.css';
+import DataService, { Data } from '../../utilities/data';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
 
 
 const { Header, Content } = Layout;
@@ -13,22 +16,34 @@ function MessageBoard(props) {
   const [topicList, setTopicList] = useState([]);
 
   useEffect(() => {
-    setTopicList([
-      {
-        topic: {
-          title: 'Test Dummy Data',
-          author: 'Burke',
-          id: 1
-        },
-        created: new Date().toLocaleTimeString(),
-        lastPost: {
-          author: 'Burke',
-          created: new Date().toLocaleTimeString()
-        },
-        postCount: 69
-      }
-    ])
-  });
+    // setTopicList([
+    //   {
+    //     topic: {
+    //       title: 'Test Dummy Data',
+    //       author: 'Burke',
+    //       id: 1
+    //     },
+    //     created: new Date().toLocaleTimeString(),
+    //     lastPost: {
+    //       author: 'Burke',
+    //       created: new Date().toLocaleTimeString()
+    //     },
+    //     postCount: 69
+    //   }
+    // ]);
+
+    Pubsub.subscribe(NOTIF.MESSAGE_BOARD_TOPICS_DOWNLOADED, MessageBoard, topicsDownloaded);
+
+    DataService.getMessageBoardTopics(props.leagueId);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.MESSAGE_BOARD_TOPICS_DOWNLOADED, MessageBoard);
+    });
+  }, []);
+
+  const topicsDownloaded = () => {
+    setTopicList(Data.messageBoardTopics);
+  }
 
   const topicClicked = (topicId) => {
     // navigate to the MessageThread component
