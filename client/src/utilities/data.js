@@ -72,6 +72,22 @@ var Data = {};
     });
   }
 
+  obj.getMessageBoardTopics = (leagueId) => {
+    axios({
+      method: 'GET',
+      url: API_GET.message_board_topics + leagueId,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Data.messageBoardTopics = packageMessageBoardTopics(JSON.parse(JSON.stringify(response.data)));
+      Pubsub.publish(NOTIF.MESSAGE_BOARD_TOPICS_DOWNLOADED);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   obj.getAuctionTeams = (leagueId) => {
     axios({
       method: 'GET',
@@ -392,6 +408,25 @@ const packageLeagueInfo = (userSummaries) => {
   }
 
   return null;
+}
+
+const packageMessageBoardTopics = (topicArr) => {
+  return topicArr.map(topicObj => {
+    let threadObj = {
+      topic: {
+        id: topicObj.topic_id,
+        title: topicObj.title
+      },
+      created: topicObj.created,
+      lastPost: {
+        author: topicObj.last_post_author || 'n/a',
+        created: topicObj.last_post_created || 0
+      },
+      postCount: topicObj.post_count || 0
+    };
+
+    return threadObj;
+  });
 }
 
 const setNewAuctionData = (auctionObj) => {
