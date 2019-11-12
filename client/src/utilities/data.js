@@ -425,7 +425,8 @@ const packageMessageBoardTopics = (topicArr) => {
         authorId: topicObj.lastPostAuthorId,
         created: formatDatestamp(topicObj.lastPostCreated) || 0
       },
-      postCount: topicObj.postCount || 0
+      postCount: topicObj.postCount || 0,
+      key: topicObj.topicId
     };
 
     return threadObj;
