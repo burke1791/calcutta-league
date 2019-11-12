@@ -16,22 +16,6 @@ function MessageBoard(props) {
   const [topicList, setTopicList] = useState([]);
 
   useEffect(() => {
-    // setTopicList([
-    //   {
-    //     topic: {
-    //       title: 'Test Dummy Data',
-    //       author: 'Burke',
-    //       id: 1
-    //     },
-    //     created: new Date().toLocaleTimeString(),
-    //     lastPost: {
-    //       author: 'Burke',
-    //       created: new Date().toLocaleTimeString()
-    //     },
-    //     postCount: 69
-    //   }
-    // ]);
-
     Pubsub.subscribe(NOTIF.MESSAGE_BOARD_TOPICS_DOWNLOADED, MessageBoard, topicsDownloaded);
 
     DataService.getMessageBoardTopics(props.leagueId);
@@ -48,6 +32,11 @@ function MessageBoard(props) {
   const topicClicked = (topicId) => {
     // navigate to the MessageThread component
     console.log('topic: ' + topicId);
+  }
+
+  const userClicked = (userId) => {
+    // navigate to the User's page
+    console.log('user: ' + userId);
   }
 
   const columns = [
@@ -72,6 +61,7 @@ function MessageBoard(props) {
               <Button 
                 type='link'
                 size='small'
+                onClick={() => userClicked(topicObj.authorId)}
               >
                 {topicObj.author}
               </Button>
@@ -84,18 +74,27 @@ function MessageBoard(props) {
       title: 'Created',
       dataIndex: 'created',
       align: 'left',
-      width: 150
+      width: 250
     },
     {
       title: 'Last Post',
       dataIndex: 'lastPost',
       align: 'left',
-      width: 150,
+      width: 250,
       render: lastPostObj => {
         return (
           <div className='lastPost'>
             <p className='margin-0'>{lastPostObj.created}</p>
-            <p className='margin-0'>by {lastPostObj.author}</p>
+            <p className='margin-0'>
+              by 
+              <Button
+                type='link'
+                size='small'
+                onClick={() => userClicked(lastPostObj.authorId)}
+              >
+                {lastPostObj.author}  
+              </Button>
+            </p>
           </div>
         )
       }
