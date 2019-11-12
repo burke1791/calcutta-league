@@ -4,7 +4,7 @@ import Pubsub from '../utilities/pubsub';
 import axios from 'axios';
 import AuthService, { User } from '../firebase/authService';
 import { db, dbObj } from '../firebase/firebase';
-import { formatMoney } from './helper';
+import { formatMoney, formatDatestamp } from './helper';
 
 var DataService = {};
 
@@ -414,15 +414,18 @@ const packageMessageBoardTopics = (topicArr) => {
   return topicArr.map(topicObj => {
     let threadObj = {
       topic: {
-        id: topicObj.topic_id,
-        title: topicObj.title
+        id: topicObj.topicId,
+        title: topicObj.title,
+        author: topicObj.threadAuthor,
+        authorId: topicObj.threadAuthorId
       },
-      created: topicObj.created,
+      created: formatDatestamp(topicObj.threadCreated),
       lastPost: {
-        author: topicObj.last_post_author || 'n/a',
-        created: topicObj.last_post_created || 0
+        author: topicObj.lastPostAuthor || 'n/a',
+        authorId: topicObj.lastPostAuthorId,
+        created: formatDatestamp(topicObj.lastPostCreated) || 0
       },
-      postCount: topicObj.post_count || 0
+      postCount: topicObj.postCount || 0
     };
 
     return threadObj;
