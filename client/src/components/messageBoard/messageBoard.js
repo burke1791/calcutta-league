@@ -12,7 +12,7 @@ const { Header, Content } = Layout;
 
 function MessageBoard(props) {
 
-  const [leagueName, setLeagueName] = useState('Test Name');
+  const [leagueName, setLeagueName] = useState(Data.leagueInfo.name || '');
   const [topicList, setTopicList] = useState([]);
 
   useEffect(() => {
