@@ -25,6 +25,7 @@ export const NOTIF = {
   LEAGUE_SUMMARIES_FETCHED: 'league_summaries_fetched',
   LEAGUE_USER_SUMMARIES_FETCHED: 'league_user_summaries_fetched',
   MESSAGE_BOARD_TOPICS_DOWNLOADED: 'message_board_topics_downloaded',
+  MESSAGE_THREAD_DOWNLOADED: 'message_thread_downloaded',
   AUCTION_TEAMS_DOWNLOADED: 'auction_teams_downloaded',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out',
@@ -56,7 +57,8 @@ export const API_GET = {
   league_summaries: '/api/league_summaries',
   league_user_summaries: '/api/league_user_summaries/',
   auction_teams: '/api/auction_teams/',
-  message_board_topics: '/api/message_board/all/'
+  message_board_topics: '/api/message_board/all/',
+  message_thread: '/api/message_thread/'
 };
 
 export const API_PUT = {
