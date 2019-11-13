@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './messageBoard.css';
 
+import { navigate } from '@reach/router';
+
 import { Layout, Table, Row, Button } from 'antd';
 import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
@@ -32,6 +34,7 @@ function MessageBoard(props) {
   const topicClicked = (topicId) => {
     // navigate to the MessageThread component
     console.log('topic: ' + topicId);
+    navigate(`/leagues/${props.leagueId}/message_board/${topicId}`)
   }
 
   const userClicked = (userId) => {
