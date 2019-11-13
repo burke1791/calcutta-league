@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './messageThread.css';
 
-import { Layout, Row, Button, Comment, List, Form, Input } from 'antd';
+import { Layout, Row, Button, Comment, List, Form, Input, Avatar } from 'antd';
 import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
@@ -14,6 +14,8 @@ function MessageThread(props) {
   
   const [topicName, setTopicName] = useState('');
   const [messages, setMessages] = useState([]);
+  const [newMessageContent, setNewMessageContent] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MESSAGE_THREAD_DOWNLOADED, MessageThread, messagesDownloaded);
@@ -28,6 +30,21 @@ function MessageThread(props) {
   const messagesDownloaded = () => {
     setMessages(Data.messageThread);
   }
+
+  const userClicked = (userId) => {
+    // navigate to the user's profile page
+    console.log('user: ' + userId);
+  }
+
+  const handleNewMessageChange = (event) => {
+    setNewMessageContent(event.target.value);
+  }
+
+  const submitNewMessage = () => {
+    // perform validation then send to server
+    console.log('submit new message');
+    setSubmitting(true);
+  }
   
   return (
     <div>
@@ -39,7 +56,7 @@ function MessageThread(props) {
           <Row type='flex' justify='center'>
             <List
               className="chat-window"
-              header={`${data.length} replies`}
+              // header={`${data.length} replies`}
               itemLayout="horizontal"
               dataSource={messages}
               renderItem={item => (
@@ -66,11 +83,11 @@ function MessageThread(props) {
           <Row type='flex' justify='center'>
             <div>
               <Form.Item>
-                <TextArea rows={4} onChange={onChange} value={value} />
+                <TextArea rows={4} onChange={handleNewMessageChange} value={newMessageContent} />
               </Form.Item>
               <Form.Item>
-                <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-                  Add Comment
+                <Button htmlType="submit" loading={submitting} onClick={submitNewMessage} type="primary">
+                  Send Message
                 </Button>
               </Form.Item>
             </div>
