@@ -58,7 +58,7 @@ export const API_GET = {
   league_user_summaries: '/api/league_user_summaries/',
   auction_teams: '/api/auction_teams/',
   message_board_topics: '/api/message_board/all/',
-  message_thread: '/api/message_thread/'
+  message_thread: '/api/message_board/topic/'
 };
 
 export const API_PUT = {
