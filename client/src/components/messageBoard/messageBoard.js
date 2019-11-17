@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
+import MessageBoardModal from '../messageBoardModal/messageBoardModal';
 
 
 const { Header, Content } = Layout;
@@ -29,6 +30,11 @@ function MessageBoard(props) {
 
   const topicsDownloaded = () => {
     setTopicList(Data.messageBoardTopics);
+  }
+
+  const newTopicClicked = () => {
+    // post a notification to display the new topic modal
+    Pubsub.publish(NOTIF.MESSAGE_BOARD_MODAL_SHOW, props.leagueId);
   }
 
   const topicClicked = (topicId) => {
@@ -116,17 +122,23 @@ function MessageBoard(props) {
         <Header style={{ background: 'none', textAlign: 'center' }}>
           <h1 style={{ fontSize: '32px' }}>{leagueName} Message Board</h1>
         </Header>
-        <Content>
-          <Row type='flex' justify='center'>
-            <Table 
-              columns={columns}
-              dataSource={topicList}
-              size='small'
-              pagination={false}
-            />
-          </Row>
+        <Content style={{ margin: '0 20px'}}>
+          <Button 
+            type='primary'
+            style={{ margin: '12px 0'}}
+            onClick={newTopicClicked}
+          >
+            New Topic
+          </Button>
+          <Table 
+            columns={columns}
+            dataSource={topicList}
+            size='small'
+            pagination={false}
+          />
         </Content>
       </Layout>
+      <MessageBoardModal />
     </div>
   );
 }
