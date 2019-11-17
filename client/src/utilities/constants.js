@@ -8,6 +8,10 @@ export const LEAGUE_FORM_TYPE = {
   JOIN: 'Join a League'
 };
 
+export const MESSAGE_BOARD_FORM_TYPE = {
+  NEW_TOPIC: 'New Topic'
+};
+
 export const AUCTION_STATUS = {
   INITIAL: 'initial',
   IN_PROGRESS: 'in-progress',
@@ -25,6 +29,7 @@ export const NOTIF = {
   LEAGUE_SUMMARIES_FETCHED: 'league_summaries_fetched',
   LEAGUE_USER_SUMMARIES_FETCHED: 'league_user_summaries_fetched',
   MESSAGE_BOARD_TOPICS_DOWNLOADED: 'message_board_topics_downloaded',
+  MESSAGE_BOARD_MODAL_SHOW: 'message_board_modal_show',
   MESSAGE_THREAD_DOWNLOADED: 'message_thread_downloaded',
   AUCTION_TEAMS_DOWNLOADED: 'auction_teams_downloaded',
   SIGN_IN: 'sign_in',
@@ -49,7 +54,8 @@ export const API_POST = {
   create_league: '/api/create_league',
   join_league: 'api/join_league',
   start_auction: '/api/auction/start',
-  stop_auction: '/api/auction/stop'
+  stop_auction: '/api/auction/stop',
+  new_topic: '/api/message_board/new_topic'
 };
 
 export const API_GET = {
