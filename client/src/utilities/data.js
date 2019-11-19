@@ -89,20 +89,24 @@ var Data = {};
   }
 
   obj.postNewMessageBoardTopic = (leagueId, title, content) => {
-    axios({
-      method: 'POST',
-      url: API_POST.new_topic,
-      data: {
-        leagueId: leagueId,
-        title: title,
-        content: content
-        // @TODO URGENT send leagueId and userId in the payload
-      },
-      headers: {
-        token: User.idToken
-      }
-    }).then(response => {
-      console.log(response);
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'POST',
+        url: API_POST.new_topic,
+        data: {
+          leagueId: leagueId,
+          title: title,
+          content: content
+        },
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        console.log(response);
+        resolve();
+      }).catch(error => {
+        reject('error posting new topic - implement proper error handling');
+      });
     });
   }
 
