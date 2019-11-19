@@ -33,4 +33,10 @@ module.exports = function(app) {
     // check if the user is allowed to access the topic thread
     res.end();
   });
+
+  app.post('/api/message_board/new_topic', (req, res, next) => {
+    console.log(req.body);
+
+    res.end();
+  })
 }
