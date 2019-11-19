@@ -1,4 +1,5 @@
 const message = require('../models/message');
+const firebase = require('../models/firebase');
 
 module.exports = function(app) {
   // =============== GET ROUTES ===============
@@ -34,8 +35,34 @@ module.exports = function(app) {
     res.end();
   });
 
+  /**
+   * verifies token with firebase
+   * verifies the user is a member of the league s/he's trying to post to
+   * inserts the new topic and the first message into the database
+   */
   app.post('/api/message_board/new_topic', (req, res, next) => {
-    console.log(req.body);
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.json({
+          message: 'ERROR!'
+        });
+      } else {
+        let topicObj = {
+          league_id: req.body.leagueId,
+          title: req.body.title,
+          uid: uid
+        }
+        message.postNewTopic(topicObj, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result);
+            console.log('Now insert the message in message_thread');
+          }
+        })
+      }
+    })
 
     res.end();
   })
