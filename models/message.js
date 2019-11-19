@@ -13,6 +13,15 @@ let message = {
     // orm.select(queryParams, cb);
 
     customQueries.getMessageThreadMetaData(messageObj.league_id, cb);
+  },
+
+  postNewTopic: (topicObj, cb) => {
+    let queryParams = {
+      table: 'message_board',
+      data: topicObj
+    }
+    
+    orm.insert(queryParams, cb);
   }
 };
 
