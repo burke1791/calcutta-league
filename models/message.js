@@ -21,7 +21,8 @@ let message = {
       data: topicObj
     }
     
-    orm.insert(queryParams, cb);
+    //orm.insert(queryParams, cb);
+    customQueries.insertNewMessageBoardTopic(topicObj, cb);
   }
 };
 
