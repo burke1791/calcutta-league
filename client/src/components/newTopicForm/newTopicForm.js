@@ -75,6 +75,7 @@ function NewTopicForm(props) {
       </Form.Item>
       <Form.Item>
         <Button type='primary' loading={props.loading} htmlType='submit'>Submit</Button>
+        <Button type='link' onClick={() => {props.handleCancel()}} style={{ color: '#8e8e8e' }}>Cancel</Button>
       </Form.Item>
     </Form>
   );

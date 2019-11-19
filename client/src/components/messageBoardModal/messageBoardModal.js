@@ -44,7 +44,7 @@ function MessageBoardModal() {
   const generateForm = () => {
     // use this function to return different forms if future development goes that direction
     return (
-      <WrappedNewTopicForm loading={loading} toggleLoading={toggleLoading} leagueId={leagueId} />
+      <WrappedNewTopicForm loading={loading} toggleLoading={toggleLoading} handleCancel={handleCancel} leagueId={leagueId} />
     );
   }
 
