@@ -14,6 +14,14 @@ let customQueries = {
     let query = connection.query(queryString, (err, result) => {
       cb(err, result);
     });
+  },
+
+  insertNewMessageBoardTopic: (topicObj, cb) => {
+    let queryString = 'Insert Into message_board (league_id, user_id, title) Select lm.league_id, u.user_id, "' + topicObj.title + '" From users u Inner Join league_membership lm On u.user_id = lm.user_id Where lm.league_id = ' + topicObj.league_id + ' And u.uid = "' + topicObj.uid + '"';
+
+    let query = connection.query(queryString, (err, result) => {
+      cb(err, result);
+    });
   }
 }
 
