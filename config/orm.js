@@ -35,6 +35,15 @@ let orm = {
     }
   },
 
+  // used for inserting records that require a user_id foreign key where the firebase uid is known
+  /**
+   * @todo complete this so I don't have to use customQueries
+   */
+  insertByUid: (params, cb) => {
+    let queryString = 'INSERT INTO ?? SET ?';
+    
+  },
+
   update: (params, cb) => {
     let queryString = 'UPDATE ??';
     queryString += updateQueryBuilder(params);
