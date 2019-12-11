@@ -53,7 +53,7 @@ function MessageBoardModal() {
       title={'New Topic'}
       visible={visible}
       onCancel={handleCancel}
-      style={{ maxWidth: '320px', top: '50px' }}
+      style={{ maxWidth: '500px', top: '50px' }}
       footer={null}
     >
       {generateForm()}

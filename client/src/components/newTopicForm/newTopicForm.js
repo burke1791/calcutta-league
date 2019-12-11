@@ -45,7 +45,7 @@ function NewTopicForm(props) {
   }
 
   return (
-    <Form onSubmit={handleSubmit} className='new-topic-form' style={{ maxWidth: '300px' }}>
+    <Form onSubmit={handleSubmit} className='new-topic-form' style={{ maxWidth: '480px' }}>
       <Form.Item>
         {getFieldDecorator('topicTitle', {
           rules: [
@@ -70,7 +70,7 @@ function NewTopicForm(props) {
             }
           ]
         })(
-          <TextArea rows={4} />
+          <TextArea rows={8} />
         )}
       </Form.Item>
       <Form.Item>
