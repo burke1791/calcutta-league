@@ -24,15 +24,29 @@ module.exports = function(app) {
 
   // checks if the user is a member of the league by its id (deduced via the topic id),
   // then returns all of the messages in that topic's thread
-  /**
-   * @todo verify the user's token with firebase then send the uid to model file
-   */
   app.get('/api/message_board/topic/:topicId', (req, res, next) => {
-    let params = {
-      topic_id: req.params.topicId
-    };
-    // check if the user is allowed to access the topic thread
-    res.end();
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) { 
+        console.log(error);
+        res.json({
+          message: 'ERROR!'
+        });
+      } else {
+        let params = {
+          uid: uid,
+          topic_id: req.params.topicId
+        };
+
+        message.getAllMessagesInThread(params, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result)
+            res.status(200).json(result);
+          }
+        })
+      }
+    });
   });
 
   /**
@@ -57,13 +71,24 @@ module.exports = function(app) {
           if (err) {
             console.log(err);
           } else {
-            console.log(result);
-            console.log('Now insert the message in message_thread');
+            let messageObj = {
+              league_id: req.body.leagueId,
+              topic_id: result.insertId,
+              content: req.body.content,
+              uid: uid
+            };
+            
+            message.postMessageInThread(messageObj, (err, result) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(result)
+                res.status(200).json(result);
+              }
+            });
           }
         })
       }
-    })
-
-    res.end();
+    });
   })
 }
