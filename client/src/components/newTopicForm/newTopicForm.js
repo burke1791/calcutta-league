@@ -23,7 +23,10 @@ function NewTopicForm(props) {
         console.log('content: ' + content);
 
         // make a post request
-        DataService.postNewMessageBoardTopic(props.leagueId, title, content).catch(error => {
+        DataService.postNewMessageBoardTopic(props.leagueId, title, content).then(response => {
+          console.log('should populate the message board table with the new thread - just query for all topics again');
+          props.handleCancel();
+        }).catch(error => {
           // @TODO refactor to proper error handling
           setErrorMessage('Server Error, please try again later');
           props.toggleLoading(false);
