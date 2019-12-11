@@ -62,7 +62,7 @@ function MessageThread(props) {
               renderItem={item => (
                 <li>
                   <Comment
-                    actions={item.actions}
+                    //actions={item.actions}
                     author={<Button type='link' size='small' onClick={() => userClicked(item.authorId)}>{item.author}</Button>}
                     avatar={
                       <Avatar icon='user' />
