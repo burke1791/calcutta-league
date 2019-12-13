@@ -474,11 +474,11 @@ const packageMessageBoardTopics = (topicArr) => {
 const packageMessageThread = (messages) => {
   return messages.map(messageObj => {
     let message = {
-      authorId: messageObj.authorId,
-      author: messageObj.author,
+      authorId: messageObj.user_id,
+      author: messageObj.alias,
       content: messageObj.content,
       messageId: messageObj.messageId,
-      created: messageObj.created
+      created: new Date(messageObj.created).toLocaleString()
     };
 
     return message;
