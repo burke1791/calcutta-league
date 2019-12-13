@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './messageThread.css';
 
-import { Layout, Row, Button, Comment, List, Form, Input, Avatar } from 'antd';
+import { Layout, Row, Button, Comment, List, Form, Input, Avatar, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
@@ -50,6 +50,10 @@ function MessageThread(props) {
     <div>
       <Layout>
         <Header style={{ background: 'none', textAlign: 'center' }}>
+          <Button type='primary'>
+            <Icon type='left' />
+            Back
+          </Button>
           <h1 style={{ fontSize: '32px' }}>{topicName}</h1>
         </Header>
         <Content>
@@ -59,11 +63,12 @@ function MessageThread(props) {
               // header={`${data.length} replies`}
               itemLayout="horizontal"
               dataSource={messages}
+              style={{ width: '60%' }}
               renderItem={item => (
                 <li>
                   <Comment
                     //actions={item.actions}
-                    author={<Button type='link' size='small' onClick={() => userClicked(item.authorId)}>{item.author}</Button>}
+                    author={<Button type='link' style={{ padding: '0' }} size='small' onClick={() => userClicked(item.authorId)}>{item.author}</Button>}
                     avatar={
                       <Avatar icon='user' />
                     }
@@ -81,7 +86,7 @@ function MessageThread(props) {
             />
           </Row>
           <Row type='flex' justify='center'>
-            <div>
+            <div style={{ width: '60%' }}>
               <Form.Item>
                 <TextArea rows={4} onChange={handleNewMessageChange} value={newMessageContent} />
               </Form.Item>
