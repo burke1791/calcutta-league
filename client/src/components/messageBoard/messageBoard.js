@@ -61,6 +61,7 @@ function MessageBoard(props) {
               type='link'
               style={{ display: 'block', padding: '0' }}
               size='small'
+              data-link='nonRow'
               onClick={() => topicClicked(topicObj.id)}
             >
               {topicObj.title}
@@ -70,6 +71,7 @@ function MessageBoard(props) {
               <Button 
                 type='link'
                 size='small'
+                data-link='nonRow'
                 onClick={() => userClicked(topicObj.authorId)}
               >
                 {topicObj.author}
@@ -99,6 +101,7 @@ function MessageBoard(props) {
               <Button
                 type='link'
                 size='small'
+                data-link='nonRow'
                 onClick={() => userClicked(lastPostObj.authorId)}
               >
                 {lastPostObj.author}  
@@ -135,6 +138,17 @@ function MessageBoard(props) {
             dataSource={topicList}
             size='small'
             pagination={false}
+            onRow={
+              (record, index) => {
+                return {
+                  onClick: (event) => {
+                    if (event.target.getAttribute('data-link') !== 'nonRow') {
+                      topicClicked(record.topic.id);
+                    }
+                  }
+                }
+              }
+            }
           />
         </Content>
       </Layout>
