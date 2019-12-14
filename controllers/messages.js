@@ -90,5 +90,35 @@ module.exports = function(app) {
         })
       }
     });
-  })
+  });
+
+  /**
+   * posts a new message in a specific message thread
+   */
+  app.post('api/message_thread/new_message', (req, res, next) => {
+    firebase.verifyToken(req.headers.token, (error, uid) => {
+      if (error) {
+        console.log(error);
+        res.json({
+          message: 'FIREBASE ERROR!'
+        });
+      } else {
+        let messageObj = {
+          league_id: req.body.leagueId,
+          topic_id: req.body.topicId,
+          content: req.body.content,
+          uid: uid
+        };
+
+        message.postNewMessage(messageObj, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result);
+            res.status(200).json(result);
+          }
+        });
+      }
+    });
+  });
 }
