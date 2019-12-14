@@ -14,24 +14,30 @@ const { TextArea } = Input;
 
 function MessageThread(props) {
   
-  const [topicName, setTopicName] = useState('');
   const [messages, setMessages] = useState([]);
   const [newMessageContent, setNewMessageContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MESSAGE_THREAD_DOWNLOADED, MessageThread, messagesDownloaded);
+    Pubsub.subscribe(NOTIF.NEW_MESSAGE_POSTED, MessageThread, newMessagePosted);
 
     DataService.downloadMessageThread(props.topicId);
-    console.log(props.location.state);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.MESSAGE_THREAD_DOWNLOADED, MessageThread);
+      Pubsub.unsubscribe(NOTIF.NEW_MESSAGE_POSTED, MessageThread);
     });
   }, []);
 
   const messagesDownloaded = () => {
     setMessages(Data.messageThread);
+  }
+
+  const newMessagePosted = () => {
+    setSubmitting(false);
+    setNewMessageContent('');
+    DataService.downloadMessageThread(props.topicId);
   }
 
   const backBtnClicked = () => {
@@ -49,8 +55,10 @@ function MessageThread(props) {
 
   const submitNewMessage = () => {
     // perform validation then send to server
-    console.log('submit new message');
-    setSubmitting(true);
+    if (!!newMessageContent) {
+      setSubmitting(true);
+      DataService.postNewMessage(props.leagueId, props.topicId, newMessageContent)
+    }
   }
   
   return (
