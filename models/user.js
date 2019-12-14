@@ -35,6 +35,7 @@ let user = {
     let queryArray = [
       'users.user_id',
       'users.alias',
+      'users.permissions',
       'leagues.league_id',
       'leagues.league_name',
       'leagues.league_status',
@@ -84,6 +85,7 @@ const packageUserInfoAndCheckIntegrity = (data) => {
       // will optimize in the future if necessary
       packagedUserInfo.user_id = row.user_id;
       packagedUserInfo.alias = row.alias;
+      packagedUserInfo.permissions = row.permissions;
       if (row.league_id) {
         packagedUserInfo.leagues.push({
           league_id: row.league_id,

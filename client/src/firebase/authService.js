@@ -69,6 +69,7 @@ auth.onAuthStateChanged(userData => {
         console.log(response);
         User.user_id = response.data.user_id;
         User.alias = response.data.alias;
+        User.permissions = response.data.permissions;
         Data.leagues = JSON.parse(JSON.stringify(response.data.leagues));
         console.log(Data.leagues);
         Pubsub.publish(NOTIF.SIGN_IN, null);
