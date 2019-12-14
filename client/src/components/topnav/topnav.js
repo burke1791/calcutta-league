@@ -8,7 +8,7 @@ import 'antd/dist/antd.css';
 
 import { AUTH_FORM_TYPE, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
-import AuthService from '../../firebase/authService';
+import AuthService, { User } from '../../firebase/authService';
 
 
 const { SubMenu } = Menu;
@@ -35,6 +35,36 @@ function Topnav() {
     setAuthenticated(false);
   }
 
+  const generateAuthenticatedDropdown = () => {
+    let menu = [
+      <Menu.Item key='signout' style={{textAlign: 'center'}}  >
+        <Button 
+          type='danger' 
+          onClick={() => AuthService.signout()}
+        >
+          Sign Out
+        </Button>
+      </Menu.Item>
+    ];
+
+    if (User.permissions === 'herald') {
+      menu.unshift(
+        <Menu.Item key='admin' style={{textAlign: 'center'}}  >
+          <Button 
+            type='primary' 
+            onClick={() => navigate(`/admin`)}
+          >
+            Admin
+          </Button>
+        </Menu.Item>
+      );
+
+      return menu;
+    } else {
+      return menu;
+    }
+  }
+
   const generateAuthMenu = () => {
     if (authenticated) {
       return (
@@ -47,14 +77,7 @@ function Topnav() {
           }
           style={{ float: 'right' }}
         >
-          <Menu.Item key='signout' style={{textAlign: 'center'}}  >
-            <Button 
-              type='danger' 
-              onClick={() => AuthService.signout()}
-            >
-              Sign Out
-            </Button>
-          </Menu.Item>
+          {generateAuthenticatedDropdown()}
         </SubMenu>
       );
     } else {
