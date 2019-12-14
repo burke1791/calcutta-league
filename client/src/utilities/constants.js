@@ -55,7 +55,8 @@ export const API_POST = {
   join_league: 'api/join_league',
   start_auction: '/api/auction/start',
   stop_auction: '/api/auction/stop',
-  new_topic: '/api/message_board/new_topic'
+  new_topic: '/api/message_board/new_topic',
+  new_message: '/api/message_thread/new_message'
 };
 
 export const API_GET = {
