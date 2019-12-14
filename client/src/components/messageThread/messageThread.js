@@ -56,7 +56,7 @@ function MessageThread(props) {
   return (
     <div>
       <Layout>
-        <Header style={{ background: 'none', width: '60%', margin: 'auto' }}>
+        <Header style={{ background: 'none', width: '60%', margin: 'auto', padding: '0' }}>
           <div style={{ display: 'flex' }}>
             <div style={{ flex: 1 }}>
               <Button type='primary' onClick={backBtnClicked}>
