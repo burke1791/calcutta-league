@@ -31,6 +31,7 @@ export const NOTIF = {
   MESSAGE_BOARD_TOPICS_DOWNLOADED: 'message_board_topics_downloaded',
   MESSAGE_BOARD_MODAL_SHOW: 'message_board_modal_show',
   MESSAGE_THREAD_DOWNLOADED: 'message_thread_downloaded',
+  NEW_MESSAGE_POSTED: 'new_message_posted',
   AUCTION_TEAMS_DOWNLOADED: 'auction_teams_downloaded',
   SIGN_IN: 'sign_in',
   SIGN_OUT: 'sign_out',
