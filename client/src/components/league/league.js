@@ -5,6 +5,7 @@ import LeagueNav from '../leagueNav/leagueNav';
 import LeagueHome from '../leagueHome/leagueHome';
 import LeagueAuction from '../leagueAuction/leagueAuction';
 import MessageBoard from '../messageBoard/messageBoard';
+import MessageThread from '../messageThread/messageThread';
 
 import { Layout } from 'antd';
 import 'antd/dist/antd.css';
@@ -24,6 +25,7 @@ function League(props) {
           <LeagueHome path='/' />
           <LeagueAuction path='auction' auctionId={auctionId} leagueId={props.leagueId} role={role} />
           <MessageBoard path='message_board' leagueId={props.leagueId} role={role} />
+          <MessageThread path='message_board/:topicId' leagueId={props.leagueId} role={role} />
         </Router>
       </Layout>
     );

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './messageBoard.css';
 
+import { navigate } from '@reach/router';
+
 import { Layout, Table, Row, Button } from 'antd';
 import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
+import MessageBoardModal from '../messageBoardModal/messageBoardModal';
 
 
 const { Header, Content } = Layout;
@@ -29,9 +32,15 @@ function MessageBoard(props) {
     setTopicList(Data.messageBoardTopics);
   }
 
-  const topicClicked = (topicId) => {
+  const newTopicClicked = () => {
+    // post a notification to display the new topic modal
+    Pubsub.publish(NOTIF.MESSAGE_BOARD_MODAL_SHOW, props.leagueId);
+  }
+
+  const topicClicked = (topicId, title) => {
     // navigate to the MessageThread component
     console.log('topic: ' + topicId);
+    navigate(`/leagues/${props.leagueId}/message_board/${topicId}`, { state: { topicTitle: title || '' }})
   }
 
   const userClicked = (userId) => {
@@ -52,7 +61,8 @@ function MessageBoard(props) {
               type='link'
               style={{ display: 'block', padding: '0' }}
               size='small'
-              onClick={() => topicClicked(topicObj.id)}
+              data-link='nonRow'
+              onClick={() => topicClicked(topicObj.id, topicObj.title)}
             >
               {topicObj.title}
             </Button>
@@ -61,6 +71,7 @@ function MessageBoard(props) {
               <Button 
                 type='link'
                 size='small'
+                data-link='nonRow'
                 onClick={() => userClicked(topicObj.authorId)}
               >
                 {topicObj.author}
@@ -90,6 +101,7 @@ function MessageBoard(props) {
               <Button
                 type='link'
                 size='small'
+                data-link='nonRow'
                 onClick={() => userClicked(lastPostObj.authorId)}
               >
                 {lastPostObj.author}  
@@ -113,17 +125,34 @@ function MessageBoard(props) {
         <Header style={{ background: 'none', textAlign: 'center' }}>
           <h1 style={{ fontSize: '32px' }}>{leagueName} Message Board</h1>
         </Header>
-        <Content>
-          <Row type='flex' justify='center'>
-            <Table 
-              columns={columns}
-              dataSource={topicList}
-              size='small'
-              pagination={false}
-            />
-          </Row>
+        <Content style={{ margin: '0 20px'}}>
+          <Button 
+            type='primary'
+            style={{ margin: '12px 0'}}
+            onClick={newTopicClicked}
+          >
+            New Topic
+          </Button>
+          <Table 
+            columns={columns}
+            dataSource={topicList}
+            size='small'
+            pagination={false}
+            onRow={
+              (record, index) => {
+                return {
+                  onClick: (event) => {
+                    if (event.target.getAttribute('data-link') !== 'nonRow') {
+                      topicClicked(record.topic.id, record.topic.title);
+                    }
+                  }
+                }
+              }
+            }
+          />
         </Content>
       </Layout>
+      <MessageBoardModal />
     </div>
   );
 }

@@ -88,6 +88,64 @@ var Data = {};
     });
   }
 
+  obj.postNewMessageBoardTopic = (leagueId, title, content) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'POST',
+        url: API_POST.new_topic,
+        data: {
+          leagueId: leagueId,
+          title: title,
+          content: content
+        },
+        headers: {
+          token: User.idToken
+        }
+      }).then(response => {
+        console.log(response);
+        resolve();
+      }).catch(error => {
+        reject('error posting new topic - implement proper error handling');
+      });
+    });
+  }
+
+  obj.downloadMessageThread = (topicId) => {
+    axios({
+      method: 'GET',
+      url: API_GET.message_thread + topicId,
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Data.messageThread = packageMessageThread(JSON.parse(JSON.stringify(response.data)));
+      Pubsub.publish(NOTIF.MESSAGE_THREAD_DOWNLOADED);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  obj.postNewMessage = (leagueId, topicId, content) => {
+    axios({
+      method: 'POST',
+      url: API_POST.new_message,
+      data: {
+        leagueId: leagueId,
+        topicId: topicId,
+        content: content
+      },
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Pubsub.publish(NOTIF.NEW_MESSAGE_POSTED);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   obj.getAuctionTeams = (leagueId) => {
     axios({
       method: 'GET',
@@ -430,6 +488,20 @@ const packageMessageBoardTopics = (topicArr) => {
     };
 
     return threadObj;
+  });
+}
+
+const packageMessageThread = (messages) => {
+  return messages.map(messageObj => {
+    let message = {
+      authorId: messageObj.user_id,
+      author: messageObj.alias,
+      content: messageObj.content,
+      messageId: messageObj.messageId,
+      created: new Date(messageObj.created).toLocaleString()
+    };
+
+    return message;
   });
 }
 
