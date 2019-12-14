@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './messageThread.css';
 
+import { navigate } from '@reach/router';
+
 import { Layout, Row, Button, Comment, List, Form, Input, Avatar, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import DataService, { Data } from '../../utilities/data';
@@ -21,6 +23,7 @@ function MessageThread(props) {
     Pubsub.subscribe(NOTIF.MESSAGE_THREAD_DOWNLOADED, MessageThread, messagesDownloaded);
 
     DataService.downloadMessageThread(props.topicId);
+    console.log(props.location.state);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.MESSAGE_THREAD_DOWNLOADED, MessageThread);
@@ -29,6 +32,10 @@ function MessageThread(props) {
 
   const messagesDownloaded = () => {
     setMessages(Data.messageThread);
+  }
+
+  const backBtnClicked = () => {
+    navigate(`/leagues/${props.leagueId}/message_board`);
   }
 
   const userClicked = (userId) => {
@@ -49,18 +56,22 @@ function MessageThread(props) {
   return (
     <div>
       <Layout>
-        <Header style={{ background: 'none', textAlign: 'center' }}>
-          <Button type='primary'>
-            <Icon type='left' />
-            Back
-          </Button>
-          <h1 style={{ fontSize: '32px' }}>{topicName}</h1>
+        <Header style={{ background: 'none', width: '60%', margin: 'auto' }}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: 1 }}>
+              <Button type='primary' onClick={backBtnClicked}>
+                <Icon type='left' />
+                Message Board
+              </Button>
+            </div>
+            <h1 style={{ fontSize: '32px' }}>{props.location.state.topicTitle}</h1>
+            <div style={{ flex: 1 }}></div>
+          </div>
         </Header>
         <Content>
           <Row type='flex' justify='center'>
             <List
               className="chat-window"
-              // header={`${data.length} replies`}
               itemLayout="horizontal"
               dataSource={messages}
               style={{ width: '60%' }}

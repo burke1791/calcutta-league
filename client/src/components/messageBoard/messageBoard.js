@@ -37,10 +37,10 @@ function MessageBoard(props) {
     Pubsub.publish(NOTIF.MESSAGE_BOARD_MODAL_SHOW, props.leagueId);
   }
 
-  const topicClicked = (topicId) => {
+  const topicClicked = (topicId, title) => {
     // navigate to the MessageThread component
     console.log('topic: ' + topicId);
-    navigate(`/leagues/${props.leagueId}/message_board/${topicId}`)
+    navigate(`/leagues/${props.leagueId}/message_board/${topicId}`, { state: { topicTitle: title || '' }})
   }
 
   const userClicked = (userId) => {
@@ -62,7 +62,7 @@ function MessageBoard(props) {
               style={{ display: 'block', padding: '0' }}
               size='small'
               data-link='nonRow'
-              onClick={() => topicClicked(topicObj.id)}
+              onClick={() => topicClicked(topicObj.id, topicObj.title)}
             >
               {topicObj.title}
             </Button>
@@ -143,7 +143,7 @@ function MessageBoard(props) {
                 return {
                   onClick: (event) => {
                     if (event.target.getAttribute('data-link') !== 'nonRow') {
-                      topicClicked(record.topic.id);
+                      topicClicked(record.topic.id, record.topic.title);
                     }
                   }
                 }
