@@ -110,7 +110,7 @@ module.exports = function(app) {
           uid: uid
         };
 
-        message.postNewMessage(messageObj, (err, result) => {
+        message.postMessageInThread(messageObj, (err, result) => {
           if (err) {
             console.log(err);
           } else {
