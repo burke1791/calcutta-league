@@ -8,6 +8,7 @@ CREATE TABLE `users` (
   `uid` VARCHAR(50) NOT NULL,
   `email` VARCHAR(75) NOT NULL,
   `alias` VARCHAR(50) NOT NULL,
+  `permissions` Enum('herald', 'radiant', 'squire') Not Null Default 'squire'
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE users
