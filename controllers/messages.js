@@ -95,7 +95,7 @@ module.exports = function(app) {
   /**
    * posts a new message in a specific message thread
    */
-  app.post('api/message_thread/new_message', (req, res, next) => {
+  app.post('/api/message_thread/new_message', (req, res, next) => {
     firebase.verifyToken(req.headers.token, (error, uid) => {
       if (error) {
         console.log(error);
