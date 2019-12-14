@@ -126,6 +126,26 @@ var Data = {};
     });
   }
 
+  obj.postNewMessage = (leagueId, topicId, content) => {
+    axios({
+      method: 'POST',
+      url: API_POST.new_message,
+      data: {
+        leagueId: leagueId,
+        topicId: topicId,
+        content: content
+      },
+      headers: {
+        token: User.idToken
+      }
+    }).then(response => {
+      console.log(response);
+      Pubsub.publish(NOTIF.NEW_MESSAGE_POSTED);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   obj.getAuctionTeams = (leagueId) => {
     axios({
       method: 'GET',
