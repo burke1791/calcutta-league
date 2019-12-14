@@ -50,12 +50,13 @@ function Topnav() {
     if (User.permissions === 'herald') {
       menu.unshift(
         <Menu.Item key='admin' style={{textAlign: 'center'}}  >
-          <Button 
-            type='primary' 
-            onClick={() => navigate(`/admin`)}
-          >
-            Admin
-          </Button>
+          <Link to='/admin'>
+            <Button 
+              type='primary'
+            >
+              Admin
+            </Button>
+          </Link>
         </Menu.Item>
       );
 
