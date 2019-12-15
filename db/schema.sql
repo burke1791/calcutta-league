@@ -103,29 +103,16 @@ CREATE TABLE `league_teams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create league_teams - end';
 
-select 'create tournament_slots - begin';
-CREATE TABLE `tournament_slots` (
-  `round_id` INT(1) NOT NULL,
-  `game_id` VARCHAR(2) NOT NULL,
-  `seed_strong` VARCHAR(4) NOT NULL,
-  `seed_weak` VARCHAR(4) NOT NULL,
-  PRIMARY KEY (`round_id`, `game_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-select 'create tournament_slots - end';
-
 select 'create tournament_results - begin';
 CREATE TABLE `tournament_results` (
   `round_id` INT(1) NOT NULL,
   `game_id` VARCHAR(2) NOT NULL,
   `year` YEAR(4) NOT NULL,
-  `w_team_id` INT(11) NOT NULL,
-  `w_team_score` INT(3) NOT NULL,
-  `l_team_id` INT(11) NOT NULL,
-  `l_team_score` INT(3) NOT NULL,
-  PRIMARY KEY (`round_id`, `game_id`, `year`),
-  FOREIGN KEY (`round_id`, `game_id`) REFERENCES `tournament_slots` (`round_id`, `game_id`),
-  FOREIGN KEY (`w_team_id`) REFERENCES `teams` (`team_id`),
-  FOREIGN KEY (`l_team_id`) REFERENCES `teams` (`team_id`)
+  `seed_strong` VARCHAR(4) NOT NULL,
+  `seed_strong_score` Int(3) Null
+  `seed_weak` VARCHAR(4) NOT NULL,
+  `seed_weak_score` Int(3) Null
+  PRIMARY KEY (`round_id`, `game_id`, `year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create tournament_results - end';
 
