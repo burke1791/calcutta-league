@@ -37,7 +37,8 @@ export const NOTIF = {
   SIGN_OUT: 'sign_out',
   NEW_CHAT_MESSAGE: 'new_chat_message',
   NEW_AUCTION_DATA: 'new_auction_data',
-  TIMER_EXPIRED: 'timer_expired'
+  TIMER_EXPIRED: 'timer_expired',
+  MM_RESULTS_DOWNLOADED: 'mm_results_downloaded'
 };
 
 export const ERROR_MESSAGES = {
