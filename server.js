@@ -20,6 +20,7 @@ require('./controllers/users')(app);
 require('./controllers/leagues')(app);
 require('./controllers/auctions')(app);
 require('./controllers/messages')(app);
+require('./controllers/admins')(app);
 
 app.listen(PORT, () => {
   console.log('listening on port: ' + PORT);
