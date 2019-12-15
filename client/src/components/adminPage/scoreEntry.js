@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { InputNumber, Form, Row, Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
+
 function ScoreEntry(props) {
 
   const [teams, setTeams] = useState([]);
@@ -10,38 +13,16 @@ function ScoreEntry(props) {
   const [loading, setLoading] = useState({});
 
   useEffect(() => {
-    setTeams({
-      'R1W1': {
-        'team1': {
-          'seed': 1,
-          'name': 'Illinois',
-          'score': 69
-        },
-        'team2': {
-          'seed': 16,
-          'name': 'Rutgers',
-          'score': 30
-        }
-      },
-      'R1W2': {
-        'team1': {
-          'seed': 2,
-          'name': 'Michigan State',
-          'score': null
-        },
-        'team2': {
-          'seed': 15,
-          'name': 'Northwestern',
-          'score': null
-        }
-      }
-    });
+    Pubsub.subscribe(NOTIF.MM_RESULTS_DOWNLOADED, ScoreEntry, handleResults);
 
-    setLoading({
-      'R1W1': false,
-      'R1W2': false
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.MM_RESULTS_DOWNLOADED, ScoreEntry);
     });
   }, []);
+
+  const handleResults = () => {
+    // setTeams
+  }
 
   const teamLabel = (teamObj) => {
     return '(' + teamObj.seed + ') ' + teamObj.name;

@@ -5,6 +5,9 @@ import { Layout, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import ScoreEntryForm from './scoreEntry';
 
+import AdminService from '../../utilities/adminService';
+import Pubsub from '../../utilities/pubsub';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function Admin(props) {
@@ -15,10 +18,12 @@ function Admin(props) {
   useEffect(() => {
     if (tournamentKey.includes('mm-')) {
       // fetch data from tournament_* tables
+      let year = tournamentKey.match(/\d{4}$/g)[0];
+      AdminService.fetchMarchMadnessGames(year);
     } else if (tournamentKey.includes('btt-')) {
       // fetch data from big_ten_tournament_* tables
     }
-  });
+  }, [tournamentKey]);
 
   const categorySelected = (key) => {
     // use this to change what options show up in the sidebar
