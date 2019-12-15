@@ -6,6 +6,8 @@ import AuthService, { User } from '../firebase/authService';
 import { db, dbObj } from '../firebase/firebase';
 import { formatMoney, formatDatestamp } from './helper';
 
+var AdminService = {};
+
 (function(obj) {
 
   obj.fetchMarchMadnessGames = (year) => {
