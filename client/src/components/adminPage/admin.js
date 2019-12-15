@@ -3,6 +3,7 @@ import { Router } from '@reach/router';
 
 import { Layout, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
+import ScoreEntryForm from './scoreEntry';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -59,6 +60,16 @@ function Admin(props) {
     );
   }
 
+  const generateEntryForm = () => {
+    if (categoryKey === 'results') {
+      return <ScoreEntryForm tournamentKey={tournamentKey} />;
+    } else if (categoryKey === 'teams') {
+      // return <SelectionSundayForm tournamentKey={tournamentKey} />
+    }
+
+    return null;
+  }
+
   return (
     <Layout>
       <Sider
@@ -77,7 +88,7 @@ function Admin(props) {
         {/* </Header> */}
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
-            
+            {generateEntryForm()}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>** Placeholder **</Footer>
