@@ -2,7 +2,17 @@ const connection = require('./connection');
 
 let orm = {
   select: (params, cb) => {
-    let queryString = 'SELECT ??';
+    let queryString = 'SELECT';
+    if (params.columnNames && params.columns.length == params.columnNames.length) {
+      for (var i in params.columns) {
+        if (i > 0) {
+          queryString += ',';
+        }
+        queryString += ' ??' + (params.columnNames[i] ? ' As ' + params.columnNames[i] : '');
+      }
+    } else {
+      queryString += ' ??'
+    }
     queryString += queryBuilder(params);
 
     let options = optionsBuilder(params);
@@ -192,17 +202,27 @@ const queryBuilder = (params) => {
     builderString += ' FROM ??';
   }
 
+  if (params.alias) {
+    builderString += ' ??';
+  }
+
   // add sums, counts, etc. here and add them to optionsBuilder
 
   if (params.join) {
     for (var join of params.join) {
-      builderString += ' ' + (join.type || '') + ' JOIN ?? ON';
-      for (var i in join.condition) {
-        if (i > 0) {
-          builderString += ' AND';
+      if (join.type.toLowerCase() == 'cross') {
+        builderString += ' CROSS JOIN ??' + (join.alias ? ' ??' : '');
+      } else {
+        builderString += ' ' + (join.type || '') + ' JOIN ??' + (join.alias ? ' ??' : '') + ' ON';
+        for (var i in join.condition) {
+          if (i > 0) {
+            builderString += ' AND';
+          }
+          builderString += ' ?? = ??';
         }
-        builderString += ' ?? = ??';
       }
+
+      
     }
   }
 
@@ -223,8 +243,19 @@ const optionsBuilder = (params) => {
   let options = [];
 
   if (params.table && params.columns) {
-    options.push(params.columns);
+    if (params.columnNames && params.columns.length == params.columnNames.length) {
+      // generate column names array with aliases
+      for (var i in params.columns) {
+        options.push(params.columns[i]);
+      }
+    } else {
+      options.push(params.columns);
+    }
     options.push(params.table);
+  }
+
+  if (params.alias) {
+    options.push(params.alias);
   }
 
   // add sums, counts, etc. here when added to queryBuilder()
@@ -232,6 +263,9 @@ const optionsBuilder = (params) => {
   if (params.join) {
     for (var join of params.join) {
       options.push(join.table);
+      if (join.alias) {
+        options.push(join.alias);
+      }
       for (var i in join.condition) {
         options.push(join.condition[i].left);
         options.push(join.condition[i].right);
