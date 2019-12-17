@@ -89,6 +89,22 @@ let admin = {
     };
 
     orm.select(queryParams, cb);
+  },
+
+  setScore: (params, cb) => {
+    let queryParams = {
+      procedureName: 'up_updateScoresAndPayouts',
+      inputParams: {
+        id1: params.team1.id,
+        id2: params.team2.id,
+        score1: params.team1.score,
+        score2: params.team2.score,
+        tournamentYear: params.year,
+        gameId: params.game_id,
+        round: params.round
+      }
+    };
+    orm.call(queryParams, cb);
   }
 
 }

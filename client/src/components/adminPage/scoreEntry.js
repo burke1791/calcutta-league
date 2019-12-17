@@ -91,7 +91,13 @@ function ScoreEntry(props) {
     e.preventDefault();
     // toggle loading inside the if branches
 
+    props.form.validateFields((err, values) => {
+      console.log(values);
+    });
+    
     let gameId = e.target.name;
+    console.log(gameId);
+    console.log(teams);
     
     if (gameId === 'all-games') {
       setLoadingAll(true);
@@ -99,6 +105,7 @@ function ScoreEntry(props) {
     } else {
       setLoading({...loading, [e.target.name]: true});
       // compare values for the specific game and only submit what's changed
+
     }
     
   }

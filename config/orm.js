@@ -23,6 +23,20 @@ let orm = {
     console.log(query.sql);
   },
 
+  call: (params, cb) => {
+    // call stored procedure
+    let queryString = 'Call ' + params.procedureName;
+
+    queryString += procedureBuilder(params.inputParams);
+
+    let options = procedureOptions(params.inputParams);
+
+    let query = connection.query(queryString, options, (err, result) => {
+      cb(err, result);
+    });
+    console.log(query.sql);
+  },
+
   selectWhere: (params, cb) => {
     let queryString = 'SELECT ?? FROM ?? WHERE' + queryWhereBuilderTest(params.where, 'AND');
     let queryParams = [params.select, params.from].concat(params.where.values);
@@ -277,6 +291,33 @@ const optionsBuilder = (params) => {
     for (var i in params.where) {
       options.push(params.where[i]);
     }
+  }
+
+  return options;
+}
+
+const procedureBuilder = (params) => {
+  let procedureString = '(';
+  let count = 0;
+
+  for (let key in params) {
+    if (count > 0) {
+      procedureString += ', ?';
+    }
+    procedureString += '?'
+    count++;
+  }
+
+  procedureString += ')';
+
+  return procedureString;
+}
+
+const procedureOptions = (params) => {
+  let options = [];
+
+  for (let key in params) {
+    options.push(params[key]);
   }
 
   return options;

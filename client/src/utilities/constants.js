@@ -38,7 +38,8 @@ export const NOTIF = {
   NEW_CHAT_MESSAGE: 'new_chat_message',
   NEW_AUCTION_DATA: 'new_auction_data',
   TIMER_EXPIRED: 'timer_expired',
-  MM_RESULTS_DOWNLOADED: 'mm_results_downloaded'
+  MM_RESULTS_DOWNLOADED: 'mm_results_downloaded',
+  MM_SCORE_SET: 'mm_score_set'
 };
 
 export const ERROR_MESSAGES = {
@@ -58,7 +59,8 @@ export const API_POST = {
   start_auction: '/api/auction/start',
   stop_auction: '/api/auction/stop',
   new_topic: '/api/message_board/new_topic',
-  new_message: '/api/message_thread/new_message'
+  new_message: '/api/message_thread/new_message',
+  admin_march_madness_single_game: '/api/admin/mm_single_game'
 };
 
 export const API_GET = {
