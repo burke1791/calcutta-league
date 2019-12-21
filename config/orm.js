@@ -303,8 +303,9 @@ const procedureBuilder = (params) => {
   for (let key in params) {
     if (count > 0) {
       procedureString += ', ?';
+    } else {
+      procedureString += '?'
     }
-    procedureString += '?'
     count++;
   }
 
