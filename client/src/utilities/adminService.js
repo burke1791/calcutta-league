@@ -50,6 +50,14 @@ var AdminService = {};
       // publish a notification with the gameCode as data
       let gameCode = 'R' + round + gameId;
       Pubsub.publish(NOTIF.MM_SCORE_SET, gameCode);
+    }).catch(error => {
+      console.log('error');
+      let gameCode = 'R' + round + gameId;
+      let errorObj = {
+        gameCode: gameCode,
+        text: 'You do not have permissions to update scores'
+      };
+      Pubsub.publish(NOTIF.MM_SCORE_SET_ERR, errorObj);
     });
   }
 })(AdminService);

@@ -39,7 +39,8 @@ export const NOTIF = {
   NEW_AUCTION_DATA: 'new_auction_data',
   TIMER_EXPIRED: 'timer_expired',
   MM_RESULTS_DOWNLOADED: 'mm_results_downloaded',
-  MM_SCORE_SET: 'mm_score_set'
+  MM_SCORE_SET: 'mm_score_set',
+  MM_SCORE_SET_ERR: 'mm_score_set_err'
 };
 
 export const ERROR_MESSAGES = {

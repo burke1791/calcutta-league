@@ -95,6 +95,7 @@ let admin = {
     let queryParams = {
       procedureName: 'up_updateScoresAndPayouts',
       inputParams: {
+        uid: params.uid,
         id1: params.team1.id,
         id2: params.team2.id,
         score1: params.team1.score,

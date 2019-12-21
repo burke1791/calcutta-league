@@ -52,6 +52,7 @@ module.exports = function(app) {
         admin.setScore(params, (err, result) => {
           if (err) {
             console.log(err);
+            res.status(400).send();
           } else {
             res.status(200).json(result);
           }

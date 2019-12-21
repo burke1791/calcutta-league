@@ -43,7 +43,7 @@ function ScoreEntryForm(props) {
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Button type='default' htmlType='submit' icon='check' name={props.gameCode} loading={props.loading} />
+          <Button type={props.button || 'default'} htmlType='submit' icon='check' name={props.gameCode} loading={props.loading} />
         </Col>
       </Row>
     );
