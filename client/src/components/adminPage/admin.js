@@ -3,7 +3,7 @@ import { Router } from '@reach/router';
 
 import { Layout, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import ScoreEntryForm from './scoreEntry';
+import ScoreEntry from './scoreEntry';
 
 import AdminService from '../../utilities/adminService';
 import Pubsub from '../../utilities/pubsub';
@@ -67,7 +67,8 @@ function Admin(props) {
 
   const generateEntryForm = () => {
     if (categoryKey === 'results') {
-      return <ScoreEntryForm tournamentKey={tournamentKey} />;
+      let year = tournamentKey.match(/\d{4}$/g)[0]
+      return <ScoreEntry year={year} />;
     } else if (categoryKey === 'teams') {
       // return <SelectionSundayForm tournamentKey={tournamentKey} />
     }
