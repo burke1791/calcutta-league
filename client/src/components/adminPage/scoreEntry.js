@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import { InputNumber, Form, Row, Col, Button } from 'antd';
+import { List } from 'antd';
 import 'antd/dist/antd.css';
 
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
 import AdminService from '../../utilities/adminService';
+
+import WrappedScoreEntryForm from './scoreEntryForm';
 
 function ScoreEntry(props) {
 
@@ -16,9 +18,11 @@ function ScoreEntry(props) {
   useEffect(() => {
     handleMarchMadnessResults();
     Pubsub.subscribe(NOTIF.MM_RESULTS_DOWNLOADED, ScoreEntry, handleMarchMadnessResults);
+    Pubsub.subscribe(NOTIF.MM_SCORE_SET, ScoreEntry, handleScoreSet);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.MM_RESULTS_DOWNLOADED, ScoreEntry);
+      Pubsub.unsubscribe(NOTIF.MM_SCORE_SET, ScoreEntry);
     });
   }, []);
 
@@ -37,93 +41,27 @@ function ScoreEntry(props) {
     }
   }
 
-  const teamLabel = (teamObj) => {
-    return '(' + teamObj.seed + ') ' + teamObj.name;
+  const handleScoreSet = (gameCode) => {
+    setLoading({...loading, [gameCode]: false});
   }
 
-  const getFields = () => {
-    const { getFieldDecorator } = props.form;
-    const children = [];
-    if (teams && teams.length) {
-      for (let game of teams) {
-        let gameCode = 'R' + game.round + game.gameId
-        children.push(
-          <Row key={gameCode} type='flex' style={{ justifyContent: 'space-between' }}>
-            <Col span={10}>
-              <Form.Item label={teamLabel(game.team1)} style={{ display: 'flex' }}>
-                {getFieldDecorator(`${gameCode}_team1`, {
-                  rules: [
-                    {
-                      type: 'number',
-                      message: 'Must be a number',
-                    },
-                  ],
-                  initialValue: game.team1.score
-                })(<InputNumber size='small' min={0} max={999} />)}
-              </Form.Item>
-            </Col>
-            <Col span={10}>
-              <Form.Item label={teamLabel(game.team2)} style={{ display: 'flex' }}>
-                {getFieldDecorator(`${gameCode}_team2`, {
-                  rules: [
-                    {
-                      type: 'number',
-                      message: 'Must be a number',
-                    },
-                  ],
-                  initialValue: game.team2.score
-                })(<InputNumber size='small' min={0} max={999} />)}
-              </Form.Item>
-            </Col>
-            <Col span={4}>
-              <Button type='default' icon='check' name={gameCode} onClick={handleSubmit} loading={loading[gameCode]} />
-            </Col>
-          </Row>
-        );
-      }
-      return children;
-    } else {
-      return null;
-    }
-  }
+  const setSingleGameScore = (scoreObj, round, gameId) => {
+    let gameCode = 'R' + round + gameId;
+    setLoading({...loading, [gameCode]: true});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // toggle loading inside the if branches
-
-    props.form.validateFields((err, values) => {
-      console.log(values);
-    });
-    
-    let gameId = e.target.name;
-    console.log(gameId);
-    console.log(teams);
-    
-    if (gameId === 'all-games') {
-      setLoadingAll(true);
-      // compare values to teams and only submit what's changed
-    } else {
-      setLoading({...loading, [e.target.name]: true});
-      // compare values for the specific game and only submit what's changed
-
-    }
-    
+    AdminService.sendGameResult(props.year, round, gameId, scoreObj);
   }
 
   return (
-    <Form className='ant-advanced-search-form' onSubmit={handleSubmit} name='all-games'>
-      {getFields()}
-      <Row>
-        <Col span={24} style={{ textAlign: 'right' }}>
-          <Button type='primary' htmlType='submit' loading={loadingAll}>
-            Submit Scores
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+    <List
+      size="small"
+      dataSource={!!teams && teams.length ? teams : []}
+      renderItem={game => {
+        let gameCode = 'R' + game.round + game.gameId;
+        return (<WrappedScoreEntryForm gameCode={gameCode} round={game.round} gameId={game.gameId} team1={game.team1} team2={game.team2} loading={loading[gameCode]} setScore={setSingleGameScore} />);
+      }}
+    />
   );
 }
 
-const ScoreEntryForm = Form.create({ name: 'scoreEntry' })(ScoreEntry);
-
-export default ScoreEntryForm;
+export default ScoreEntry;
