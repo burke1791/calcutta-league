@@ -31,15 +31,15 @@ var AdminService = {};
       url: API_POST.admin_march_madness_single_game,
       data: {
         year: year,
-        gameId: gameId,
         round: round,
+        gameId: gameId,
         team1: {
-          id: scoreObj.team1Id,
-          score: scoreObj.team1Score
+          id: scoreObj.team1.id,
+          score: scoreObj.team1.score
         },
         team2: {
-          id: scoreObj.team2Id,
-          score: scoreObj.team2Score
+          id: scoreObj.team2.id,
+          score: scoreObj.team2.score
         }
       },
       headers: {
@@ -47,8 +47,10 @@ var AdminService = {};
       }
     }).then(response => {
       console.log(response);
-      Pubsub.publish(NOTIF.MM_SCORE_SET, gameId);
-    })
+      // publish a notification with the gameCode as data
+      let gameCode = 'R' + round + gameId;
+      Pubsub.publish(NOTIF.MM_SCORE_SET, gameCode);
+    });
   }
 })(AdminService);
 
