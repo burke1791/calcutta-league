@@ -93,7 +93,7 @@ let admin = {
 
   setScore: (params, cb) => {
     let queryParams = {
-      procedureName: 'up_updateScoresAndPayouts',
+      procedureName: 'up_updateScores',
       inputParams: {
         uid: params.uid,
         id1: params.team1.id,
